@@ -1,11 +1,14 @@
 package com.enema.enemaapp.ui.activities;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -20,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import dmax.dialog.SpotsDialog;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText etxtFullNameR, etxtMobileR, etxtPasswordR, etxtRePasswordR;
@@ -27,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     private LinearLayout lhLogin;
     private Button btnSignUp;
     private FirebaseAuth firebaseAuth;
+    private AlertDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +45,18 @@ public class RegisterActivity extends AppCompatActivity {
         etxtRePasswordR = findViewById(R.id.etxtRePasswordR);
         checkAcceptAggrement = findViewById(R.id.checkAcceptAggrement);
 
+        loadingDialog = new SpotsDialog.Builder().setContext(RegisterActivity.this)
+                .setTheme(R.style.loading)
+                .setMessage("Please Wait")
+                .setCancelable(false)
+                .build();
+
         btnSignUp = findViewById(R.id.btnSignUp);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                hideKeyboard(RegisterActivity.this);
                 validateLoginFields();
 
             }
@@ -66,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         String full_name = etxtFullNameR.getText().toString();
         if (TextUtils.isEmpty(full_name)){
-            Toast.makeText(this, "Please enter your full name.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter your full name", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -84,7 +97,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         String re_user_password = etxtRePasswordR.getText().toString();
         if (!re_user_password.equals(user_password)){
-            Toast.makeText(this, "Password did not match.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Password did not match", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!checkAcceptAggrement.isChecked()){
+            Toast.makeText(this, "Please accept Terms & Condition", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -94,15 +112,16 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     private void sendOtpToNumberBundle(final String full_name, final String mobile_number, final String user_password) {
-
+        loadingDialog.show();
         DatabaseReference userRegRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
         userRegRef.child(mobile_number).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChildren()){
-                    Toast.makeText(RegisterActivity.this, "Account exist.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Account already exist", Toast.LENGTH_SHORT).show();
+                    loadingDialog.dismiss();
                 }else {
-                    Toast.makeText(RegisterActivity.this, "Account not exist.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Account not exist", Toast.LENGTH_SHORT).show();
                     Intent otpIntent = new Intent(RegisterActivity.this, OtpActivity.class);
                     Bundle otpBundle = new Bundle();
                     otpBundle.putString("auth_type", "register");
@@ -111,6 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
                     otpBundle.putString("user_password", user_password);
                     otpIntent.putExtras(otpBundle);
                     startActivity(otpIntent);
+                    loadingDialog.dismiss();
                     Toast.makeText(RegisterActivity.this, "data bundled", Toast.LENGTH_SHORT).show();
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     finish();
@@ -123,6 +143,15 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }
