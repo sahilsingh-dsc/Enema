@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pattern_bg"
+    tools:context=".ui.activities.LoginActivity">
+
+    <ImageView
+        android:id="@+id/imgEnemaLogoColor"
+        android:layout_width="190dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:contentDescription="@string/todo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/enema_logo_color" />
+
+    <EditText
+        android:id="@+id/etxtUserMobile"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/login_edittext_border_dash"
+        android:drawableStart="@drawable/ic_lock_black_24dp"
+        android:drawableLeft="@drawable/ic_lock_black_24dp"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:fontFamily="@font/futura_book_font"
+        android:gravity="center_vertical"
+        android:hint="@string/mobile"
+        android:importantForAutofill="no"
+        android:inputType="phone"
+        android:padding="10dp"
+        android:textColor="@color/colorBlack"
+        android:textColorHint="@color/colorBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgEnemaLogoColor"
+        tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/etxtUserPassword"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/login_edittext_border_dash"
+        android:drawableStart="@drawable/ic_call_black_24dp"
+        android:drawableLeft="@drawable/ic_call_black_24dp"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:fontFamily="@font/futura_book_font"
+        android:gravity="center_vertical"
+        android:hint="@string/password"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:textColor="@color/colorBlack"
+        android:textColorHint="@color/colorBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etxtUserMobile"
+        tools:targetApi="o" />
+
+    <TextView
+        android:id="@+id/txtForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/forgot_password"
+        android:fontFamily="@font/futura_book_font"
+        android:textColor="@color/colorRed"
+        app:layout_constraintEnd_toEndOf="@+id/etxtUserPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etxtUserPassword" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/teal_border_btn"
+        android:fontFamily="@font/futura_light_bt"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:text="@string/login"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtForgotPassword" />
+
+    <LinearLayout
+        android:id="@+id/lhSocialLoginDivider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin">
+
+        <View
+            android:id="@+id/dvrLeftSL"
+            android:layout_width="100dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/txtOr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/futura_light_bt"
+            android:gravity="center"
+            android:text="@string/or" />
+
+        <View
+            android:id="@+id/dvrRightSL"
+            android:layout_width="100dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="?android:attr/listDivider" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lhSocialLoginBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lhSocialLoginDivider">
+
+        <ImageView
+            android:id="@+id/imgFacebookLogin"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="15dp"
+            android:contentDescription="@string/todo"
+            app:srcCompat="@drawable/ic_facebook"
+            tools:layout_editor_absoluteX="102dp"
+            tools:layout_editor_absoluteY="569dp" />
+
+        <ImageView
+            android:id="@+id/imgGoogleLogin"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="15dp"
+            android:contentDescription="@string/todo"
+            app:srcCompat="@drawable/ic_google_plus"
+            tools:layout_editor_absoluteX="266dp"
+            tools:layout_editor_absoluteY="406dp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgBottomBg"
+        android:layout_width="0dp"
+        android:layout_height="237dp"
+        android:contentDescription="@string/todo"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/enema_botton_bg" />
+
+    <LinearLayout
+        android:id="@+id/lhRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/imgBottomBg"
+        app:layout_constraintStart_toStartOf="@+id/imgBottomBg"
+        app:layout_constraintTop_toTopOf="@+id/imgBottomBg">
+
+        <TextView
+            android:id="@+id/txtDontHA1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/futura_book_font"
+            android:text="@string/don_t_have_an_account"
+            android:textColor="@color/colorBlack" />
+
+        <TextView
+            android:id="@+id/txtDontHA2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/futura_book_font"
+            android:text="@string/register"
+            android:textColor="@color/colorCyanTeal" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtAppVersionL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/version_1_0_0"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/futura_book_font"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imgBottomBg"
+        app:layout_constraintStart_toStartOf="@+id/imgBottomBg" />
+
+</android.support.constraint.ConstraintLayout>

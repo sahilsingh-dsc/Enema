@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Enema</string>
+    <string name="powerd_by_enema">Powerd by @EnEma</string>
+    <string name="version_1_0_0">Version 1.0.0</string>
+    <string name="enema_logo">enema logo</string>
+    <string name="browse">Browse</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="todo">TODO</string>
+    <string name="mobile">Mobile</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login">LOGIN</string>
+    <string name="or">Or</string>
+    <string name="don_t_have_an_account">Don\'t have an Account?</string>
+    <string name="register">Register.</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="password">Password</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="full_name">Full Name</string>
+    <string name="singup">SINGUP</string>
+    <string name="i_accept_your_terms_condition"><![CDATA[I Accept your Terms & Condition]]></string>
+    <string name="already_have_an_account">Already have an Account ?</string>
+    <string name="login_rreg">Login.</string>
+    <string name="valid_mobile_number">Please enter valid mobile number without (+91).</string>
+    <string name="valid_password">Password must be of 6 characters or more.</string>
+    <string name="verification">Verification</string>
+    <string name="we_have_sent_you_an_access_code_via_sms_for_mobile_number_verification">We have sent you an access code via sms for mobile number verification.</string>
+    <string name="resend_code">Resend Code</string>
+    <string name="_hint">*</string>
+    <string name="nine_one">+91</string>
+    <string name="home">Home</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="my_courses">My Courses</string>
+    <string name="refer_earn"><![CDATA[Refer & Earn]]></string>
+    <string name="account">Account</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_5">5</string>
+    <string name="learn_by_fun">LEARN BY FUN</string>
+    <string name="_800">₹ 800</string>
+    <string name="click_here">CLICK HERE</string>
+    <string name="good_afternoon_user">Good Afternoon, User</string>
+    <string name="loading">Loading</string>
+    <string name="illustrator_cc_2019_vijay_nagar_indore">illustrator CC 2019 Vijay Nagar, Indore</string>
+    <string name="_26_488">(26,488)</string>
+    <string name="_1350_00">₹, 1350.00</string>
+    <string name="_13_783_99">₹13,783.99</string>
+    <string name="deals_for_you">Deals for you</string>
+</resources>

@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "655033789229",
+    "firebase_url": "https://enema-8bbf2.firebaseio.com",
+    "project_id": "enema-8bbf2",
+    "storage_bucket": "enema-8bbf2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655033789229:android:5eac8c8a08a63c2b",
+        "android_client_info": {
+          "package_name": "com.enema.enemaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655033789229-vcjatob093afdrdbccesngf82netmj0m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.enema.enemaapp",
+            "certificate_hash": "764735ec16bf4da109d33eab65dc7b67d13a7441"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYzbvBhysqn5IPk5P5e6xnzpGCOCs9-DU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655033789229-amoi3bvjca1a5clcia75e09es74mmeqe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

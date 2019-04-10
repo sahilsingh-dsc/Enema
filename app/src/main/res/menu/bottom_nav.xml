@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home_menu_item"
+        android:icon="@drawable/ic_home"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/wishlist_menu_item"
+        android:icon="@drawable/ic_like"
+        android:title="@string/wishlist" />
+    <item
+        android:id="@+id/mycourses_menu_item"
+        android:icon="@drawable/ic_open_magazine"
+        android:title="@string/my_courses" />
+    <item
+        android:id="@+id/referandearn_menu_item"
+        android:icon="@drawable/ic_wallet"
+        android:title="@string/refer_earn" />
+    <item
+        android:id="@+id/account_menu_item"
+        android:icon="@drawable/ic_users"
+        android:title="@string/account" />
+</menu>

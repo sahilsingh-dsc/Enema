@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardCourse"
+        android:layout_width="150dp"
+        android:layout_height="190dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constrainCourse"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:background="@color/colorBlack"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imgCourse"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:alpha="0.4"
+                android:contentDescription="@string/todo"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout4"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout4"
+                app:layout_constraintTop_toTopOf="@+id/linearLayout4" />
+
+            <TextView
+                android:id="@+id/txtCourseName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:fontFamily="@font/futura_book_font"
+                android:text="@string/illustrator_cc_2019_vijay_nagar_indore"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgCourse" />
+
+            <RatingBar
+                android:id="@+id/ratingCourse"
+                style="@style/customRatingBar"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:numStars="5"
+                android:rating="4.5"
+                android:stepSize="0.5"
+                app:layout_constraintStart_toStartOf="@+id/txtCourseName"
+                app:layout_constraintTop_toBottomOf="@+id/txtCourseName" />
+
+            <TextView
+                android:id="@+id/txtRatingCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:fontFamily="@font/futura_book_font"
+                android:text="@string/_26_488"
+                android:textColor="@color/colorBlack"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@+id/ratingCourse"
+                app:layout_constraintStart_toEndOf="@+id/ratingCourse"
+                app:layout_constraintTop_toTopOf="@+id/ratingCourse"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/txtDiscountedPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/futura_book_font"
+                android:text="@string/_1350_00"
+                android:textColor="@color/colorGreen"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ratingCourse" />
+
+            <TextView
+                android:id="@+id/txtActualPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/cross_out_txt"
+                android:fontFamily="@font/futura_book_font"
+                android:text="@string/_13_783_99"
+                android:textColor="@color/colorRed"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@+id/txtDiscountedPrice"
+                app:layout_constraintStart_toEndOf="@+id/txtDiscountedPrice"
+                app:layout_constraintTop_toTopOf="@+id/txtDiscountedPrice"
+                tools:ignore="SmallSp" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/txtCourseName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/imgCourse"
+                app:layout_constraintTop_toTopOf="@+id/imgCourse">
+
+                <ImageView
+                    android:id="@+id/imgWishListOnCourse"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:contentDescription="@string/todo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_wish_empty" />
+
+                <ImageView
+                    android:id="@+id/imgBestSeller"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="16dp"
+                    android:contentDescription="@string/todo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/best_seller" />
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>

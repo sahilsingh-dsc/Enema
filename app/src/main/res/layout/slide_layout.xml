@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgCourseTemp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:srcCompat="@drawable/intro"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="64dp" />
+
+        <TextView
+            android:id="@+id/txtHeadingSlider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/futura_book_font"
+            android:gravity="center"
+            android:text="Learn on Demand"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorBlack"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="24dp"
+            tools:layout_editor_absoluteY="204dp" />
+
+        <TextView
+            android:id="@+id/txtSubHeadingSlider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/futura_book_font"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="Accelerate your Future, Study any course anytime, anywhere."
+            android:textSize="15sp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="415dp" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

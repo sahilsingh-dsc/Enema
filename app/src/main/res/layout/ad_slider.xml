@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal"
+        android:background="@color/colorBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/imgSliderAdImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.4"
+        android:contentDescription="@string/todo"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout5"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout5"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout5"
+        app:srcCompat="@drawable/ads_image" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgSliderAdImage"
+        app:layout_constraintEnd_toEndOf="@+id/imgSliderAdImage"
+        app:layout_constraintStart_toStartOf="@+id/imgSliderAdImage"
+        app:layout_constraintTop_toTopOf="@+id/imgSliderAdImage">
+
+        <TextView
+            android:id="@+id/txtPunchLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/futura_medium_bt"
+            android:text="SALE ON"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MONDAY"
+            android:paddingLeft="5dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/futura_heavy_font"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="@+id/txtPunchLine"
+            app:layout_constraintStart_toEndOf="@+id/txtPunchLine"
+            app:layout_constraintTop_toTopOf="@+id/txtPunchLine" />
+
+        <TextView
+            android:id="@+id/txtAdBody"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/futura_medium_bt"
+            android:text="BOOK YOUR COURSE"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/txtPunchLine"
+            app:layout_constraintTop_toBottomOf="@+id/txtPunchLine" />
+
+        <TextView
+            android:id="@+id/txtAdAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/futura_heavy_font"
+            android:text="₹ 49"
+            android:textColor="@color/colorWhite"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/txtAdBody"
+            app:layout_constraintTop_toBottomOf="@+id/txtAdBody" />
+
+        <TextView
+            android:id="@+id/txtClickOnAd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/border_left_right_round"
+            android:paddingLeft="15dp"
+            android:paddingTop="2dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="2dp"
+            android:text="CLICK HERE"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintStart_toStartOf="@+id/txtAdAmount"
+            app:layout_constraintTop_toBottomOf="@+id/txtAdAmount" />
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>
