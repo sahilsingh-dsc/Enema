@@ -1,9 +1,13 @@
 package com.enema.enemaapp.ui.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,34 +24,38 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        ConstraintLayout layoutSplash = findViewById(R.id.layoutSplash);
+
         @SuppressLint("ResourceType") final Animation animBlink = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
         TextView txtWeConnect = findViewById(R.id.txtWeConnect);
         txtWeConnect.startAnimation(animBlink);
 
-        int SPLASH_TIME_OUT = 3000;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                int SPLASH_TIME_OUT = 3000;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
 
-                if(user!=null){
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                    Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(mainIntent);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    finish();
+                        if (user != null) {
 
-                }else {
+                            Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
+                            startActivity(mainIntent);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
 
-                    Intent loginIntent = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(loginIntent);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    finish();
+                        } else {
 
-                }
+                            Intent loginIntent = new Intent(SplashActivity.this, OnBoardingActivity.class);
+                            startActivity(loginIntent);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+
+                        }
+                    }
+                }, SPLASH_TIME_OUT);
+
             }
-        }, SPLASH_TIME_OUT);
 
-    }
 }

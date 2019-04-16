@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pattern_bg"
+    tools:context=".ui.activities.AccountProfileActivity">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:backgroundTint="@color/colorCyanTeal"
+        android:elevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="lollipop">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imgProfileToAccount"
+                android:layout_width="50dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/todo"
+                android:focusable="true"
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+
+            <TextView
+                android:id="@+id/txtEditProfile"
+                android:layout_width="50dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/futura_book_font"
+                android:gravity="center"
+                android:text="@string/edit"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtProfileTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/futura_medium_bt"
+                android:text="@string/profile"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+    <EditText
+        android:id="@+id/etxtProfileEmail"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/border_nothing"
+        android:drawableStart="@drawable/ic_mail"
+        android:drawableLeft="@drawable/ic_mail"
+        android:drawablePadding="15dp"
+        android:enabled="false"
+        android:fontFamily="@font/futura_book_font"
+        android:gravity="center_vertical"
+        android:hint="@string/email"
+        android:importantForAutofill="no"
+        android:inputType="textEmailAddress"
+        android:padding="15dp"
+        android:text="@string/ankit_gmail_com"
+        android:textColor="@color/colorBlack"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtProfileMobile"
+        tools:targetApi="o" />
+
+    <TextView
+        android:id="@+id/txtProfileMobile"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:drawableStart="@drawable/ic_smartphone"
+        android:drawableLeft="@drawable/ic_smartphone"
+        android:drawablePadding="15dp"
+        android:fontFamily="@font/futura_book_font"
+        android:gravity="center_vertical"
+        android:padding="15dp"
+        android:text="@string/_91_8770664141"
+        android:textColor="@color/colorBlack"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+    <EditText
+        android:id="@+id/etxtProfileName"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/border_nothing"
+        android:drawableStart="@drawable/ic_users_teal"
+        android:drawableLeft="@drawable/ic_users_teal"
+        android:drawablePadding="15dp"
+        android:enabled="false"
+        android:fontFamily="@font/futura_book_font"
+        android:gravity="center_vertical"
+        android:hint="@string/name"
+        android:importantForAutofill="no"
+        android:inputType=""
+        android:padding="15dp"
+        android:text="@string/ankit"
+        android:textColor="@color/colorBlack"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etxtProfileEmail"
+        tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/etxtCityResidence"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/border_nothing"
+        android:drawableStart="@drawable/ic_skyline"
+        android:drawableLeft="@drawable/ic_skyline"
+        android:drawablePadding="15dp"
+        android:enabled="false"
+        android:fontFamily="@font/futura_book_font"
+        android:gravity="center_vertical"
+        android:hint="@string/city_of_residence"
+        android:importantForAutofill="no"
+        android:inputType=""
+        android:padding="15dp"
+        android:text="@string/city_of_residence"
+        android:textColor="@color/colorBlack"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lhGenderBox"
+        tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/etxtCityOnID"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/border_nothing"
+        android:drawableStart="@drawable/ic_card"
+        android:drawableLeft="@drawable/ic_card"
+        android:drawablePadding="15dp"
+        android:enabled="false"
+        android:fontFamily="@font/futura_book_font"
+        android:gravity="center_vertical"
+        android:hint="@string/city_on_id_card"
+        android:importantForAutofill="no"
+        android:inputType=""
+        android:padding="15dp"
+        android:text="@string/city_on_id_card"
+        android:textColor="@color/colorBlack"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etxtCityResidence"
+        tools:targetApi="o" />
+
+    <EditText
+        android:id="@+id/etxtDOB"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/border_nothing"
+        android:drawableStart="@drawable/ic_birthday_cake"
+        android:drawableLeft="@drawable/ic_birthday_cake"
+        android:drawablePadding="15dp"
+        android:enabled="false"
+        android:fontFamily="@font/futura_book_font"
+        android:gravity="center_vertical"
+        android:hint="@string/date_of_birth"
+        android:importantForAutofill="no"
+        android:inputType=""
+        android:padding="15dp"
+        android:text="@string/date_of_birth"
+        android:textColor="@color/colorBlack"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etxtCityOnID"
+        tools:targetApi="o" />
+
+    <LinearLayout
+        android:id="@+id/lhGenderBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etxtProfileName">
+
+        <LinearLayout
+            android:id="@+id/lvMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/imgMale"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:contentDescription="@string/todo"
+                app:srcCompat="@drawable/ic_boy_grey" />
+
+            <TextView
+                android:id="@+id/txtMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/male"
+                android:textColor="@color/colorBlack" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lvFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/imgFemale"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:contentDescription="@string/todo"
+                app:srcCompat="@drawable/ic_woman_grey" />
+
+            <TextView
+                android:id="@+id/txtFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/female"
+                android:textColor="@color/colorBlack" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/border_left_right_round"
+        android:fontFamily="@font/futura_light_bt"
+        android:text="@string/logout"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

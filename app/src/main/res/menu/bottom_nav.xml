@@ -15,10 +15,6 @@
         android:icon="@drawable/ic_open_magazine"
         android:title="@string/my_courses" />
     <item
-        android:id="@+id/referandearn_menu_item"
-        android:icon="@drawable/ic_wallet"
-        android:title="@string/refer_earn" />
-    <item
         android:id="@+id/account_menu_item"
         android:icon="@drawable/ic_users"
         android:title="@string/account" />

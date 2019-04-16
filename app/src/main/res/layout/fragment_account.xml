@@ -11,35 +11,258 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btnLogout"
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:background="@drawable/border_left_right_round"
+            android:layout_height="56dp"
+            android:backgroundTint="@color/colorCyanTeal"
+            android:elevation="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:targetApi="lollipop">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txtAccountTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/futura_medium_bt"
+                    android:text="@string/good_afternoon_ankit"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/txtAccountAbout"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:text="@string/about"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorBlack"
             android:fontFamily="@font/futura_book_font"
-            android:text="@string/logout"
-            android:textColor="@color/colorWhite"
+            android:drawableLeft="@drawable/ic_info"
+            android:drawablePadding="15dp"
+            android:paddingLeft="15dp"
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+            android:paddingRight="15dp"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider9"
+            android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+            android:drawableStart="@drawable/ic_info"
+            android:focusable="true" />
+
+        <View
+            android:id="@+id/divider10"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtAccountAbout" />
+
+        <TextView
+            android:id="@+id/txtAccountSupport"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:text="@string/support"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/futura_book_font"
+            android:drawableLeft="@drawable/ic_help"
+            android:drawablePadding="15dp"
+            android:paddingLeft="15dp"
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+            android:paddingRight="15dp"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider8"
+            android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+            android:drawableStart="@drawable/ic_help"
+            android:focusable="true" />
+
+        <View
+            android:id="@+id/divider9"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtAccountSupport" />
+
+        <TextView
+            android:id="@+id/txtAccountPrivacyPolicy"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:text="@string/privacy_policy"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/futura_book_font"
+            android:drawableLeft="@drawable/ic_document"
+            android:drawablePadding="15dp"
+            android:paddingLeft="15dp"
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+            android:paddingRight="15dp"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider7"
+            android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+            android:drawableStart="@drawable/ic_document"
+            android:focusable="true" />
+
+        <View
+            android:id="@+id/divider8"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtAccountPrivacyPolicy" />
+
+        <TextView
+            android:id="@+id/txtAccountRefAndEarn"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:text="@string/refer_amp_earn"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/futura_book_font"
+            android:drawableLeft="@drawable/ic_share"
+            android:drawablePadding="15dp"
+            android:paddingLeft="15dp"
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+            android:paddingRight="15dp"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider6"
+            android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+            android:drawableStart="@drawable/ic_share"
+            android:focusable="true" />
+
+        <View
+            android:id="@+id/divider7"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtAccountRefAndEarn" />
+
+        <TextView
+            android:id="@+id/txtAccountWallet"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:text="@string/wallet"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/futura_book_font"
+            android:drawableLeft="@drawable/ic_wallet"
+            android:drawablePadding="15dp"
+            android:paddingLeft="15dp"
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+            android:paddingRight="15dp"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider5"
+            android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+            android:drawableStart="@drawable/ic_wallet"
+            android:focusable="true" />
+
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtAccountWallet" />
+
+        <TextView
+            android:id="@+id/txtAccountMyBookings"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:text="@string/my_bookings"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/futura_book_font"
+            android:drawableLeft="@drawable/ic_open_magazine"
+            android:drawablePadding="15dp"
+            android:paddingLeft="15dp"
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+            android:paddingRight="15dp"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider4"
+            android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+            android:drawableStart="@drawable/ic_open_magazine"
+            android:focusable="true" />
+
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtAccountMyBookings" />
+
+        <TextView
+            android:id="@+id/txtAccountProfile"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:drawableStart="@drawable/ic_users"
+            android:drawableLeft="@drawable/ic_users"
+            android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
+            android:drawableRight="@drawable/ic_chevron_right_black_24dp"
+            android:drawablePadding="15dp"
+            android:focusable="true"
+            android:fontFamily="@font/futura_book_font"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/profile_acc"
+            android:textColor="@color/colorBlack"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtLoggedMobileNumber" />
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-        <TextView
-            android:id="@+id/txtLoggedMobileNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/txtAccountProfile" />
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

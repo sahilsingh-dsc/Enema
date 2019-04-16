@@ -69,7 +69,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/imageView7"
+                        android:id="@+id/imgNotiBell"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginTop="16dp"
@@ -83,16 +83,15 @@
                         app:srcCompat="@drawable/ic_alarm" />
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/txtMessageCount"
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:background="@drawable/circle_with_white"
                         android:gravity="center"
-                        android:text="@string/_5"
                         android:textColor="@color/colorBlack"
                         android:textSize="6sp"
-                        app:layout_constraintEnd_toEndOf="@+id/imageView7"
-                        app:layout_constraintTop_toTopOf="@+id/imageView7"
+                        app:layout_constraintEnd_toEndOf="@+id/imgNotiBell"
+                        app:layout_constraintTop_toTopOf="@+id/imgNotiBell"
                         tools:ignore="SmallSp" />
 
                     <LinearLayout
@@ -107,7 +106,7 @@
                         android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imageView7">
+                        app:layout_constraintTop_toBottomOf="@+id/imgNotiBell">
 
                         <TextView
                             android:id="@+id/txttopScreenAdTitle"
@@ -191,38 +190,26 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recyclerLocation" />
 
-                <HorizontalScrollView
-                    android:id="@+id/horizontalScrollView"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerCategory"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:scrollbars="none"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@+id/dividerCategoryCourse"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dividerLocationCat">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recyclerCategory"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/dividerLocationCat">
-
-                        </android.support.v7.widget.RecyclerView>
-                    </LinearLayout>
-                </HorizontalScrollView>
+                </android.support.v7.widget.RecyclerView>
 
                 <View
                     android:id="@+id/dividerCategoryCourse"
                     android:layout_width="0dp"
                     android:layout_height="3dp"
                     android:background="?android:attr/listDivider"
+                    app:layout_constraintBottom_toTopOf="@+id/recyclerCourse"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerCategory" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerCourse"
@@ -230,7 +217,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" >
+                    app:layout_constraintTop_toBottomOf="@+id/dividerCategoryCourse">
 
                 </android.support.v7.widget.RecyclerView>
 

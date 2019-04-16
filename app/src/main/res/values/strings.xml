@@ -41,11 +41,44 @@
     <string name="click_here">CLICK HERE</string>
     <string name="good_afternoon_user">Good Afternoon, User</string>
     <string name="loading">Loading</string>
-    <string name="illustrator_cc_2019_vijay_nagar_indore">illustrator CC 2019 Vijay Nagar, Indore</string>
+    <string name="illustrator_cc_2019_vijay_nagar_indore">illustrator CC 2019</string>
     <string name="_26_488">(26,488)</string>
     <string name="_1350_00">₹, 1350.00</string>
     <string name="_13_783_99">₹13,783.99</string>
     <string name="deals_for_you">Deals for you</string>
     <string name="we_connect">We Connect...</string>
     <string name="logout">Logout</string>
+    <string name="about">About</string>
+    <string name="support">Support</string>
+    <string name="profile">Profile</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="refer_amp_earn"><![CDATA[Refer & Earn]]></string>
+    <string name="wallet">Wallet</string>
+    <string name="my_bookings">My Bookings</string>
+    <string name="edit">EDIT</string>
+    <string name="ankit_gmail_com">ankit@gmail.com</string>
+    <string name="email">Email</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="city_of_residence">City of Residence</string>
+    <string name="city_on_id_card">City on ID Card</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="name">Name</string>
+    <string name="_91_8770664141">+91 8770664141</string>
+    <string name="ankit">Ankit</string>
+    <string name="profile_acc">Profile</string>
+    <string name="good_afternoon_ankit">Good Afternoon, Ankit</string>
+    <string name="edit_profile">EDIT</string>
+    <string name="vijay_nagar_indore">Vijay Nagar, Indore</string>
+    <string name="_24_470">(24,470)</string>
+    <string name="bookings_details">Bookings Details</string>
+    <string name="your_slots">Your slots</string>
+    <string name="question">Question ?</string>
+    <string name="review">Review</string>
+    <string name="review_this_course">Review this course</string>
+    <string name="notification">Notification</string>
+    <string name="lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting_industry_lorem_ipsum_has_been_the_industry_s">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s</string>
+    <string name="new_noti">New Notification</string>
+
+
 </resources>

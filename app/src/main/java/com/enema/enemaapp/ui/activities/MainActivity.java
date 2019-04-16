@@ -45,10 +45,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragment = new MyCourseFragment();
                 break;
 
-            case R.id.referandearn_menu_item :
-                fragment = new ReferAndEarnFragment();
-                break;
-
             case R.id.account_menu_item :
                 fragment = new AccountFragment();
                 break;

@@ -2,6 +2,7 @@ package com.enema.enemaapp.ui.fragments;
 
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,11 @@ import com.enema.enemaapp.models.AdSliderData;
 import com.enema.enemaapp.models.CategoriesData;
 import com.enema.enemaapp.models.CourseData;
 import com.enema.enemaapp.models.LocationData;
+import com.enema.enemaapp.ui.activities.AccountProfileActivity;
+import com.enema.enemaapp.ui.activities.LoginActivity;
+import com.enema.enemaapp.ui.activities.NotificationActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -64,6 +70,7 @@ public class HomeFragment extends Fragment {
         loadingDialog.show();
 
 
+
         locationDataList = new ArrayList<>();
         locationDataList.clear();
         categoriesDataList = new ArrayList<>();
@@ -80,6 +87,18 @@ public class HomeFragment extends Fragment {
         getRecommendedCourse();
         //getAllSliderAd();
         getAllDeals();
+        getNotiCount();
+
+
+        ImageView imgNotiBell = view.findViewById(R.id.imgNotiBell);
+        imgNotiBell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent notiIntent = new Intent(getContext(), NotificationActivity.class);
+                getActivity().startActivity(notiIntent);
+                getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
 
         return view;
     }
@@ -200,8 +219,10 @@ public class HomeFragment extends Fragment {
 
         recyclerCategory = view.findViewById(R.id.recyclerCategory);
         recyclerCategory.hasFixedSize();
-        recyclerCategory.setLayoutManager(new GridLayoutManager(
-                getContext(),4));
+        recyclerCategory.setLayoutManager((new LinearLayoutManager(
+                getContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false)));
 
         DatabaseReference categoryRef = FirebaseDatabase.getInstance().getReference("APP_DATA")
                 .child("CATEGORIES_DATA");
@@ -440,6 +461,33 @@ public class HomeFragment extends Fragment {
             }
         });
 
+    }
+
+    private void getNotiCount(){
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        final String username = firebaseUser.getUid();
+        DatabaseReference userNotificationRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+        userNotificationRef.child(username).child("USER_NOTIFICATIONS").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot countSnap : dataSnapshot.getChildren()){
+
+                    String noticount = String.valueOf(countSnap.getChildrenCount());
+                    TextView txtMessageCount = view.findViewById(R.id.txtMessageCount);
+                    txtMessageCount.setText(noticount);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:elevation="15dp"
+        android:elevation="15dp"
         app:layout_constraintStart_toStartOf="parent"
         style="@style/Widget.BottomNavigationView"
         app:menu="@menu/bottom_nav" />

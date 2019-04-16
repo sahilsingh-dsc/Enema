@@ -24,7 +24,7 @@ public class OnBoardingActivity extends AppCompatActivity {
     // Slider adapter class
     private SliderAdapter sliderAdapter;
 
-    private Button btnSignIn;
+    private Button btnSignIn, btnBrowseCourses;
 
 
     @Override
@@ -36,8 +36,21 @@ public class OnBoardingActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent loginIntent = new Intent(OnBoardingActivity.this, LoginActivity.class);
                 startActivity(loginIntent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+            }
+        });
+
+        btnBrowseCourses =findViewById(R.id.btnBrowseCourses);
+        btnBrowseCourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent mainIntent = new Intent(OnBoardingActivity.this, MainActivity.class);
+                startActivity(mainIntent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();
             }
