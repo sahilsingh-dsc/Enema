@@ -26,19 +26,20 @@
         android:id="@+id/txtVerify"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:text="@string/verification"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:gravity="center"
+        android:text="@string/verification"
         android:textColor="@color/colorCyanTeal"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgMobileVerify" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar2" />
 
     <TextView
         android:id="@+id/txtVerifySubHeading"
@@ -46,8 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:textColor="@color/colorBlack"
         android:text="@string/we_have_sent_you_an_access_code_via_sms_for_mobile_number_verification"
+        android:textColor="@color/colorBlack"
         app:layout_constraintEnd_toEndOf="@+id/txtVerify"
         app:layout_constraintStart_toStartOf="@+id/txtVerify"
         app:layout_constraintTop_toBottomOf="@+id/txtVerify" />
@@ -193,6 +194,17 @@
         app:layout_constraintStart_toStartOf="@+id/linearLayout"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:srcCompat="@drawable/ic_play" />
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorCyanTeal"
+        app:layout_constraintEnd_toEndOf="@+id/imgMobileVerify"
+        app:layout_constraintStart_toStartOf="@+id/imgMobileVerify"
+        app:layout_constraintTop_toBottomOf="@+id/imgMobileVerify" tools:targetApi="lollipop"/>
 
 
 </android.support.constraint.ConstraintLayout>

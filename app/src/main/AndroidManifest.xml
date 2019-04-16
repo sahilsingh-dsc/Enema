@@ -4,8 +4,9 @@
 
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -14,11 +15,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.OtpActivity"/>
+        <activity android:name=".ui.activities.NotificationActivity"></activity>
+        <activity android:name=".ui.activities.ReviewActivity" />
+        <activity android:name=".ui.activities.FAQActivity" />
+        <activity android:name=".ui.activities.HelpActivity" />
+        <activity android:name=".ui.activities.BookingDetailsActivity" />
+        <activity android:name=".ui.activities.AboutActivity" />
+        <activity android:name=".ui.activities.SupportActivity" />
+        <activity android:name=".ui.activities.PrivacyPolicyActivity" />
+        <activity android:name=".ui.activities.WalletActivity" />
+        <activity android:name=".ui.activities.ReferAndEarnActivity" />
+        <activity android:name=".ui.activities.MyBookingsActivity" />
+        <activity android:name=".ui.activities.AccountProfileActivity" />
+        <activity android:name=".ui.activities.CourseDetailsActivity" />
+        <activity android:name=".ui.activities.OtpActivity" />
         <activity android:name=".ui.activities.RegisterActivity" />
         <activity android:name=".ui.activities.LoginActivity" />
         <activity android:name=".ui.activities.OnBoardingActivity" />
-        <activity android:name=".ui.activities.MainActivity">
+        <activity android:name=".ui.activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -26,7 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.SplashActivity">
+        <activity android:name=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
