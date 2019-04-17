@@ -6,71 +6,393 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.CourseDetailsActivity">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constrainCourseDetails"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/lhCourseImage"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:orientation="horizontal"
-            android:background="@color/colorBlack"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imCourseDetailImage"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:contentDescription="@string/todo"
-            android:scaleType="centerCrop"
-            android:alpha="0.4"
-            app:layout_constraintBottom_toBottomOf="@+id/lhCourseImage"
-            app:layout_constraintEnd_toEndOf="@+id/lhCourseImage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/lhCourseImage"
-            app:srcCompat="@drawable/graphic_designer" />
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imCourseDetailImage"
-            app:layout_constraintEnd_toEndOf="@+id/imCourseDetailImage"
-            app:layout_constraintStart_toStartOf="@+id/imCourseDetailImage"
-            app:layout_constraintTop_toTopOf="@+id/imCourseDetailImage">
-
-            <ImageView
-                android:id="@+id/imgCourseToHome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:contentDescription="@string/todo"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constrainCourseDetails"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+                app:layout_constraintVertical_bias="0.0">
 
-            <TextView
-                android:id="@+id/txtTotalImages"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/futura_light_bt"
-                android:text="4 PHOTOS"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.constraint.ConstraintLayout>
+                <LinearLayout
+                    android:id="@+id/lhCourseImage"
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:background="@color/colorBlack"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imCourseDetailImage"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:alpha="0.4"
+                    android:contentDescription="@string/todo"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="@+id/lhCourseImage"
+                    app:layout_constraintEnd_toEndOf="@+id/lhCourseImage"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/lhCourseImage"
+                    app:srcCompat="@drawable/graphic_designer" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imCourseDetailImage"
+                    app:layout_constraintEnd_toEndOf="@+id/imCourseDetailImage"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/imCourseDetailImage"
+                    app:layout_constraintTop_toTopOf="@+id/imCourseDetailImage"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <ImageView
+                        android:id="@+id/imgCourseToHome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="16dp"
+                        android:contentDescription="@string/todo"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/txtTotalImages"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:fontFamily="@font/futura_light_bt"
+                        android:text="4 PHOTOS"
+                        android:textColor="@color/colorWhite"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="119dp"
+                        android:layout_marginEnd="208dp"
+                        android:layout_marginRight="208dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/txtTotalImages"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imgCourseToHome"
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:srcCompat="@drawable/best_seller" />
+
+
+                </android.support.constraint.ConstraintLayout>
+
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="180dp"
+                    android:layout_marginRight="180dp"
+                    android:layout_marginBottom="496dp"
+                    android:fontFamily="@font/futura_medium_bt"
+                    android:text="illustrator CC 2019 MasterClass"
+                    android:textColor="@color/colorDarkTrans"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lhCourseImage"
+                    app:layout_constraintVertical_bias="0.333" />
+
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginEnd="334dp"
+                    android:layout_marginRight="334dp"
+                    android:layout_marginBottom="415dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/graphic_designer"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginEnd="197dp"
+                    android:layout_marginRight="197dp"
+                    android:layout_marginBottom="466dp"
+                    android:text="@string/vijay_nagar_indore"
+                    android:textColor="@color/colorDarkTrans"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView6"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="193dp"
+                    android:layout_marginRight="193dp"
+                    android:layout_marginBottom="431dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView6"
+                    app:layout_constraintTop_toBottomOf="@+id/textView17">
+
+                    <RatingBar
+                        android:id="@+id/ratingMyBookingRating"
+                        style="@style/customRatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:numStars="5"
+                        android:rating="4.5" />
+
+                    <TextView
+                        android:id="@+id/txtMyBookingRateCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/_24_470"
+                        android:textColor="@color/colorDarkTrans"
+                        android:textSize="10sp"
+                        tools:ignore="SmallSp" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="115dp"
+                    android:layout_marginLeft="115dp"
+                    android:layout_marginTop="44dp"
+                    android:layout_marginEnd="7dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginBottom="466dp"
+                    android:fontFamily="@font/futura_book_font"
+                    android:text="TextView"
+                    android:textColor="@color/colorGreen"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView17"
+                    app:layout_constraintTop_toBottomOf="@+id/lhCourseImage"
+                    tools:text="₹ 1,350.00" />
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="117dp"
+                    android:layout_marginLeft="117dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="7dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginBottom="445dp"
+                    android:background="@drawable/cross_out_txt"
+                    android:fontFamily="@font/futura_book_font"
+                    android:text="₹ 13,783.99"
+                    android:textColor="@color/colorRed"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/linearLayout8"
+                    app:layout_constraintTop_toBottomOf="@+id/textView20"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="397dp"
+                    android:background="@color/colorBlackTrans"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="23dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="204dp"
+                    android:layout_marginRight="204dp"
+                    android:fontFamily="@font/futura_medium_bt"
+                    android:text="Requirment of the courses"
+                    android:textColor="@color/colorDarkTrans"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="5dp"
+                    app:layout_constraintBottom_toTopOf="@+id/view1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="238dp"
+                    android:background="@color/colorBlackTrans"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="336dp"
+                    android:layout_marginRight="336dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/futura_medium_bt"
+                    android:text="Booking slots available"
+                    android:textColor="@color/colorDarkTrans"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view1"
+                    app:layout_constraintVertical_bias="0.045" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView19"
+                    app:layout_constraintVertical_bias="0.112" />
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="336dp"
+                    android:layout_marginRight="336dp"
+                    android:layout_marginBottom="59dp"
+                    android:text="Note"
+                    android:textColor="@color/colorDarkTrans"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView3" />
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginEnd="55dp"
+                    android:layout_marginRight="55dp"
+                    android:layout_marginBottom="58dp"
+                    android:fontFamily="@font/futura_light_bt"
+                    android:text="Loreum ipsum is simply dummy text of the printng and typesettig industry"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView21"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView3" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="50dp"
+                    android:background="@color/colorBlackTrans"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
 </android.support.constraint.ConstraintLayout>
