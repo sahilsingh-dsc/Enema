@@ -8,12 +8,16 @@
 
 
     <ScrollView
+        android:id="@+id/scrollView4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +62,7 @@
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="196dp"
                     app:layout_constraintBottom_toBottomOf="@+id/imCourseDetailImage"
                     app:layout_constraintEnd_toEndOf="@+id/imCourseDetailImage"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -117,19 +121,12 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="180dp"
-                    android:layout_marginRight="180dp"
-                    android:layout_marginBottom="496dp"
                     android:fontFamily="@font/futura_medium_bt"
                     android:text="illustrator CC 2019 MasterClass"
                     android:textColor="@color/colorDarkTrans"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lhCourseImage"
-                    app:layout_constraintVertical_bias="0.333" />
+                    app:layout_constraintTop_toBottomOf="@+id/lhCourseImage" />
 
 
                 <ImageView
@@ -138,14 +135,9 @@
                     android:layout_height="70dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="11dp"
-                    android:layout_marginEnd="334dp"
-                    android:layout_marginRight="334dp"
-                    android:layout_marginBottom="415dp"
+                    android:layout_marginTop="16dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/graphic_designer"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
@@ -154,34 +146,26 @@
                     android:id="@+id/textView17"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="11dp"
-                    android:layout_marginEnd="197dp"
-                    android:layout_marginRight="197dp"
-                    android:layout_marginBottom="466dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/vijay_nagar_indore"
                     android:textColor="@color/colorDarkTrans"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView6"
-                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                    app:layout_constraintTop_toTopOf="@+id/imageView6" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="193dp"
-                    android:layout_marginRight="193dp"
-                    android:layout_marginBottom="431dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:weightSum="2"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView6"
                     app:layout_constraintStart_toEndOf="@+id/imageView6"
                     app:layout_constraintTop_toBottomOf="@+id/textView17">
 
@@ -213,183 +197,205 @@
                     android:id="@+id/textView20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="115dp"
-                    android:layout_marginLeft="115dp"
-                    android:layout_marginTop="44dp"
-                    android:layout_marginEnd="7dp"
-                    android:layout_marginRight="7dp"
-                    android:layout_marginBottom="466dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
                     android:fontFamily="@font/futura_book_font"
                     android:text="TextView"
                     android:textColor="@color/colorGreen"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView17"
-                    app:layout_constraintTop_toBottomOf="@+id/lhCourseImage"
+                    app:layout_constraintTop_toTopOf="@+id/textView17"
                     tools:text="₹ 1,350.00" />
 
                 <TextView
                     android:id="@+id/textView22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="117dp"
-                    android:layout_marginLeft="117dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginEnd="7dp"
-                    android:layout_marginRight="7dp"
-                    android:layout_marginBottom="445dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
                     android:background="@drawable/cross_out_txt"
                     android:fontFamily="@font/futura_book_font"
                     android:text="₹ 13,783.99"
                     android:textColor="@color/colorRed"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/linearLayout8"
-                    app:layout_constraintTop_toBottomOf="@+id/textView20"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
                 <View
-                    android:id="@+id/view"
-                    android:layout_width="match_parent"
+                    android:id="@+id/divider21"
+                    android:layout_width="0dp"
                     android:layout_height="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="397dp"
-                    android:background="@color/colorBlackTrans"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="16dp"
+                    android:background="?android:attr/listDivider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
                 <TextView
-                    android:id="@+id/textView18"
+                    android:id="@+id/textView29"
                     android:layout_width="wrap_content"
-                    android:layout_height="23dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="204dp"
-                    android:layout_marginRight="204dp"
-                    android:fontFamily="@font/futura_medium_bt"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/futura_book_font"
                     android:text="Requirment of the courses"
-                    android:textColor="@color/colorDarkTrans"
+                    android:textColor="@color/colorBlack"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view" />
+                    app:layout_constraintTop_toBottomOf="@+id/divider21" />
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:id="@+id/recyclerView6"
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginBottom="5dp"
-                    app:layout_constraintBottom_toTopOf="@+id/view1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView18" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
                 <View
-                    android:id="@+id/view1"
-                    android:layout_width="match_parent"
+                    android:id="@+id/divider22"
+                    android:layout_width="0dp"
                     android:layout_height="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="238dp"
-                    android:background="@color/colorBlackTrans"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:attr/listDivider"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView6" />
 
                 <TextView
-                    android:id="@+id/textView19"
+                    android:id="@+id/textView31"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="336dp"
-                    android:layout_marginRight="336dp"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/futura_medium_bt"
-                    android:text="Booking slots available"
-                    android:textColor="@color/colorDarkTrans"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/colorBlack"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view1"
-                    app:layout_constraintVertical_bias="0.045" />
+                    app:layout_constraintTop_toBottomOf="@+id/divider22"
+                    tools:text="Booking slots available" />
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
+                    android:id="@+id/recyclerView7"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginBottom="5dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintHorizontal_bias="0.496"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView19"
-                    app:layout_constraintVertical_bias="0.112" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView31" />
 
                 <TextView
-                    android:id="@+id/textView21"
+                    android:id="@+id/textView33"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginEnd="336dp"
-                    android:layout_marginRight="336dp"
-                    android:layout_marginBottom="59dp"
-                    android:text="Note"
-                    android:textColor="@color/colorDarkTrans"
+                    android:layout_marginTop="8dp"
+                    android:text="TextView"
+                    android:textColor="@color/colorBlack"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView3" />
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView7"
+                    tools:text="Note:" />
 
                 <TextView
-                    android:id="@+id/textView23"
+                    android:id="@+id/textView34"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginEnd="55dp"
-                    android:layout_marginRight="55dp"
-                    android:layout_marginBottom="58dp"
-                    android:fontFamily="@font/futura_light_bt"
-                    android:text="Loreum ipsum is simply dummy text of the printng and typesettig industry"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:text="loreum ipsum is simply dummy text of the printing and typesetting industry"
                     android:textSize="10sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView21"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView3" />
+                    app:layout_constraintBottom_toBottomOf="@+id/textView33"
+                    app:layout_constraintStart_toEndOf="@+id/textView33"
+                    app:layout_constraintTop_toTopOf="@+id/textView33" />
 
                 <View
-                    android:layout_width="match_parent"
+                    android:id="@+id/divider24"
+                    android:layout_width="0dp"
                     android:layout_height="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="50dp"
-                    android:background="@color/colorBlackTrans"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:attr/listDivider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView34" />
+
+                <TextView
+                    android:id="@+id/textView35"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="TextView"
+                    android:textSize="22sp"
+                    android:textColor="@color/colorBlack"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider24"
+                    tools:text="Please read" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView9"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView35" />
+
+                <View
+                    android:id="@+id/divider26"
+                    android:layout_width="0dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView9" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider26">
+
+                    <TextView
+                        android:id="@+id/textView40"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="TextView" />
+
+                    <TextView
+                        android:id="@+id/textView39"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="TextView" />
+                </LinearLayout>
+
+
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
