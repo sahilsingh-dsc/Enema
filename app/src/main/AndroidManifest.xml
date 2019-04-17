@@ -17,7 +17,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activities.NotificationActivity"></activity>
         <activity android:name=".ui.activities.ReviewActivity" />
-        <activity android:name=".ui.activities.FAQActivity" />
         <activity android:name=".ui.activities.HelpActivity" />
         <activity android:name=".ui.activities.BookingDetailsActivity" />
         <activity android:name=".ui.activities.AboutActivity" />

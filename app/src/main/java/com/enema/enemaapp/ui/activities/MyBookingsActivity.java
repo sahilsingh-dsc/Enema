@@ -34,35 +34,22 @@ public class MyBookingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_booking_item);
+        setContentView(R.layout.activity_my_bookings);
 
         myBookingDataList = new ArrayList<>();
         myBookingDataList.clear();
 
-
-
-        ConstraintLayout constraintMyBooking = findViewById(R.id.constrainMyBooking);
-        constraintMyBooking.setOnClickListener(new View.OnClickListener() {
+        imgMyBkgToAccount = findViewById(R.id.imgMyBkgToAccount);
+        imgMyBkgToAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent bookingdetailsIntent = new Intent(MyBookingsActivity.this, BookingDetailsActivity.class);
-                startActivity(bookingdetailsIntent);
+                onBackPressed();
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                //finish();
+                finish();
             }
         });
 
-//        imgMyBkgToAccount = findViewById(R.id.imgMyBkgToAccount);
-//        imgMyBkgToAccount.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                finish();
-//            }
-//        });
-
-       // getMyBookings();
+        getMyBookings();
 
     }
 
@@ -95,7 +82,6 @@ public class MyBookingsActivity extends AppCompatActivity {
                     String booking_rating = (String) bookingSnap.child("booking_rating").getValue();
                     String booking_rating_count = (String) bookingSnap.child("booking_rating_count").getValue();
 
-                    Toast.makeText(MyBookingsActivity.this, "" + booking_image, Toast.LENGTH_SHORT).show();
 
                     MyBookingData bookingData = new MyBookingData(booking_image, booking_course_name, booking_course_location, booking_rating, booking_rating_count);
                     myBookingDataList.add(bookingData);

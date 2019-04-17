@@ -58,7 +58,7 @@ public class BookingDetailsActivity extends AppCompatActivity {
         txtBookingFAQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent faqIntent = new Intent(BookingDetailsActivity.this, FAQActivity.class);
+                Intent faqIntent = new Intent(BookingDetailsActivity.this, SupportActivity.class);
                 startActivity(faqIntent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }

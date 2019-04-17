@@ -16,7 +16,9 @@ import com.enema.enemaapp.ui.activities.AboutActivity;
 import com.enema.enemaapp.ui.activities.AccountProfileActivity;
 import com.enema.enemaapp.ui.activities.LoginActivity;
 import com.enema.enemaapp.ui.activities.MyBookingsActivity;
+import com.enema.enemaapp.ui.activities.PrivacyPolicyActivity;
 import com.enema.enemaapp.ui.activities.RegisterActivity;
+import com.enema.enemaapp.ui.activities.SupportActivity;
 import com.enema.enemaapp.ui.activities.WalletActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -134,6 +136,12 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                Intent aboutIntent = new Intent(getActivity(), PrivacyPolicyActivity.class);
+                startActivity(aboutIntent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+
             }
         });
 
@@ -141,6 +149,12 @@ public class AccountFragment extends Fragment {
         txtAccountSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent aboutIntent = new Intent(getActivity(), SupportActivity.class);
+                startActivity(aboutIntent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
 
             }
         });
