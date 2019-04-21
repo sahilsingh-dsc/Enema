@@ -11,10 +11,6 @@
         android:icon="@drawable/ic_like"
         android:title="@string/wishlist" />
     <item
-        android:id="@+id/mycourses_menu_item"
-        android:icon="@drawable/ic_open_magazine"
-        android:title="@string/my_courses" />
-    <item
         android:id="@+id/account_menu_item"
         android:icon="@drawable/ic_users"
         android:title="@string/account" />

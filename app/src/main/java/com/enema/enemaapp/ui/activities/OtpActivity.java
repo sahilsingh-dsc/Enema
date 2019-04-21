@@ -273,9 +273,10 @@ public class OtpActivity extends AppCompatActivity {
                                 FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                                 assert firebaseUser != null;
                                 final String username = firebaseUser.getUid();
+                                String mobile_with_code = "+91"+mobile_number;
                                 DatabaseReference userRegRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-                                UserData userData = new UserData(full_name, mobile_number, user_password, "null", "null", "null", "null", "null");
-                                userRegRef.child(mobile_number).child(username).setValue(userData);
+                                UserData userData = new UserData(full_name, mobile_with_code, user_password);
+                                userRegRef.child(mobile_with_code).child(username).child("PROFILE_DATA").setValue(userData);
                                 Toast.makeText(OtpActivity.this, "Register done", Toast.LENGTH_SHORT).show();
                             }
                             Toast.makeText(OtpActivity.this, "Success", Toast.LENGTH_SHORT).show();

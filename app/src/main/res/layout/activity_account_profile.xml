@@ -119,7 +119,6 @@
         android:fontFamily="@font/futura_book_font"
         android:gravity="center_vertical"
         android:padding="15dp"
-        android:text="@string/_91_8770664141"
         android:textColor="@color/colorBlack"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"

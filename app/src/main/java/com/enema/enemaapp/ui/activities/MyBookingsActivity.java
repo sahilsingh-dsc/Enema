@@ -65,10 +65,10 @@ public class MyBookingsActivity extends AppCompatActivity {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         assert firebaseUser != null;
         final String username = firebaseUser.getUid();
-
-        DatabaseReference mybookingsRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child(username);
-
-        mybookingsRef.child("USERS_BOOKINGS").addValueEventListener(new ValueEventListener() {
+        String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        DatabaseReference bookingsRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+        assert user_mobile != null;
+        bookingsRef.child(user_mobile).child(username).child("USERS_BOOKINGS_DATA").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -81,9 +81,10 @@ public class MyBookingsActivity extends AppCompatActivity {
                     String booking_course_location = (String) bookingSnap.child("booking_course_location").getValue();
                     String booking_rating = (String) bookingSnap.child("booking_rating").getValue();
                     String booking_rating_count = (String) bookingSnap.child("booking_rating_count").getValue();
+                    String wallet_tnx_id = (String) bookingSnap.child("wallet_tnx_id").getValue();
 
 
-                    MyBookingData bookingData = new MyBookingData(booking_image, booking_course_name, booking_course_location, booking_rating, booking_rating_count);
+                    MyBookingData bookingData = new MyBookingData(booking_image, booking_course_name, booking_course_location, booking_rating, booking_rating_count, wallet_tnx_id);
                     myBookingDataList.add(bookingData);
 
                 }

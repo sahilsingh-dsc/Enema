@@ -8,27 +8,20 @@
 
 
     <ScrollView
-        android:id="@+id/scrollView4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constrainCourseDetails"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -57,18 +50,16 @@
                     app:layout_constraintBottom_toBottomOf="@+id/lhCourseImage"
                     app:layout_constraintEnd_toEndOf="@+id/lhCourseImage"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/lhCourseImage"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/graphic_designer" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="0dp"
-                    android:layout_height="196dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/imCourseDetailImage"
+                    android:layout_height="200dp"
                     app:layout_constraintEnd_toEndOf="@+id/imCourseDetailImage"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/imCourseDetailImage"
-                    app:layout_constraintTop_toTopOf="@+id/imCourseDetailImage"
-                    app:layout_constraintVertical_bias="0.0">
+                    app:layout_constraintTop_toTopOf="@+id/lhCourseImage">
 
                     <ImageView
                         android:id="@+id/imgCourseToHome"
@@ -115,7 +106,7 @@
 
 
                 <TextView
-                    android:id="@+id/textView9"
+                    android:id="@+id/txtCDName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -130,20 +121,20 @@
 
 
                 <ImageView
-                    android:id="@+id/imageView6"
+                    android:id="@+id/imgCDImage"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/graphic_designer"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtCDName" />
 
 
                 <TextView
-                    android:id="@+id/textView17"
+                    android:id="@+id/txtCDAreaCity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -151,8 +142,8 @@
                     android:layout_marginTop="16dp"
                     android:text="@string/vijay_nagar_indore"
                     android:textColor="@color/colorDarkTrans"
-                    app:layout_constraintStart_toEndOf="@+id/imageView6"
-                    app:layout_constraintTop_toTopOf="@+id/imageView6" />
+                    app:layout_constraintStart_toEndOf="@+id/imgCDImage"
+                    app:layout_constraintTop_toTopOf="@+id/imgCDImage" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout8"
@@ -165,12 +156,12 @@
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:weightSum="2"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-                    app:layout_constraintStart_toEndOf="@+id/imageView6"
-                    app:layout_constraintTop_toBottomOf="@+id/textView17">
+                    app:layout_constraintBottom_toBottomOf="@+id/imgCDImage"
+                    app:layout_constraintStart_toEndOf="@+id/imgCDImage"
+                    app:layout_constraintTop_toBottomOf="@+id/txtCDAreaCity">
 
                     <RatingBar
-                        android:id="@+id/ratingMyBookingRating"
+                        android:id="@+id/ratingCD"
                         style="@style/customRatingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -181,7 +172,7 @@
                         android:rating="4.5" />
 
                     <TextView
-                        android:id="@+id/txtMyBookingRateCount"
+                        android:id="@+id/txtCDRateCount"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:layout_weight="1"
@@ -194,7 +185,7 @@
 
 
                 <TextView
-                    android:id="@+id/textView20"
+                    android:id="@+id/txtCDDiscountPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -204,11 +195,11 @@
                     android:textColor="@color/colorGreen"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textView17"
+                    app:layout_constraintTop_toTopOf="@+id/txtCDAreaCity"
                     tools:text="₹ 1,350.00" />
 
                 <TextView
-                    android:id="@+id/textView22"
+                    android:id="@+id/txtCDActualPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -218,7 +209,7 @@
                     android:text="₹ 13,783.99"
                     android:textColor="@color/colorRed"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView20" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtCDDiscountPrice" />
 
                 <View
                     android:id="@+id/divider21"
@@ -228,7 +219,7 @@
                     android:background="?android:attr/listDivider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+                    app:layout_constraintTop_toBottomOf="@+id/imgCDImage" />
 
                 <TextView
                     android:id="@+id/textView29"
@@ -244,19 +235,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/divider21" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView6"
-                    android:layout_width="0dp"
-                    android:layout_height="70dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView29" />
-
                 <View
                     android:id="@+id/divider22"
                     android:layout_width="0dp"
@@ -265,7 +243,7 @@
                     android:background="?android:attr/listDivider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView6" />
+                    app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
                 <TextView
                     android:id="@+id/textView31"
@@ -281,119 +259,156 @@
                     tools:text="Booking slots available" />
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView7"
+                    android:id="@+id/recyclerSlot"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
+                    android:layout_height="56dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.496"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView31" />
 
-                <TextView
-                    android:id="@+id/textView33"
-                    android:layout_width="wrap_content"
+                <HorizontalScrollView
+                    android:id="@+id/horizontalScrollView"
+                    android:layout_width="344dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="TextView"
-                    android:textColor="@color/colorBlack"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView7"
-                    tools:text="Note:" />
-
-                <TextView
-                    android:id="@+id/textView34"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:text="loreum ipsum is simply dummy text of the printing and typesetting industry"
-                    android:textSize="10sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView33"
-                    app:layout_constraintStart_toEndOf="@+id/textView33"
-                    app:layout_constraintTop_toTopOf="@+id/textView33" />
-
-                <View
-                    android:id="@+id/divider24"
-                    android:layout_width="0dp"
-                    android:layout_height="10dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:attr/listDivider"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:scrollbars="none"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView34" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView29">
 
-                <TextView
-                    android:id="@+id/textView35"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="8dp"
-                    android:text="TextView"
-                    android:textSize="22sp"
-                    android:textColor="@color/colorBlack"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider24"
-                    tools:text="Please read" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/lhLaptop"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/opt_border_dash"
+                            android:elevation="10dp"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
+
+                            <ImageView
+                                android:id="@+id/imgLaptop"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                android:scaleType="centerCrop"
+                                app:srcCompat="@drawable/ic_laptop" />
+
+                            <TextView
+                                android:id="@+id/txtLaptop"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Laptop" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lhPenDrive"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/opt_border_dash"
+                            android:elevation="10dp"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
+
+                            <ImageView
+                                android:id="@+id/imgPenDrive"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                android:scaleType="centerCrop"
+                                app:srcCompat="@drawable/ic_pendrive" />
+
+                            <TextView
+                                android:id="@+id/txtPenDrive"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Pendrive" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lhCamera"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/opt_border_dash"
+                            android:elevation="10dp"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
+
+                            <ImageView
+                                android:id="@+id/imgCamera"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/ic_camera" />
+
+                            <TextView
+                                android:id="@+id/txtCamera"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Camera" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lhNotebook"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/opt_border_dash"
+                            android:elevation="10dp"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
+
+                            <ImageView
+                                android:id="@+id/imgNoteBook"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                app:srcCompat="@drawable/ic_book" />
+
+                            <TextView
+                                android:id="@+id/txtNoteBook"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Notebook" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </HorizontalScrollView>
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView9"
+                    android:id="@+id/recyclerTime"
                     android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView35" />
-
-                <View
-                    android:id="@+id/divider26"
-                    android:layout_width="0dp"
-                    android:layout_height="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:attr/listDivider"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView9" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider26">
-
-                    <TextView
-                        android:id="@+id/textView40"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="TextView" />
-
-                    <TextView
-                        android:id="@+id/textView39"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="TextView" />
-                </LinearLayout>
+                    android:layout_height="71dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/recyclerSlot"
+                    app:layout_constraintStart_toStartOf="@+id/recyclerSlot"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerSlot" />
 
 
             </android.support.constraint.ConstraintLayout>

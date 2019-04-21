@@ -12,10 +12,10 @@ import com.enema.enemaapp.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ReferAndEarnFragment extends Fragment {
+public class TransactionFragment extends Fragment {
 
 
-    public ReferAndEarnFragment() {
+    public TransactionFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class ReferAndEarnFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_refer_and_earn, container, false);
+        return inflater.inflate(R.layout.fragment_transaction, container, false);
     }
 
 }

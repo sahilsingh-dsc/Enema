@@ -52,7 +52,6 @@ public class OnBoardingActivity extends AppCompatActivity {
                 Intent mainIntent = new Intent(OnBoardingActivity.this, MainActivity.class);
                 startActivity(mainIntent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                finish();
             }
         });
 

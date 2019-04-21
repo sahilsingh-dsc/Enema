@@ -30,7 +30,6 @@ public class SplashActivity extends AppCompatActivity {
         TextView txtWeConnect = findViewById(R.id.txtWeConnect);
         txtWeConnect.startAnimation(animBlink);
 
-
                 int SPLASH_TIME_OUT = 3000;
                 new Handler().postDelayed(new Runnable() {
                     @Override

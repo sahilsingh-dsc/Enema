@@ -10,8 +10,6 @@ import android.view.MenuItem;
 import com.enema.enemaapp.R;
 import com.enema.enemaapp.ui.fragments.AccountFragment;
 import com.enema.enemaapp.ui.fragments.HomeFragment;
-import com.enema.enemaapp.ui.fragments.MyCourseFragment;
-import com.enema.enemaapp.ui.fragments.ReferAndEarnFragment;
 import com.enema.enemaapp.ui.fragments.WishlistFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -39,10 +37,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             case R.id.wishlist_menu_item :
                 fragment = new WishlistFragment();
-                break;
-
-            case R.id.mycourses_menu_item :
-                fragment = new MyCourseFragment();
                 break;
 
             case R.id.account_menu_item :

@@ -17,6 +17,7 @@ import com.enema.enemaapp.ui.activities.AccountProfileActivity;
 import com.enema.enemaapp.ui.activities.LoginActivity;
 import com.enema.enemaapp.ui.activities.MyBookingsActivity;
 import com.enema.enemaapp.ui.activities.PrivacyPolicyActivity;
+import com.enema.enemaapp.ui.activities.ReferAndEarnActivity;
 import com.enema.enemaapp.ui.activities.RegisterActivity;
 import com.enema.enemaapp.ui.activities.SupportActivity;
 import com.enema.enemaapp.ui.activities.WalletActivity;
@@ -115,8 +116,8 @@ public class AccountFragment extends Fragment {
             public void onClick(View v) {
 
                 if (firebaseUser != null){
-                    Intent registerIntent = new Intent(getActivity(), ReferAndEarnFragment.class);
-                    startActivity(registerIntent);
+                    Intent referandearnIntent = new Intent(getActivity(), ReferAndEarnActivity.class);
+                    startActivity(referandearnIntent);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }

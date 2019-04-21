@@ -14,19 +14,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        app:elevation="15dp"
         android:elevation="15dp"
+        android:background="@color/colorWhiteTint"
         app:layout_constraintStart_toStartOf="parent"
         style="@style/Widget.BottomNavigationView"
         app:menu="@menu/bottom_nav" />
 
-    <View
-        android:id="@+id/dividerNav"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toTopOf="@+id/bottamNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <FrameLayout
         android:id="@+id/fragmant_holder_FrameLayout"

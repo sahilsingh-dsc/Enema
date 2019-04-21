@@ -3,6 +3,7 @@ package com.enema.enemaapp.ui.fragments;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -39,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
 
@@ -49,7 +51,7 @@ public class HomeFragment extends Fragment {
     List<CategoriesData> categoriesDataList;
     List<CourseData> courseDataList;
     List<AdSliderData> adSliderDataList;
-
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private AlertDialog loadingDialog;
 
     public HomeFragment() {
@@ -70,7 +72,6 @@ public class HomeFragment extends Fragment {
         loadingDialog.show();
 
 
-
         locationDataList = new ArrayList<>();
         locationDataList.clear();
         categoriesDataList = new ArrayList<>();
@@ -87,8 +88,10 @@ public class HomeFragment extends Fragment {
         getRecommendedCourse();
         //getAllSliderAd();
         getAllDeals();
-        getNotiCount();
 
+        if (firebaseUser != null) {
+            getNotiCount();
+        }
 
         ImageView imgNotiBell = view.findViewById(R.id.imgNotiBell);
         imgNotiBell.setOnClickListener(new View.OnClickListener() {
@@ -287,15 +290,22 @@ public class HomeFragment extends Fragment {
                     String course_discount_price = (String) courseSnap.child("course_discount_price").getValue();
                     String course_actual_price = (String) courseSnap.child("course_actual_price").getValue();
                     String course_best_seller_status = (String) courseSnap.child("course_best_seller_status").getValue();
+                    String course_id = (String) courseSnap.child("course_id").getValue();
+                    String course_area = (String) courseSnap.child("course_area").getValue();
+                    String course_city = (String) courseSnap.child("course_city").getValue();
+
 
                     CourseData cd = new CourseData(
                             course_name,
                             course_image,
                             course_rating,
+                            course_area,
+                            course_city,
                             course_rating_count,
                             course_discount_price,
                             course_actual_price,
-                            course_best_seller_status);
+                            course_best_seller_status,
+                            course_id);
 
                     courseDataList.add(cd);
 
@@ -346,15 +356,21 @@ public class HomeFragment extends Fragment {
                     String course_discount_price = (String) courseSnap.child("course_discount_price").getValue();
                     String course_actual_price = (String) courseSnap.child("course_actual_price").getValue();
                     String course_best_seller_status = (String) courseSnap.child("course_best_seller_status").getValue();
+                    String course_id = (String) courseSnap.child("course_id").getValue();
+                    String course_area = (String) courseSnap.child("course_area").getValue();
+                    String course_city = (String) courseSnap.child("course_city").getValue();
 
                     CourseData cd = new CourseData(
                             course_name,
                             course_image,
                             course_rating,
+                            course_area,
+                            course_city,
                             course_rating_count,
                             course_discount_price,
                             course_actual_price,
-                            course_best_seller_status);
+                            course_best_seller_status,
+                            course_id);
 
                     courseDataList.add(cd);
 

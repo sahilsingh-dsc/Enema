@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.enema.enemaapp.adapters.NotificatiomAdapter;
@@ -24,16 +26,38 @@ import java.util.List;
 public class NotificationActivity extends AppCompatActivity {
 
     private List<NotificationData> notificationDataList;
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 
+        ImageView imgNotificationToMain = findViewById(R.id.imgNotificationToMain);
+        imgNotificationToMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+            }
+        });
+
         notificationDataList = new ArrayList<>();
         notificationDataList.clear();
 
-        getAllNotification();
+        if (firebaseUser != null) {
+            getAllNotification();
+        }
+
+        TextView txtClearNoti = findViewById(R.id.txtClearNoti);
+        TextView txtNotiCount = findViewById(R.id.txtNotiCount);
+        if (txtNotiCount.getText().equals("No Notification")){
+            txtClearNoti.setVisibility(View.INVISIBLE);
+        }else {
+            txtClearNoti.setVisibility(View.VISIBLE);
+        }
+
 
     }
 

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cardMyBooking"
+        android:id="@+id/cardMyWL"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -14,13 +14,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/constrainMyBooking"
+            android:id="@+id/constrainMyWL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
 
             <ImageView
-                android:id="@+id/imgMyBooking"
+                android:id="@+id/imgWLCourseImg"
                 android:layout_width="100dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
@@ -43,11 +43,11 @@
                 android:orientation="vertical"
                 android:weightSum="3"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imgMyBooking"
+                app:layout_constraintStart_toEndOf="@+id/imgWLCourseImg"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/txtMyBookingCourseName"
+                    android:id="@+id/txtWLCourseName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/futura_medium_bt"
@@ -55,7 +55,7 @@
                     android:textColor="@color/colorBlack" />
 
                 <TextView
-                    android:id="@+id/txtMyBookingLocation"
+                    android:id="@+id/txtWLCityLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/futura_book_font"
@@ -70,7 +70,7 @@
                     android:orientation="horizontal">
 
                     <RatingBar
-                        android:id="@+id/ratingMyBookingRating"
+                        android:id="@+id/ratingWLCourse"
                         style="@style/customRatingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                         android:stepSize="0.5" />
 
                     <TextView
-                        android:id="@+id/txtMyBookingRateCount"
+                        android:id="@+id/txtWLRateCount"
                         android:layout_width="0dp"
                         android:layout_height="25dp"
                         android:layout_weight="1"
@@ -91,6 +91,20 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imgWishChecker"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_wish_teel" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

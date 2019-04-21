@@ -1,11 +1,11 @@
 package com.enema.enemaapp.ui.activities;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,8 +14,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.enema.enemaapp.R;
+import com.enema.enemaapp.models.ProfileData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,14 +28,30 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
+import dmax.dialog.SpotsDialog;
+
 public class AccountProfileActivity extends AppCompatActivity {
 
     private int editState = 0;
+    private String genderState = "male";
+    private AlertDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_profile);
+
+        loadingDialog = new SpotsDialog.Builder().setContext(AccountProfileActivity.this)
+                .setTheme(R.style.loading)
+                .setMessage("Please Wait")
+                .setCancelable(false)
+                .build();
+
+
+        TextView txtProfileMobile = findViewById(R.id.txtProfileMobile);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            txtProfileMobile.setText(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber());
+        }
 
         getUserData();
 
@@ -131,6 +149,7 @@ public class AccountProfileActivity extends AppCompatActivity {
                 imgFemale.setImageDrawable(getResources().getDrawable(R.drawable.ic_woman_grey));
                 txtMale.setTextColor(getResources().getColor(R.color.colorCyanTeal));
                 txtFemale.setTextColor(getResources().getColor(R.color.colorBlack));
+                genderState = "male";
             }
         });
 
@@ -141,6 +160,7 @@ public class AccountProfileActivity extends AppCompatActivity {
                 imgFemale.setImageDrawable(getResources().getDrawable(R.drawable.ic_woman));
                 txtMale.setTextColor(getResources().getColor(R.color.colorBlack));
                 txtFemale.setTextColor(getResources().getColor(R.color.colorCyanTeal));
+                genderState = "female";
             }
         });
 
@@ -148,7 +168,7 @@ public class AccountProfileActivity extends AppCompatActivity {
 
     private void updateProfile(){
 
-        EditText etxtProfileEmail, etxtProfileName, etxtCityResidence, etxtCityOnID, etxtDOB;
+        final EditText etxtProfileEmail, etxtProfileName, etxtCityResidence, etxtCityOnID, etxtDOB;
         LinearLayout lhGenderBox, lvMale, lvFemale;
         ImageView imgMale, imgFemale;
         TextView txtMale, txtFemale;
@@ -182,11 +202,74 @@ public class AccountProfileActivity extends AppCompatActivity {
         etxtDOB.setBackground(getResources().getDrawable(R.drawable.border_nothing));
         lhGenderBox.setBackground(getResources().getDrawable(R.drawable.border_nothing));
 
-        
+        String user_email = etxtProfileEmail.getText().toString();
+        String full_name = etxtProfileName.getText().toString();
+        String user_city_residence = etxtCityResidence.getText().toString();
+        String user_city_on_id = etxtCityOnID.getText().toString();
+        String user_dob = etxtDOB.getText().toString();
+
+        ProfileData profileData = new ProfileData(user_email, full_name, user_city_residence, user_city_on_id, user_dob, genderState);
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        final String username = firebaseUser.getUid();
+        String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+        assert user_mobile != null;
+        profileRef.child(user_mobile).child(username).child("PROFILE_DATA").setValue(profileData);
 
     }
 
     private void getUserData(){
+
+        loadingDialog.show();
+
+        final EditText etxtProfileEmail, etxtProfileName, etxtCityResidence, etxtCityOnID, etxtDOB;
+        LinearLayout lhGenderBox, lvMale, lvFemale;
+        ImageView imgMale, imgFemale;
+        TextView txtMale, txtFemale;
+
+        etxtProfileEmail = findViewById(R.id.etxtProfileEmail);
+        etxtProfileName = findViewById(R.id.etxtProfileName);
+        etxtCityResidence = findViewById(R.id.etxtCityResidence);
+        etxtCityOnID = findViewById(R.id.etxtCityOnID);
+        etxtDOB = findViewById(R.id.etxtDOB);
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        final String username = firebaseUser.getUid();
+        String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+        assert user_mobile != null;
+        profileRef.child(user_mobile).child(username).child("PROFILE_DATA").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@  NonNull DataSnapshot dataSnapshot) {
+
+                String user_email = (String) dataSnapshot.child("user_email").getValue();
+                String full_name = (String) dataSnapshot.child("full_name").getValue();
+                String user_city_residence = (String) dataSnapshot.child("user_city_residence").getValue();
+                String user_city_on_id = (String) dataSnapshot.child("user_city_on_id").getValue();
+                String user_dob = (String) dataSnapshot.child("user_dob").getValue();
+
+                Toast.makeText(AccountProfileActivity.this, ""+user_city_on_id, Toast.LENGTH_SHORT).show();
+
+                etxtProfileEmail.setText(user_email);
+                etxtProfileName.setText(full_name);
+                etxtCityResidence.setText(user_city_residence);
+                etxtCityOnID.setText(user_city_on_id);
+                etxtDOB.setText(user_dob);
+
+                loadingDialog.dismiss();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
     }
 
