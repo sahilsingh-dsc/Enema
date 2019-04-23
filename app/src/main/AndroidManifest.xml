@@ -45,6 +45,11 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+    <meta-data android:name="instamojo.orderauth.url"
+                   android:value="https://enemaapp.000webhostapp.com/access_token.php"
+            />
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
+ 
 
 </manifest>

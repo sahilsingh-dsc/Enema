@@ -484,18 +484,18 @@ public class HomeFragment extends Fragment {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         assert firebaseUser != null;
         final String username = firebaseUser.getUid();
+        String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        assert user_mobile != null;
+
         DatabaseReference userNotificationRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-        userNotificationRef.child(username).child("USER_NOTIFICATIONS").addValueEventListener(new ValueEventListener() {
+
+        userNotificationRef.child(user_mobile).child(username).child("USER_NOTIFICATIONS").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                for (DataSnapshot countSnap : dataSnapshot.getChildren()){
-
-                    String noticount = String.valueOf(countSnap.getChildrenCount());
+                    String noticount = String.valueOf(dataSnapshot.getChildrenCount());
                     TextView txtMessageCount = view.findViewById(R.id.txtMessageCount);
                     txtMessageCount.setText(noticount);
-
-                }
 
             }
 

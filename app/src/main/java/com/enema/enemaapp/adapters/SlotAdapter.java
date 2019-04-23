@@ -68,7 +68,7 @@ public class SlotAdapter  extends RecyclerView.Adapter<SlotAdapter.SlotViewHolde
 //
 //                    }
 //                });
-                getAllTimeSlot(slotModel.getSlot_id());
+           //     getAllTimeSlot(slotModel.getSlot_id());
 
                 Toast.makeText(context, ""+slotModel.getSlot_id(), Toast.LENGTH_SHORT).show();
 
@@ -98,56 +98,56 @@ public class SlotAdapter  extends RecyclerView.Adapter<SlotAdapter.SlotViewHolde
     }
 
 
-    private void getAllTimeSlot(String slot_id){
-
-        final List<TimeSlotData> timeSlotDataList;
-        timeSlotDataList = new ArrayList<>();
-        timeSlotDataList.clear();
-
-        final RecyclerView recyclerTime = view.findViewById(R.id.recyclerTime);
-        final RecyclerView.Adapter[] timeAdapter = new RecyclerView.Adapter[1];
-        recyclerTime.hasFixedSize();
-        recyclerTime.setLayoutManager((new LinearLayoutManager(
-                view.getContext(),
-                LinearLayoutManager.HORIZONTAL,
-                false)));
-        SlotModel slotModel = new SlotModel();
-        CourseData courseData = new CourseData();
-        DatabaseReference courseDetailsRef = FirebaseDatabase.getInstance().getReference("APP_DATA").child("COURSES_DATA");
-        courseDetailsRef.child(courseData.getCourse_id()).child("COURSE_SLOT").child("TIME_SLOT").child(slot_id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
-
-                for (DataSnapshot superSnap : dataSnapshot.getChildren()){
-
-                    String time_from = (String) superSnap.child("time_from").getValue();
-                    String time_to = (String) superSnap.child("time_to").getValue();
-                    Toast.makeText(view.getContext(), ""+time_from, Toast.LENGTH_SHORT).show();
-
-                    TimeSlotData timeSlotData = new TimeSlotData(time_from, time_to);
-                    timeSlotDataList.add(timeSlotData);
-
-                }
-
+//    private void getAllTimeSlot(String slot_id){
 //
-
-
-                timeAdapter[0] = new TimeSlotAdapter(timeSlotDataList,view.getContext());
-                recyclerTime.setAdapter(timeAdapter[0]);
-                timeAdapter[0].notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-    }
+//        final List<TimeSlotData> timeSlotDataList;
+//        timeSlotDataList = new ArrayList<>();
+//        timeSlotDataList.clear();
+//
+//      //  final RecyclerView recyclerTime = view.findViewById(R.id.recyclerTime);
+//        final RecyclerView.Adapter[] timeAdapter = new RecyclerView.Adapter[1];
+//        recyclerTime.hasFixedSize();
+//        recyclerTime.setLayoutManager((new LinearLayoutManager(
+//                view.getContext(),
+//                LinearLayoutManager.HORIZONTAL,
+//                false)));
+//        SlotModel slotModel = new SlotModel();
+//        CourseData courseData = new CourseData();
+//        DatabaseReference courseDetailsRef = FirebaseDatabase.getInstance().getReference("APP_DATA").child("COURSES_DATA");
+//        courseDetailsRef.child(courseData.getCourse_id()).child("COURSE_SLOT").child("TIME_SLOT").child(slot_id).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//
+//
+//                for (DataSnapshot superSnap : dataSnapshot.getChildren()){
+//
+//                    String time_from = (String) superSnap.child("time_from").getValue();
+//                    String time_to = (String) superSnap.child("time_to").getValue();
+//                    Toast.makeText(view.getContext(), ""+time_from, Toast.LENGTH_SHORT).show();
+//
+//                    TimeSlotData timeSlotData = new TimeSlotData(time_from, time_to);
+//                    timeSlotDataList.add(timeSlotData);
+//
+//                }
+//
+////
+//
+//
+//                timeAdapter[0] = new TimeSlotAdapter(timeSlotDataList,view.getContext());
+//                recyclerTime.setAdapter(timeAdapter[0]);
+//                timeAdapter[0].notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//
+//
+//    }
 
 }

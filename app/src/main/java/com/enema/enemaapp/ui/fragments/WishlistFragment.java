@@ -81,7 +81,6 @@ public class WishlistFragment extends Fragment {
                     String course_id = (String) courseSnap.child("course_id").getValue();
                     Toast.makeText(getContext(), ""+course_name, Toast.LENGTH_SHORT).show();
 
-
                    WishListData wishListData = new WishListData(course_name, course_image, course_rating, course_area, course_city, course_rating_count, course_id);
 
                     wishListDataList.add(wishListData);

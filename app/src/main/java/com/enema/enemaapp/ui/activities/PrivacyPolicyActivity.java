@@ -1,10 +1,13 @@
 package com.enema.enemaapp.ui.activities;
 
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,27 +28,8 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_privacy_policy);
 
-        final AlertDialog loadingDialog = new SpotsDialog.Builder().setContext(PrivacyPolicyActivity.this)
-                .setTheme(R.style.loading)
-                .setMessage("Please Wait")
-                .setCancelable(false)
-                .build();
-        loadingDialog.show();
-        DatabaseReference policyRef = FirebaseDatabase.getInstance().getReference("APP_DATA");
-        policyRef.child("POLICY").child("P1").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String p1 = (String) dataSnapshot.getValue();
-                TextView txtPolicyData = findViewById(R.id.txtPolicyData);
-                txtPolicyData.setText(p1);
-                loadingDialog.dismiss();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        WebView webViewPP = findViewById(R.id.webViewPP);
+        webViewPP.loadUrl("https://enema-8bbf2.firebaseapp.com/privacypolicy.htm");
 
         ImageView imgPrivacyPToAcSection = findViewById(R.id.imgPrivacyPToAcSection);
         imgPrivacyPToAcSection.setOnClickListener(new View.OnClickListener() {
@@ -57,5 +41,8 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
+
 }

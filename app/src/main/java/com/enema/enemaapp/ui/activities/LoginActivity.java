@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
         loadingDialog.show();
 
         DatabaseReference userRegRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-        userRegRef.child(mobile_number).addValueEventListener(new ValueEventListener() {
+        userRegRef.child("+91"+mobile_number).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChildren()){

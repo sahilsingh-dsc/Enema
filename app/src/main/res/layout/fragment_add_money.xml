@@ -32,7 +32,6 @@
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             android:fontFamily="@font/futura_book_font"
-            android:text="@string/_1350_00"
             android:textColor="@color/colorBlack"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -77,5 +76,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₹"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/futura_heavy_font"
+            app:layout_constraintBottom_toBottomOf="@+id/txtCurrentBalance"
+            app:layout_constraintEnd_toStartOf="@+id/txtCurrentBalance"
+            app:layout_constraintTop_toTopOf="@+id/txtCurrentBalance" />
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

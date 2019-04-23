@@ -1,8 +1,11 @@
 package com.enema.enemaapp.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.enema.enemaapp.R;
@@ -24,6 +28,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+import java.util.Objects;
+
+import static java.security.AccessController.getContext;
 
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WishListViewHolder> {
 
@@ -57,32 +64,56 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WishLi
             @Override
             public void onClick(View v) {
 
-                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                assert firebaseUser != null;
-                final String username = firebaseUser.getUid();
-                final String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-                final DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-                assert user_mobile != null;
-                final Query applesQuery = wishlistRef.child(user_mobile).child(username)
-                        .child("WISHLIST_DATA")
-                        .orderByChild("course_id")
-                        .equalTo(wishListData.getCourse_id());
-
-                applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                AlertDialog.Builder builder = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    builder = new AlertDialog.Builder(context);
+                }
+                assert builder != null;
+                builder.setMessage("Are you sure, want to remove this course from list ?");
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
-                            appleSnapshot.getRef().removeValue();
-                        }
-
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
-
+                });
+                builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                        assert firebaseUser != null;
+                        final String username = firebaseUser.getUid();
+                        final String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+                        final DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+                        assert user_mobile != null;
+                        final Query applesQuery = wishlistRef.child(user_mobile).child(username)
+                                .child("WISHLIST_DATA")
+                                .orderByChild("course_id")
+                                .equalTo(wishListData.getCourse_id());
+
+                        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                                    appleSnapshot.getRef().removeValue();
+                                    Toast.makeText(context, "removed", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
 
                     }
                 });
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+
             }
         });
     }

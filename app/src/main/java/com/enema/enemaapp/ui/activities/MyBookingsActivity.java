@@ -82,9 +82,25 @@ public class MyBookingsActivity extends AppCompatActivity {
                     String booking_rating = (String) bookingSnap.child("booking_rating").getValue();
                     String booking_rating_count = (String) bookingSnap.child("booking_rating_count").getValue();
                     String wallet_tnx_id = (String) bookingSnap.child("wallet_tnx_id").getValue();
+                    String booking_session = (String) bookingSnap.child("booking_session").getValue();
+                    String booking_daydate = (String) bookingSnap.child("booking_daydate").getValue();
+                    String booking_time = (String) bookingSnap.child("booking_time").getValue();
+                    String booking_for = (String) bookingSnap.child("booking_for").getValue();
+                    String coupon_code = (String) bookingSnap.child("coupon_code").getValue();
+                    String course_fee = (String) bookingSnap.child("course_fee").getValue();
+                    String course_provider_no = (String) bookingSnap.child("course_provider_no").getValue();
+                    String course_id = (String) bookingSnap.child("course_id").getValue();
 
 
-                    MyBookingData bookingData = new MyBookingData(booking_image, booking_course_name, booking_course_location, booking_rating, booking_rating_count, wallet_tnx_id);
+
+                    MyBookingData bookingData = new MyBookingData(booking_image, booking_course_name, booking_course_location, booking_rating, booking_rating_count, wallet_tnx_id, booking_session,
+                            booking_daydate,
+                            booking_time,
+                            booking_for,
+                            coupon_code,
+                            course_fee,
+                            course_provider_no,
+                            course_id);
                     myBookingDataList.add(bookingData);
 
                 }

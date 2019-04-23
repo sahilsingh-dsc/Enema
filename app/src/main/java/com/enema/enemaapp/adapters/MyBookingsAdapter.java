@@ -1,6 +1,8 @@
 package com.enema.enemaapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +17,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.enema.enemaapp.R;
 import com.enema.enemaapp.models.MyBookingData;
+import com.enema.enemaapp.ui.activities.BookingDetailsActivity;
+import com.enema.enemaapp.ui.activities.CourseDetailsActivity;
 import com.enema.enemaapp.ui.activities.MyBookingsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,7 +51,7 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
     @Override
     public void onBindViewHolder(@NonNull MyBookingsAdapter.MyBookingsViewHolder myBookingsViewHolder, int i) {
 
-        MyBookingData bookingData = myBookingDataList.get(i);
+        final MyBookingData bookingData = myBookingDataList.get(i);
         myBookingsViewHolder.txtMyBookingCourseName.setText(bookingData.getBooking_course_name());
         myBookingsViewHolder.txtMyBookingLocation.setText(bookingData.getBooking_course_location());
         myBookingsViewHolder.txtMyBookingRateCount.setText(bookingData.getBooking_rating_count());
@@ -56,31 +60,30 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
         myBookingsViewHolder.ratingMyBookingRating.setRating(rating);
         Glide.with(this.context).load(bookingData.getBooking_image()).into(myBookingsViewHolder.imgMyBooking);
         final String wallet_tnx_id = bookingData.getWallet_tnx_id();
-        Toast.makeText(context , ""+wallet_tnx_id, Toast.LENGTH_SHORT).show();
 
         myBookingsViewHolder.constrainMyBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                Intent bookingdetailsIntent = new Intent(context, BookingDetailsActivity.class);
+                Bundle bookingBundle = new Bundle();
+                bookingBundle.putString("booking_image", bookingData.getBooking_image());
+                bookingBundle.putString("booking_course_name", bookingData.getBooking_course_name());
+                bookingBundle.putString("booking_course_location", bookingData.getBooking_course_location());
+                bookingBundle.putString("booking_rating", bookingData.getBooking_rating());
+                bookingBundle.putString("booking_rating_count", bookingData.getBooking_rating_count());
+                bookingBundle.putString("wallet_tnx_id", bookingData.getWallet_tnx_id());
+                bookingBundle.putString("booking_session", bookingData.getBooking_session());
+                bookingBundle.putString("booking_daydate", bookingData.getBooking_daydate());
+                bookingBundle.putString("booking_time", bookingData.getBooking_time());
+                bookingBundle.putString("booking_for", bookingData.getBooking_for());
+                bookingBundle.putString("coupon_code", bookingData.getCoupon_code());
+                bookingBundle.putString("course_fee", bookingData.getCourse_fee());
+                bookingBundle.putString("course_provider_no", bookingData.getCourse_provider_no());
+                bookingdetailsIntent.putExtras(bookingBundle);
+                context.startActivity(bookingdetailsIntent);
 
-                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                assert firebaseUser != null;
-                final String username = firebaseUser.getUid();
-                String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-                DatabaseReference bookingsRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-                assert user_mobile != null;
-                bookingsRef.child(user_mobile).child(username).child("USERS_BOOKINGS_DATA").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String loca_name = (String) dataSnapshot.child("booking_course_location").getValue();
-                        Toast.makeText(context, ""+loca_name, Toast.LENGTH_SHORT).show();
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
 
             }
         });
