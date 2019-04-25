@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardCoupon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constrainCoupon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txtCouponCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/dash_teal_gravity_border"
+                android:fontFamily="@font/futura_heavy_font"
+                android:padding="5dp"
+                android:text="@string/somecode"
+                android:gravity="center"
+                android:textColor="@color/colorCyanTeal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtCouponTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/futura_book_font"
+                android:text="@string/get_best_offer_of_all_time"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintStart_toStartOf="@+id/txtCouponCode"
+                app:layout_constraintTop_toBottomOf="@+id/txtCouponCode" />
+
+            <TextView
+                android:id="@+id/txtCouponDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/futura_light_bt"
+                android:text="@string/by_using_our_site_you_acknowledge_that_you_have_read_and_understand_our_cookie_policy_privacy_policy_and_our_terms_of_service"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txtApplyCoupon"
+                app:layout_constraintStart_toStartOf="@+id/txtCouponTitle"
+                app:layout_constraintTop_toBottomOf="@+id/txtCouponTitle" />
+
+            <TextView
+                android:id="@+id/txtApplyCoupon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:text="@string/apply"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:textSize="20sp"
+                android:textColor="@color/colorCyanTeal"
+                android:fontFamily="@font/futura_heavy_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:focusable="true" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>

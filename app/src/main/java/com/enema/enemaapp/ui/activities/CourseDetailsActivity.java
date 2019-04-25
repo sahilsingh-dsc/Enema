@@ -1,11 +1,13 @@
 package com.enema.enemaapp.ui.activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -34,17 +36,23 @@ public class CourseDetailsActivity extends AppCompatActivity {
     RatingBar ratingCD;
     ImageView imgCDImage;
     LinearLayout lhLaptop, lhPenDrive, lhCamera, lhNotebook;
-    private List<SlotModel> slotModelList;
-
+    List<SlotModel> slotModelList;
+    List<TimeSlotData> timeSlotDataList;
+    Bundle courseBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_details);
+        courseBundle = getIntent().getExtras();
+        assert courseBundle != null;
+        String course_id = courseBundle.getString("course_id");
+     //   Toast.makeText(this, ""+course_id, Toast.LENGTH_SHORT).show();
 
         slotModelList = new ArrayList<>();
         slotModelList.clear();
-
+        timeSlotDataList = new ArrayList<>();
+        timeSlotDataList.clear();
 
         txtCDName = findViewById(R.id.txtCDName);
         txtCDAreaCity = findViewById(R.id.txtCDAreaCity);
@@ -58,15 +66,58 @@ public class CourseDetailsActivity extends AppCompatActivity {
         lhCamera = findViewById(R.id.lhCamera);
         lhNotebook = findViewById(R.id.lhNotebook);
 
+        ImageView imgCourseToHome = findViewById(R.id.imgCourseToHome);
+        imgCourseToHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+            }
+        });
 
-        getCourseDetails();
+
+       getCourseDetails(course_id);
+
+       Button button3 = findViewById(R.id.button3);
+       button3.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+               String course_name = courseBundle.getString("course_name");
+             //  Toast.makeText(CourseDetailsActivity.this, ""+course_name, Toast.LENGTH_SHORT).show();
+               String course_area = courseBundle.getString("course_area");
+               String course_city = courseBundle.getString("course_city");
+               String course_rating = courseBundle.getString("course_rating");
+               String course_rating_count = courseBundle.getString("course_rating_count");
+               String course_actual_price = courseBundle.getString("course_actual_price");
+               String course_discount_price = courseBundle.getString("course_discount_price");
+               String course_image = courseBundle.getString("course_image");
+
+
+               Intent courseDetailsIntent = new Intent(CourseDetailsActivity.this, BookCourseActivity.class);
+               Bundle sendcourseBundle = new Bundle();
+               sendcourseBundle.putString("course_name", course_name);
+               sendcourseBundle.putString("course_area", course_area);
+               sendcourseBundle.putString("course_city", course_city);
+               sendcourseBundle.putString("course_rating", course_rating);
+               sendcourseBundle.putString("course_rating_count", course_rating_count);
+               sendcourseBundle.putString("course_actual_price", course_actual_price);
+               sendcourseBundle.putString("course_discount_price", course_discount_price);
+               sendcourseBundle.putString("course_image", course_image);
+               courseDetailsIntent.putExtras(sendcourseBundle);
+               startActivity(courseDetailsIntent);
+
+           }
+       });
 
     }
 
-    private void getCourseDetails(){
 
-        Bundle courseBundle = getIntent().getExtras();
-        assert courseBundle != null;
+
+    private void getCourseDetails(String course_id){
+
+
         String course_name = courseBundle.getString("course_name");
         String course_area = courseBundle.getString("course_area");
         String course_city = courseBundle.getString("course_city");
@@ -79,8 +130,23 @@ public class CourseDetailsActivity extends AppCompatActivity {
         boolean pendriveReq = courseBundle.getBoolean("pendriveReq");
         boolean cameraReq = courseBundle.getBoolean("cameraReq");
         boolean notebookReq = courseBundle.getBoolean("notebookReq");
-        int course_id = courseBundle.getInt("course_id");
-        Toast.makeText(this, ""+course_id, Toast.LENGTH_SHORT).show();
+
+        DatabaseReference courseDetailsRef = FirebaseDatabase.getInstance().getReference("APP_DATA").child("COURSES_DATA");
+        //    Toast.makeText(this, ""+course_id, Toast.LENGTH_SHORT).show();
+        courseDetailsRef.child(course_id).child("NOTES").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String slot_note = (String) dataSnapshot.child("SLOT_NOTE").getValue();
+                TextView txtSlotNote = findViewById(R.id.txtSlotNote);
+                txtSlotNote.setText(slot_note);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
         txtCDName.setText(course_name);
         txtCDAreaCity.setText(String.format("%s, %s", course_area, course_city));
@@ -118,12 +184,11 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
         Glide.with(CourseDetailsActivity.this).load(course_image).into(imgCDImage);
 
-        getAllSlot(course_id);
+       getAllSlot(course_id);
 
     }
 
-    private void getAllSlot(int course_id){
-
+    private void getAllSlot(String course_id){
         final RecyclerView recyclerSlot = findViewById(R.id.recyclerSlot);
         final RecyclerView.Adapter[] slotAdapter = new RecyclerView.Adapter[1];
         recyclerSlot.hasFixedSize();
@@ -132,30 +197,52 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 LinearLayoutManager.HORIZONTAL,
                 false)));
 
+        final RecyclerView recyclerTime = findViewById(R.id.recyclerTime);
+        final RecyclerView.Adapter[] timeAdapter = new RecyclerView.Adapter[1];
+        recyclerTime.hasFixedSize();
+        recyclerTime.setLayoutManager((new LinearLayoutManager(
+                CourseDetailsActivity.this,
+                LinearLayoutManager.HORIZONTAL,
+                false)));
+
+
         DatabaseReference courseDetailsRef = FirebaseDatabase.getInstance().getReference("APP_DATA").child("COURSES_DATA");
+    //    Toast.makeText(this, ""+course_id, Toast.LENGTH_SHORT).show();
         courseDetailsRef.child(String.valueOf(course_id)).child("COURSE_SLOT").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 slotModelList.clear();
-                String key = (String) dataSnapshot.getKey();
-                Toast.makeText(CourseDetailsActivity.this, ""+key, Toast.LENGTH_SHORT).show();
+            //    String key = (String) dataSnapshot.getKey();
+      //          Toast.makeText(CourseDetailsActivity.this, ""+key, Toast.LENGTH_SHORT).show();
                 for (DataSnapshot slotSnap : dataSnapshot.getChildren()){
-
+                    String time_from = null;
+                    String time_to =null;
                     String slot_date = (String) slotSnap.child("slot_date").getValue();
                     String slot_day = (String) slotSnap.child("slot_day").getValue();
                     String slot_month = (String) slotSnap.child("slot_month").getValue();
                     String slot_year = (String) slotSnap.child("slot_year").getValue();
                     String slot_id = (String) slotSnap.child("slot_id").getValue();
-                    Toast.makeText(CourseDetailsActivity.this, ""+slot_date, Toast.LENGTH_SHORT).show();
 
-                    SlotModel slotModel = new SlotModel(slot_date, slot_day, slot_month, slot_year, slot_id);
+                    for (DataSnapshot snapshot : slotSnap.child("TIME_SLOT").getChildren()){
+                       time_from = (String) snapshot.child("time_from").getValue();
+                       time_to = (String) snapshot.child("time_to").getValue();
+                    }
+                  //  Toast.makeText(CourseDetailsActivity.this, ""+slot_date, Toast.LENGTH_SHORT).show();
+
+
+                    SlotModel slotModel = new SlotModel(slot_date, slot_day, slot_month, slot_year, slot_id, time_from, time_to);
+                    TimeSlotData timeSlotData = new TimeSlotData(time_from, time_to);
                     slotModelList.add(slotModel);
+                    timeSlotDataList.add(timeSlotData);
 
                 }
 
                 slotAdapter[0] = new SlotAdapter(slotModelList,CourseDetailsActivity.this);
                 recyclerSlot.setAdapter(slotAdapter[0]);
                 slotAdapter[0].notifyDataSetChanged();
+                timeAdapter[0] = new TimeSlotAdapter(timeSlotDataList,CourseDetailsActivity.this);
+                recyclerTime.setAdapter(timeAdapter[0]);
+                timeAdapter[0].notifyDataSetChanged();
 
             }
 
@@ -169,7 +256,24 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
     }
 
-
+//    private void gettimeSlot(String time_from, String time_to){
+//
+//        final RecyclerView recyclerTime = findViewById(R.id.recyclerTime);
+//        final RecyclerView.Adapter[] timeAdapter = new RecyclerView.Adapter[1];
+//        recyclerTime.hasFixedSize();
+//        recyclerTime.setLayoutManager((new LinearLayoutManager(
+//                CourseDetailsActivity.this,
+//                LinearLayoutManager.HORIZONTAL,
+//                false)));
+//
+//        TimeSlotData timeSlotData = new TimeSlotData(time_from, time_to);
+//     //   Toast.makeText(this, ""+time_from, Toast.LENGTH_SHORT).show();
+//
+//
+//
+//    }
+//
+//
 
 
 }

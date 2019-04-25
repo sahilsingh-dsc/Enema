@@ -1,16 +1,19 @@
 package com.enema.enemaapp.ui.activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.enema.enemaapp.R;
 import com.enema.enemaapp.ui.fragments.AccountFragment;
 import com.enema.enemaapp.ui.fragments.HomeFragment;
 import com.enema.enemaapp.ui.fragments.WishlistFragment;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -36,8 +39,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
 
             case R.id.wishlist_menu_item :
-                fragment = new WishlistFragment();
-                break;
+                if (FirebaseAuth.getInstance().getCurrentUser() != null){
+                    fragment = new WishlistFragment();
+                    break;
+                }else {
+                    Toast.makeText(MainActivity.this, "You must login to access wishlist", Toast.LENGTH_SHORT).show();
+                    Intent registerIntent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(registerIntent);
+                }
 
             case R.id.account_menu_item :
                 fragment = new AccountFragment();

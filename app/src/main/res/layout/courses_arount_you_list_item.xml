@@ -96,24 +96,22 @@
                 android:id="@+id/txtDiscountedPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginLeft="6dp"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/futura_book_font"
-                android:text="@string/_1350_00"
+                android:text="1000"
                 android:textColor="@color/colorGreen"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView41"
                 app:layout_constraintTop_toBottomOf="@+id/ratingCourse" />
 
             <TextView
                 android:id="@+id/txtActualPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/cross_out_txt"
                 android:fontFamily="@font/futura_book_font"
-                android:text="@string/_13_783_99"
+                android:text="10000"
                 android:textColor="@color/colorRed"
                 android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="@+id/txtDiscountedPrice"
@@ -143,14 +141,35 @@
                     android:id="@+id/imgBestSeller"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="16dp"
                     android:contentDescription="@string/todo"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/best_seller" />
             </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView41"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/futura_book_font"
+                android:text="₹"
+                android:textColor="@color/colorGreen"
+                app:layout_constraintBottom_toBottomOf="@+id/txtDiscountedPrice"
+                app:layout_constraintStart_toStartOf="@+id/ratingCourse"
+                app:layout_constraintTop_toTopOf="@+id/txtDiscountedPrice" />
+
+            <TextView
+                android:id="@+id/textView42"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="₹"
+                android:fontFamily="@font/futura_book_font"
+                android:textColor="@color/colorRed"
+                android:textSize="10sp"
+                android:background="@drawable/cross_out_txt"
+                app:layout_constraintBottom_toBottomOf="@+id/txtActualPrice"
+                app:layout_constraintEnd_toStartOf="@+id/txtActualPrice"
+                app:layout_constraintTop_toTopOf="@+id/txtActualPrice" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

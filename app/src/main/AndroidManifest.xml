@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.PaymentActivity"></activity>
+        <activity android:name=".ui.activities.CouponActivity"></activity>
+        <activity android:name=".ui.activities.BookCourseActivity" />
+        <activity android:name=".ui.activities.PaymentActivity" />
         <activity android:name=".ui.activities.NotificationActivity" />
         <activity android:name=".ui.activities.ReviewActivity" />
         <activity android:name=".ui.activities.HelpActivity" />
@@ -45,11 +48,10 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-    <meta-data android:name="instamojo.orderauth.url"
-                   android:value="https://enemaapp.000webhostapp.com/access_token.php"
-            />
+
+        <meta-data
+            android:name="instamojo.orderauth.url"
+            android:value="https://enemaapp.000webhostapp.com/access_token.php" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET"/>
- 
 
 </manifest>

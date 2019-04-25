@@ -42,7 +42,7 @@ public class WalletTxnAdapter extends RecyclerView.Adapter<WalletTxnAdapter.Wall
         walletTnxViewHolder.txtTxnId.setText(walletTxnData.getWallet_txn_id());
         walletTnxViewHolder.txtTxnAmount.setText(walletTxnData.getWallet_txn_amount());
         walletTnxViewHolder.txtTxnStatus.setText(walletTxnData.getWallet_txn_status());
-        if (walletTxnData.getWallet_txn_status().equals("Payment was cancelled")) {
+        if (walletTxnData.getWallet_txn_status().equals("Payment was cancelled") || walletTxnData.getWallet_txn_status().equals("Incorrect Payment Details")) {
             walletTnxViewHolder.txtTxnStatus.setTextColor(Color.RED);
         }else {
             walletTnxViewHolder.txtTxnStatus.setTextColor(Color.BLACK);

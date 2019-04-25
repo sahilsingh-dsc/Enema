@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.enema.enemaapp.R;
 import com.enema.enemaapp.ui.activities.AboutActivity;
@@ -26,9 +27,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
+
 public class AccountFragment extends Fragment {
 
     View view;
@@ -58,6 +58,7 @@ public class AccountFragment extends Fragment {
                         Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
                 }else {
+                    Toast.makeText(getContext(), "You must login to access profile section", Toast.LENGTH_SHORT).show();
                     Intent registerIntent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(registerIntent);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -80,6 +81,7 @@ public class AccountFragment extends Fragment {
                         Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
                 }else {
+                    Toast.makeText(getContext(), "You must login to access bookings section", Toast.LENGTH_SHORT).show();
                     Intent registerIntent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(registerIntent);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -98,8 +100,11 @@ public class AccountFragment extends Fragment {
                 if (firebaseUser != null){
                     Intent registerIntent = new Intent(getActivity(), WalletActivity.class);
                     startActivity(registerIntent);
-                    getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
                 }else {
+                    Toast.makeText(getContext(), "You must login to access wallet section", Toast.LENGTH_SHORT).show();
                     Intent registerIntent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(registerIntent);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -122,6 +127,7 @@ public class AccountFragment extends Fragment {
                         Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
                 }else {
+                    Toast.makeText(getContext(), "You must login to access Refer & Earn section", Toast.LENGTH_SHORT).show();
                     Intent registerIntent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(registerIntent);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

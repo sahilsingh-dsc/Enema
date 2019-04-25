@@ -33,7 +33,6 @@
                 android:fontFamily="@font/futura_medium_bt"
                 android:text="Adding Money"
                 android:textColor="@color/colorBlack"
-                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -83,8 +82,8 @@
 
             <ImageView
                 android:id="@+id/imgTxnType"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView22"
@@ -99,7 +98,7 @@
                 android:fontFamily="@font/futura_book_font"
                 android:text="₹"
                 android:textColor="@color/colorBlack"
-                android:textSize="30sp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/txtTxnAmount"
                 app:layout_constraintEnd_toStartOf="@+id/txtTxnAmount"
                 app:layout_constraintTop_toTopOf="@+id/txtTxnAmount" />
@@ -114,7 +113,7 @@
                 android:fontFamily="@font/futura_book_font"
                 android:text="@string/_0"
                 android:textColor="@color/colorBlack"
-                android:textSize="30sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

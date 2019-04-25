@@ -33,7 +33,7 @@ dependencies {
     //android core
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    
+
     implementation 'ai.devsupport.instamojo:instamojolib:0.1.6'
     implementation 'com.android.support:support-media-compat:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'

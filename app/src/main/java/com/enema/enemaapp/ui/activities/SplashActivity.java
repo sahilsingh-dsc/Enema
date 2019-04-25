@@ -14,8 +14,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.enema.enemaapp.R;
+import com.enema.enemaapp.adapters.CouponState;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -39,6 +42,14 @@ public class SplashActivity extends AppCompatActivity {
 
                         if (user != null) {
 
+                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                            assert firebaseUser != null;
+                            final String username = firebaseUser.getUid();
+                            final String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+                            assert user_mobile != null;
+                            final DatabaseReference couponRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child(user_mobile).child(username);
+                            CouponState couponState = new CouponState("Coupon Code", "none", "0");
+                            couponRef.child("COUPON_STATE").setValue(couponState);
                             Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
                             startActivity(mainIntent);
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

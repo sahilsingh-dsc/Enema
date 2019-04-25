@@ -1,9 +1,9 @@
 package com.enema.enemaapp.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,23 +12,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enema.enemaapp.R;
-import com.enema.enemaapp.models.CourseData;
 import com.enema.enemaapp.models.SlotModel;
 import com.enema.enemaapp.models.TimeSlotData;
-import com.enema.enemaapp.ui.activities.CourseDetailsActivity;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SlotAdapter  extends RecyclerView.Adapter<SlotAdapter.SlotViewHolder> {
 
-    private List<SlotModel> slotModelList;
-    private Context context;
+    List<SlotModel> slotModelList;
+    Context context;
     View view;
 
     public SlotAdapter(List<SlotModel> slotModelList, Context context) {
@@ -44,7 +37,9 @@ public class SlotAdapter  extends RecyclerView.Adapter<SlotAdapter.SlotViewHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SlotAdapter.SlotViewHolder slotViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final SlotAdapter.SlotViewHolder slotViewHolder, int i) {
+
+        final String[] state = {"0"};
 
         final SlotModel slotModel = slotModelList.get(i);
         slotViewHolder.txtMonthYear.setText(slotModel.getSlot_month()+" "+slotModel.getSlot_year());
@@ -52,28 +47,28 @@ public class SlotAdapter  extends RecyclerView.Adapter<SlotAdapter.SlotViewHolde
         slotViewHolder.constrainSlot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                CourseData courseData = new CourseData();
-//                DatabaseReference courseDetailsRef = FirebaseDatabase.getInstance().getReference("APP_DATA").child("COURSES_DATA");
-//                courseDetailsRef.child(String.valueOf(courseData.getCourse_id())).child("COURSE_SLOT").addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                        String slot_id = (String) dataSnapshot.child("slot_id").getValue();
-//                        Toast.makeText(context, ""+slot_id, Toast.LENGTH_SHORT).show();
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-           //     getAllTimeSlot(slotModel.getSlot_id());
 
-                Toast.makeText(context, ""+slotModel.getSlot_id(), Toast.LENGTH_SHORT).show();
 
-            }
-        });
+
+                if (state[0].equals("0")){
+                    slotViewHolder.constrainSlot.setBackgroundColor(Color.LTGRAY);
+                    state[0] = "1";
+                }else {
+                    slotViewHolder.constrainSlot.setBackgroundColor(Color.WHITE);
+                    state[0] = "0";
+                }
+//
+//
+//                List<TimeSlotData> timeSlotDataList;
+//                timeSlotDataList = new ArrayList<>();
+//          //      Toast.makeText(context, ""+slotModel.getTime_from(), Toast.LENGTH_SHORT).show();
+//            //    slotModel.getTime_from()
+//                TimeSlotData timeSlotData = new TimeSlotData(slotModel.getTime_from(), slotModel.getTime_to());
+//                timeSlotDataList.add(timeSlotData);
+//                TimeSlotAdapter timeSlotAdapter = new TimeSlotAdapter(timeSlotDataList, context);
+//                      //  courseAdapter = new CourseAdapter(courseDataList,view.getContext());
+     }
+      });
 
     }
 

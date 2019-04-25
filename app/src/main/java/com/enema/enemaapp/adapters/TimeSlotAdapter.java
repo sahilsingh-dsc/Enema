@@ -1,6 +1,7 @@
 package com.enema.enemaapp.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,10 +32,24 @@ public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.TimeSl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TimeSlotAdapter.TimeSlotViewHolder timeSlotViewHolder, int i) {
-
+    public void onBindViewHolder(@NonNull final TimeSlotAdapter.TimeSlotViewHolder timeSlotViewHolder, int i) {
+        final String[] state = {"0"};
         TimeSlotData timeSlotData = timeSlotDataList.get(i);
         timeSlotViewHolder.txtBookingTimeSlot.setText(String.format("%s - %s", timeSlotData.getTime_from(), timeSlotData.getTime_to()));
+
+        timeSlotViewHolder.txtBookingTimeSlot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (state[0].equals("0")){
+                    timeSlotViewHolder.txtBookingTimeSlot.setBackground(context.getResources().getDrawable(R.drawable.border_and_gravity_grey));
+                    state[0] = "1";
+                }else {
+                    timeSlotViewHolder.txtBookingTimeSlot.setBackground(context.getResources().getDrawable(R.drawable.border_round_corner_no_gravity));
+                    state[0] = "0";
+                }
+            }
+        });
 
     }
 

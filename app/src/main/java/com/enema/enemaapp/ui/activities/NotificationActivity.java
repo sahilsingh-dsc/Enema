@@ -138,40 +138,40 @@ public class NotificationActivity extends AppCompatActivity {
         recyclerNotification.setLayoutManager(mLayoutManager);
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        final String username = firebaseUser.getUid();
-        String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-        assert user_mobile != null;
+            final String username = firebaseUser.getUid();
+            String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+            assert user_mobile != null;
 
-        DatabaseReference userNotificationRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+            DatabaseReference userNotificationRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
 
-        userNotificationRef.child(user_mobile).child(username).child("USER_NOTIFICATIONS").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            userNotificationRef.child(user_mobile).child(username).child("USER_NOTIFICATIONS").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                notificationDataList.clear();
-                for (DataSnapshot notiSnap : dataSnapshot.getChildren()){
+                    notificationDataList.clear();
+                    for (DataSnapshot notiSnap : dataSnapshot.getChildren()) {
 
-                    String noti_message = (String) notiSnap.child("noti_message").getValue();
-                    NotificationData notificationData = new NotificationData(noti_message);
-                    notificationDataList.add(notificationData);
-                    TextView txtNotiCount = findViewById(R.id.txtNotiCount);
-                    txtNotiCount.setText(notificationDataList.size()+" "+getString(R.string.new_noti));
-                    Toast.makeText(getApplicationContext(), ""+noti_message, Toast.LENGTH_SHORT).show();
+                        String noti_message = (String) notiSnap.child("noti_message").getValue();
+                        NotificationData notificationData = new NotificationData(noti_message);
+                        notificationDataList.add(notificationData);
+                        TextView txtNotiCount = findViewById(R.id.txtNotiCount);
+                        txtNotiCount.setText(notificationDataList.size() + " " + getString(R.string.new_noti));
+                        Toast.makeText(getApplicationContext(), "" + noti_message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    notificationAdapter[0] = new NotificatiomAdapter(notificationDataList, NotificationActivity.this);
+                    recyclerNotification.setAdapter(notificationAdapter[0]);
+                    notificationAdapter[0].notifyDataSetChanged();
+
                 }
 
-                notificationAdapter[0] = new NotificatiomAdapter(notificationDataList, NotificationActivity.this);
-                recyclerNotification.setAdapter(notificationAdapter[0]);
-                notificationAdapter[0].notifyDataSetChanged();
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
+                }
+            });
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
-    }
 
 }

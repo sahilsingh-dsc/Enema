@@ -87,6 +87,10 @@
     <string name="add_money">Adding Money</string>
     <string name="time_format">yyyy.MM.dd.HH.mm.ss</string>
     <string name="no_transaction">No Transaction</string>
+    <string name="somecode">SOMECODE</string>
+    <string name="get_best_offer_of_all_time">Get best offer of all time</string>
+    <string name="by_using_our_site_you_acknowledge_that_you_have_read_and_understand_our_cookie_policy_privacy_policy_and_our_terms_of_service">By using our site, you acknowledge that you have read and understand our Cookie Policy, Privacy Policy, and our Terms of Service.</string>
+    <string name="apply">Apply</string>
 
 
 </resources>

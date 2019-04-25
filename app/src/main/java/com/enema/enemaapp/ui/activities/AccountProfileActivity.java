@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,11 +48,28 @@ public class AccountProfileActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .build();
 
+        EditText etxtProfileEmail, etxtProfileName, etxtCityResidence, etxtCityOnID, etxtDOB;
+        etxtProfileEmail = findViewById(R.id.etxtProfileEmail);
+        etxtProfileName = findViewById(R.id.etxtProfileName);
+        etxtCityResidence = findViewById(R.id.etxtCityResidence);
+        etxtCityOnID = findViewById(R.id.etxtCityOnID);
+        etxtDOB = findViewById(R.id.etxtDOB);
+
+        etxtCityResidence.setEnabled(true);
+        etxtCityOnID.setEnabled(true);
+        etxtDOB.setEnabled(true);
 
         TextView txtProfileMobile = findViewById(R.id.txtProfileMobile);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             txtProfileMobile.setText(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber());
         }
+
+
+//        etxtProfileEmail.setEnabled(false);
+//        etxtProfileName.setEnabled(false);
+//        etxtCityResidence.setEnabled(false);
+//        etxtCityOnID.setEnabled(false);
+//        etxtDOB.setEnabled(false);
 
         getUserData();
 
@@ -117,6 +135,8 @@ public class AccountProfileActivity extends AppCompatActivity {
         etxtProfileName = findViewById(R.id.etxtProfileName);
         etxtCityResidence = findViewById(R.id.etxtCityResidence);
         etxtCityOnID = findViewById(R.id.etxtCityOnID);
+
+
         etxtDOB = findViewById(R.id.etxtDOB);
         lhGenderBox = findViewById(R.id.lhGenderBox);
         lvMale = findViewById(R.id.lvMale);
@@ -250,6 +270,31 @@ public class AccountProfileActivity extends AppCompatActivity {
                 String user_city_residence = (String) dataSnapshot.child("user_city_residence").getValue();
                 String user_city_on_id = (String) dataSnapshot.child("user_city_on_id").getValue();
                 String user_dob = (String) dataSnapshot.child("user_dob").getValue();
+                String user_gender = (String) dataSnapshot.child("user_gender").getValue();
+
+                assert user_gender != null;
+                if (user_gender.equals("male")){
+                    etxtProfileName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_boy, 0, 0, 0);
+                }
+
+                if (user_gender.equals("female")){
+                    etxtProfileName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_woman, 0, 0, 0);
+                }
+
+                String cityonid = etxtCityOnID.getText().toString();
+                if (!TextUtils.isEmpty(cityonid)){
+                    etxtCityOnID.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_card_teal, 0, 0, 0);
+                }
+
+                String cityasonresi = etxtCityResidence.getText().toString();
+                if (!TextUtils.isEmpty(cityasonresi)){
+                    etxtCityResidence.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_skyline_teal, 0, 0, 0);
+                }
+
+                String dob = etxtDOB.getText().toString();
+                if (!TextUtils.isEmpty(dob)){
+                    etxtDOB.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_birthday_cake_teal, 0, 0, 0);
+                }
 
                 Toast.makeText(AccountProfileActivity.this, ""+user_city_on_id, Toast.LENGTH_SHORT).show();
 

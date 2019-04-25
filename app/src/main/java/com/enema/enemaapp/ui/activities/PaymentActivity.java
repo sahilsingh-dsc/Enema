@@ -29,7 +29,7 @@ import instamojo.library.InstapayListener;
 
 public class PaymentActivity extends AppCompatActivity {
 
-    private String walletcurrent_balance, email, phone, amount, purpose;
+    private String walletcurrent_balance, email, phone, amount, purpose, tag;
     private int balance;
     int child_count;
 
@@ -66,8 +66,11 @@ public class PaymentActivity extends AppCompatActivity {
         purpose = paymentBundle.getString("purpose");
         String name = paymentBundle.getString("name");
         int balance = paymentBundle.getInt("updated_bal");
+        tag = paymentBundle.getString("tag");
         walletcurrent_balance = String.valueOf(paymentBundle.getInt("curr_bal"));
+
         Toast.makeText(this, ""+balance, Toast.LENGTH_SHORT).show();
+
         callInstamojoPay(email, phone, amount, purpose, name);
 
 
@@ -103,7 +106,7 @@ public class PaymentActivity extends AppCompatActivity {
             public void onSuccess(String response) {
                 Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG)
                         .show();
-                commitBalance(balance);
+                //commitBalance(balance);
                 updateTxn(response);
             }
 
@@ -112,8 +115,15 @@ public class PaymentActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Failed: " + reason, Toast.LENGTH_LONG)
                         .show();
                 updateTxn(reason);
-                startActivity(new Intent(PaymentActivity.this, WalletActivity.class));
-                finish();
+
+                if(tag.equals("booking")){
+                    onBackPressed();
+                    finish();
+                }else {
+                    startActivity(new Intent(PaymentActivity.this, WalletActivity.class));
+                    finish();
+                }
+
             }
         };
     }

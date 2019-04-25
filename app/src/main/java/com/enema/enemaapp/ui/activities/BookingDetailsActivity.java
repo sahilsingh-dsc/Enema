@@ -68,7 +68,7 @@ public class BookingDetailsActivity extends AppCompatActivity {
         txtBookingReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent reviewIntent = new Intent(BookingDetailsActivity.this, SupportActivity.class);
+                Intent reviewIntent = new Intent(BookingDetailsActivity.this, ReviewActivity.class);
                 startActivity(reviewIntent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }

@@ -11,11 +11,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.enema.enemaapp.R;
@@ -44,7 +46,7 @@ import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements SearchView.OnQueryTextListener, android.widget.SearchView.OnQueryTextListener {
 
     View view;
     List<LocationData> locationDataList;
@@ -53,7 +55,8 @@ public class HomeFragment extends Fragment {
     List<AdSliderData> adSliderDataList;
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private AlertDialog loadingDialog;
-
+    android.widget.SearchView searchView;
+    private CourseAdapter courseAdapter;
     public HomeFragment() {
 
     }
@@ -71,6 +74,8 @@ public class HomeFragment extends Fragment {
 
         loadingDialog.show();
 
+        searchView = view.findViewById(R.id.search);
+        searchView.setOnQueryTextListener(this);
 
         locationDataList = new ArrayList<>();
         locationDataList.clear();
@@ -97,9 +102,14 @@ public class HomeFragment extends Fragment {
         imgNotiBell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent notiIntent = new Intent(getContext(), NotificationActivity.class);
-                getActivity().startActivity(notiIntent);
-                getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                if (FirebaseAuth.getInstance().getCurrentUser() != null){
+                    Intent notiIntent = new Intent(getContext(), NotificationActivity.class);
+                    getActivity().startActivity(notiIntent);
+                    getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }else {
+                    Toast.makeText(getContext(), "You must login to see notifications", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -265,7 +275,7 @@ public class HomeFragment extends Fragment {
         loadingDialog.show();
 
         final RecyclerView recyclerCourse;
-        final RecyclerView.Adapter[] courseAdapter = new RecyclerView.Adapter[1];
+        //courseAdapter = new CourseAdapter();
         recyclerCourse = view.findViewById(R.id.recyclerCourse);
         recyclerCourse.hasFixedSize();
         recyclerCourse.setLayoutManager((new LinearLayoutManager(
@@ -311,9 +321,9 @@ public class HomeFragment extends Fragment {
 
                 }
 
-                courseAdapter[0] = new CourseAdapter(courseDataList,view.getContext());
-                recyclerCourse.setAdapter(courseAdapter[0]);
-                courseAdapter[0].notifyDataSetChanged();
+                courseAdapter = new CourseAdapter(courseDataList,view.getContext());
+                recyclerCourse.setAdapter(courseAdapter);
+                //courseAdapter[0].notifyDataSetChanged();
 
                 loadingDialog.dismiss();
 
@@ -392,7 +402,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void getAllSliderAd(){
+    public void getAllSliderAd(){
 
         loadingDialog.show();
 
@@ -506,4 +516,21 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        List<CourseData> newcourseDataList = new ArrayList<>();
+        for (CourseData courseData : courseDataList){
+            String course_name = courseData.getCourse_name().toLowerCase().replace(" ", "");
+            if (course_name.contains(s))
+                newcourseDataList.add(courseData);
+        }
+
+        courseAdapter.setfilter(newcourseDataList);
+        return true;
+    }
 }

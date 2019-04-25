@@ -65,11 +65,14 @@
 
                     <ImageView
                         android:id="@+id/imgCourseToHome"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="16dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:padding="8dp"
                         android:contentDescription="@string/todo"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -83,7 +86,7 @@
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="16dp"
                         android:fontFamily="@font/futura_light_bt"
-                        android:text="4 PHOTOS"
+                        android:text="0 PHOTOS"
                         android:textColor="@color/colorWhite"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
@@ -198,7 +201,7 @@
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/txtCDAreaCity"
-                    tools:text="₹ 1,350.00" />
+                    tools:text="1,350.00" />
 
                 <TextView
                     android:id="@+id/txtCDActualPrice"
@@ -208,7 +211,7 @@
                     android:layout_marginRight="16dp"
                     android:background="@drawable/cross_out_txt"
                     android:fontFamily="@font/futura_book_font"
-                    android:text="₹ 13,783.99"
+                    android:text="13,783.99"
                     android:textColor="@color/colorRed"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtCDDiscountPrice" />
@@ -408,53 +411,21 @@
                     android:fontFamily="@font/futura_book_font"
                     android:text="Note : "
                     android:textColor="@color/colorBlack"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="@+id/recyclerSlot"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerSlot" />
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/recyclerTime"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerTime" />
 
                 <TextView
-                    android:id="@+id/textView32"
+                    android:id="@+id/txtSlotNote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hello world this is note"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/futura_light_bt"
                     app:layout_constraintBottom_toBottomOf="@+id/textView31"
                     app:layout_constraintStart_toEndOf="@+id/textView31"
-                    app:layout_constraintTop_toTopOf="@+id/textView31" />
-
-                <View
-                    android:id="@+id/divider20"
-                    android:layout_width="0dp"
-                    android:layout_height="10dp"
-                    android:layout_marginTop="16dp"
-                    android:background="?android:attr/listDivider"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView32" />
-
-                <TextView
-                    android:id="@+id/textView33"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/futura_book_font"
-                    android:text="Please Note"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/divider20" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/textView33"
-                    app:layout_constraintTop_toBottomOf="@+id/textView33" />
+                    app:layout_constraintTop_toTopOf="@+id/textView31"
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/textView35"
@@ -481,7 +452,7 @@
                     android:background="?android:attr/listDivider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtSlotNote" />
 
                 <Button
                     android:id="@+id/button3"
@@ -501,6 +472,41 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView35" />
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/recyclerSlot"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerSlot" />
+
+                <TextView
+                    android:id="@+id/textView43"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="₹"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/futura_book_font"
+                    android:textColor="@color/colorGreen"
+                    app:layout_constraintBottom_toTopOf="@+id/txtCDActualPrice"
+                    app:layout_constraintEnd_toStartOf="@+id/txtCDDiscountPrice"
+                    app:layout_constraintTop_toTopOf="@+id/txtCDDiscountPrice" />
+
+                <TextView
+                    android:id="@+id/textView44"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹"
+                    android:background="@drawable/cross_out_txt"
+                    android:fontFamily="@font/futura_book_font"
+                    android:textColor="@color/colorRed"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtCDActualPrice"
+                    app:layout_constraintEnd_toStartOf="@+id/txtCDActualPrice"
+                    app:layout_constraintTop_toTopOf="@+id/txtCDActualPrice" />
 
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
