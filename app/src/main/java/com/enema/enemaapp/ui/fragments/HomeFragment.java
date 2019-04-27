@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -29,8 +28,6 @@ import com.enema.enemaapp.models.AdSliderData;
 import com.enema.enemaapp.models.CategoriesData;
 import com.enema.enemaapp.models.CourseData;
 import com.enema.enemaapp.models.LocationData;
-import com.enema.enemaapp.ui.activities.AccountProfileActivity;
-import com.enema.enemaapp.ui.activities.LoginActivity;
 import com.enema.enemaapp.ui.activities.NotificationActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -104,8 +101,12 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
             public void onClick(View v) {
                 if (FirebaseAuth.getInstance().getCurrentUser() != null){
                     Intent notiIntent = new Intent(getContext(), NotificationActivity.class);
-                    getActivity().startActivity(notiIntent);
-                    getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        Objects.requireNonNull(getActivity()).startActivity(notiIntent);
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
                 }else {
                     Toast.makeText(getContext(), "You must login to see notifications", Toast.LENGTH_SHORT).show();
                 }
@@ -115,17 +116,6 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
         return view;
     }
-
-//    private void getImg(){
-//        StorageReference imgRef = FirebaseStorage.getInstance().getReference("HomeScreenTopAd/ads_image.jpg");
-//        imgRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Glide.with(HomeFragment.this).load(uri.toString()).into(imgAdOnTop);
-//                loadingDialog.dismiss();
-//            }
-//        });
-//    }
 
     private void getAllAds(){
 
@@ -273,9 +263,9 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     private void getCourse(){
 
         loadingDialog.show();
-
+        LocationData locationData = new LocationData();
+        Toast.makeText(getContext(), ""+locationData.getLoaction_name(), Toast.LENGTH_SHORT).show();
         final RecyclerView recyclerCourse;
-        //courseAdapter = new CourseAdapter();
         recyclerCourse = view.findViewById(R.id.recyclerCourse);
         recyclerCourse.hasFixedSize();
         recyclerCourse.setLayoutManager((new LinearLayoutManager(
@@ -289,7 +279,6 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         courseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 courseDataList.clear();
                 for (DataSnapshot courseSnap : dataSnapshot.getChildren()){
 
@@ -323,7 +312,6 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
                 courseAdapter = new CourseAdapter(courseDataList,view.getContext());
                 recyclerCourse.setAdapter(courseAdapter);
-                //courseAdapter[0].notifyDataSetChanged();
 
                 loadingDialog.dismiss();
 
@@ -406,7 +394,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
         loadingDialog.show();
 
-        final ViewPager pagerAdSlider = (ViewPager) view.findViewById(R.id.pagerAdSlider);
+        final ViewPager pagerAdSlider = view.findViewById(R.id.pagerAdSlider);
         final AdSliderAdapter adSliderAdapter = new AdSliderAdapter(this.getContext());
 
         DatabaseReference sliderAdsRef = FirebaseDatabase.getInstance().getReference("APP_DATA")
@@ -529,7 +517,6 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
             if (course_name.contains(s))
                 newcourseDataList.add(courseData);
         }
-
         courseAdapter.setfilter(newcourseDataList);
         return true;
     }

@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
@@ -60,6 +61,12 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
         myBookingsViewHolder.ratingMyBookingRating.setRating(rating);
         Glide.with(this.context).load(bookingData.getBooking_image()).into(myBookingsViewHolder.imgMyBooking);
         final String wallet_tnx_id = bookingData.getWallet_tnx_id();
+        if (bookingData.getBooking_status().equals("cancelled")){
+            myBookingsViewHolder.imgCancelledStatus.setVisibility(View.VISIBLE);
+        }
+        if (bookingData.getBooking_status().equals("none")){
+            myBookingsViewHolder.imgCancelledStatus.setVisibility(View.GONE);
+        }
 
         myBookingsViewHolder.constrainMyBooking.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +79,7 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
                 bookingBundle.putString("booking_course_location", bookingData.getBooking_course_location());
                 bookingBundle.putString("booking_rating", bookingData.getBooking_rating());
                 bookingBundle.putString("booking_rating_count", bookingData.getBooking_rating_count());
+                bookingBundle.putString("course_id", bookingData.getCourse_id());
                 bookingBundle.putString("wallet_tnx_id", bookingData.getWallet_tnx_id());
                 bookingBundle.putString("booking_session", bookingData.getBooking_session());
                 bookingBundle.putString("booking_daydate", bookingData.getBooking_daydate());
@@ -80,10 +88,10 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
                 bookingBundle.putString("coupon_code", bookingData.getCoupon_code());
                 bookingBundle.putString("course_fee", bookingData.getCourse_fee());
                 bookingBundle.putString("course_provider_no", bookingData.getCourse_provider_no());
+                bookingBundle.putString("booking_id", bookingData.getBooking_id());
+                bookingBundle.putString("booking_status",bookingData.getBooking_status());
                 bookingdetailsIntent.putExtras(bookingBundle);
                 context.startActivity(bookingdetailsIntent);
-
-
 
             }
         });
@@ -98,7 +106,7 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
     public class MyBookingsViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtMyBookingCourseName, txtMyBookingLocation, txtMyBookingRateCount;
-        ImageView imgMyBooking;
+        ImageView imgMyBooking, imgCancelledStatus;
         RatingBar ratingMyBookingRating;
         ConstraintLayout constrainMyBooking;
 
@@ -111,7 +119,7 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
             imgMyBooking = itemView.findViewById(R.id.imgMyBooking);
             ratingMyBookingRating = itemView.findViewById(R.id.ratingMyBookingRating);
             constrainMyBooking = itemView.findViewById(R.id.constrainMyBooking);
-
+            imgCancelledStatus = itemView.findViewById(R.id.imgCancelledStatus);
 
         }
     }

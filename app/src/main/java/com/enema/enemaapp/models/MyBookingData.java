@@ -9,12 +9,12 @@ public class MyBookingData {
             coupon_code,
             course_fee,
             course_provider_no,
-            course_id;
+            course_id, booking_id, booking_status;
 
-    public MyBookingData(){ }
+    public MyBookingData() {
+    }
 
-
-    public MyBookingData(String booking_image, String booking_course_name, String booking_course_location, String booking_rating, String booking_rating_count, String wallet_tnx_id, String booking_session, String booking_daydate, String booking_time, String booking_for, String coupon_code, String course_fee, String course_provider_no, String course_id) {
+    public MyBookingData(String booking_image, String booking_course_name, String booking_course_location, String booking_rating, String booking_rating_count, String wallet_tnx_id, String booking_session, String booking_daydate, String booking_time, String booking_for, String coupon_code, String course_fee, String course_provider_no, String course_id, String booking_id, String booking_status) {
         this.booking_image = booking_image;
         this.booking_course_name = booking_course_name;
         this.booking_course_location = booking_course_location;
@@ -29,6 +29,8 @@ public class MyBookingData {
         this.course_fee = course_fee;
         this.course_provider_no = course_provider_no;
         this.course_id = course_id;
+        this.booking_id = booking_id;
+        this.booking_status = booking_status;
     }
 
     public String getBooking_image() {
@@ -141,5 +143,21 @@ public class MyBookingData {
 
     public void setCourse_id(String course_id) {
         this.course_id = course_id;
+    }
+
+    public String getBooking_id() {
+        return booking_id;
+    }
+
+    public void setBooking_id(String booking_id) {
+        this.booking_id = booking_id;
+    }
+
+    public String getBooking_status() {
+        return booking_status;
+    }
+
+    public void setBooking_status(String booking_status) {
+        this.booking_status = booking_status;
     }
 }

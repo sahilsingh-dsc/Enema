@@ -2,10 +2,12 @@ package com.enema.enemaapp.ui.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,22 +34,24 @@ import java.util.List;
 
 public class CourseDetailsActivity extends AppCompatActivity {
 
-    TextView txtCDName, txtCDAreaCity, txtCDRateCount, txtCDDiscountPrice, txtCDActualPrice;
+    TextView txtCDName, txtCDAreaCity, txtCDRateCount, txtCDDiscountPrice, txtCDActualPrice, txtTotalImages;
     RatingBar ratingCD;
     ImageView imgCDImage;
     LinearLayout lhLaptop, lhPenDrive, lhCamera, lhNotebook;
     List<SlotModel> slotModelList;
     List<TimeSlotData> timeSlotDataList;
     Bundle courseBundle;
+    DatabaseReference galleryRef = FirebaseDatabase.getInstance().getReference("APP_DATA").child("COURSES_DATA");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_details);
+
         courseBundle = getIntent().getExtras();
         assert courseBundle != null;
-        String course_id = courseBundle.getString("course_id");
-     //   Toast.makeText(this, ""+course_id, Toast.LENGTH_SHORT).show();
+        final String course_id = courseBundle.getString("course_id");
+
 
         slotModelList = new ArrayList<>();
         slotModelList.clear();
@@ -65,6 +69,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         lhPenDrive = findViewById(R.id.lhPenDrive);
         lhCamera = findViewById(R.id.lhCamera);
         lhNotebook = findViewById(R.id.lhNotebook);
+        txtTotalImages = findViewById(R.id.txtTotalImages);
 
         ImageView imgCourseToHome = findViewById(R.id.imgCourseToHome);
         imgCourseToHome.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +78,52 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 onBackPressed();
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();
+            }
+        });
+
+        txtTotalImages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                assert course_id != null;
+                galleryRef.child(course_id).child("COURSE_GALLERY").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        String img1 = (String) dataSnapshot.child("0").getValue();
+                        String img2 = (String) dataSnapshot.child("1").getValue();
+                        String img3 = (String) dataSnapshot.child("2").getValue();
+                        String img4 = (String) dataSnapshot.child("3").getValue();
+
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CourseDetailsActivity.this);
+                        LayoutInflater inflater = CourseDetailsActivity.this.getLayoutInflater();
+                        View dialogView = inflater.inflate(R.layout.course_gallery_layout, null);
+                        dialogBuilder.setView(dialogView);
+                        final AlertDialog galleryDialog = dialogBuilder.create();
+                        ImageView imgGal1 = dialogView.findViewById(R.id.imgGal1);
+                        Glide.with(CourseDetailsActivity.this).load(img1).into(imgGal1);
+                        ImageView imgGal2 = dialogView.findViewById(R.id.imgGal2);
+                        Glide.with(CourseDetailsActivity.this).load(img2).into(imgGal2);
+                        ImageView imgGal3 = dialogView.findViewById(R.id.imgGal3);
+                        Glide.with(CourseDetailsActivity.this).load(img3).into(imgGal3);
+                        ImageView imgGal4 = dialogView.findViewById(R.id.imgGal4);
+                        Glide.with(CourseDetailsActivity.this).load(img4).into(imgGal4);
+                        ImageView imgCloseGallery = dialogView.findViewById(R.id.imgCloseGallery);
+                        imgCloseGallery.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                galleryDialog.dismiss();
+                            }
+                        });
+                        galleryDialog.show();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
@@ -147,7 +198,6 @@ public class CourseDetailsActivity extends AppCompatActivity {
             }
         });
 
-
         txtCDName.setText(course_name);
         txtCDAreaCity.setText(String.format("%s, %s", course_area, course_city));
         assert course_rating != null;
@@ -207,13 +257,10 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
 
         DatabaseReference courseDetailsRef = FirebaseDatabase.getInstance().getReference("APP_DATA").child("COURSES_DATA");
-    //    Toast.makeText(this, ""+course_id, Toast.LENGTH_SHORT).show();
         courseDetailsRef.child(String.valueOf(course_id)).child("COURSE_SLOT").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 slotModelList.clear();
-            //    String key = (String) dataSnapshot.getKey();
-      //          Toast.makeText(CourseDetailsActivity.this, ""+key, Toast.LENGTH_SHORT).show();
                 for (DataSnapshot slotSnap : dataSnapshot.getChildren()){
                     String time_from = null;
                     String time_to =null;
@@ -227,8 +274,6 @@ public class CourseDetailsActivity extends AppCompatActivity {
                        time_from = (String) snapshot.child("time_from").getValue();
                        time_to = (String) snapshot.child("time_to").getValue();
                     }
-                  //  Toast.makeText(CourseDetailsActivity.this, ""+slot_date, Toast.LENGTH_SHORT).show();
-
 
                     SlotModel slotModel = new SlotModel(slot_date, slot_day, slot_month, slot_year, slot_id, time_from, time_to);
                     TimeSlotData timeSlotData = new TimeSlotData(time_from, time_to);
@@ -255,25 +300,4 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
 
     }
-
-//    private void gettimeSlot(String time_from, String time_to){
-//
-//        final RecyclerView recyclerTime = findViewById(R.id.recyclerTime);
-//        final RecyclerView.Adapter[] timeAdapter = new RecyclerView.Adapter[1];
-//        recyclerTime.hasFixedSize();
-//        recyclerTime.setLayoutManager((new LinearLayoutManager(
-//                CourseDetailsActivity.this,
-//                LinearLayoutManager.HORIZONTAL,
-//                false)));
-//
-//        TimeSlotData timeSlotData = new TimeSlotData(time_from, time_to);
-//     //   Toast.makeText(this, ""+time_from, Toast.LENGTH_SHORT).show();
-//
-//
-//
-//    }
-//
-//
-
-
 }

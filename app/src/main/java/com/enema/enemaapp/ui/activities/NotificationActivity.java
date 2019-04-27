@@ -60,16 +60,6 @@ public class NotificationActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-
-
-
-
-
-
-
-
-
-
                 AlertDialog.Builder builder = null;
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                     builder = new AlertDialog.Builder(NotificationActivity.this);
@@ -91,8 +81,6 @@ public class NotificationActivity extends AppCompatActivity {
                         final String username = firebaseUser.getUid();
                         String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
                         assert user_mobile != null;
-
-
                         DatabaseReference userNotificationRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
 
                         Query applesQuery = userNotificationRef.child(user_mobile).child(username)

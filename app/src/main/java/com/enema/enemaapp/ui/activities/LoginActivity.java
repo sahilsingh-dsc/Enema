@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         txtForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "still in development", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "coming soon", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         imgFacebookLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "still in development", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "coming soon", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         imgGoogleLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "still in development", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "coming soon", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -147,7 +147,6 @@ public class LoginActivity extends AppCompatActivity {
                     loadingDialog.dismiss();
                     Toast.makeText(LoginActivity.this, "data bundled", Toast.LENGTH_SHORT).show();
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    finish();
                 }else {
                     Toast.makeText(LoginActivity.this, "Account not exist", Toast.LENGTH_SHORT).show();
                     loadingDialog.dismiss();

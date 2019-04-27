@@ -133,7 +133,6 @@ public class RegisterActivity extends AppCompatActivity {
                     loadingDialog.dismiss();
                     Toast.makeText(RegisterActivity.this, "data bundled", Toast.LENGTH_SHORT).show();
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    finish();
                 }
             }
 

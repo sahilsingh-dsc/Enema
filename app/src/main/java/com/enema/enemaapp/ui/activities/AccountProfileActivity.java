@@ -272,13 +272,16 @@ public class AccountProfileActivity extends AppCompatActivity {
                 String user_dob = (String) dataSnapshot.child("user_dob").getValue();
                 String user_gender = (String) dataSnapshot.child("user_gender").getValue();
 
-                assert user_gender != null;
-                if (user_gender.equals("male")){
-                    etxtProfileName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_boy, 0, 0, 0);
-                }
+                if (user_gender != null){
 
-                if (user_gender.equals("female")){
-                    etxtProfileName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_woman, 0, 0, 0);
+                    if (user_gender.equals("male")){
+                        etxtProfileName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_boy, 0, 0, 0);
+                    }
+
+                    if (user_gender.equals("female")){
+                        etxtProfileName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_woman, 0, 0, 0);
+                    }
+
                 }
 
                 String cityonid = etxtCityOnID.getText().toString();

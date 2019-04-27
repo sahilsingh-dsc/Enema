@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgCloseCancelBooking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView8">
 
         <RadioButton
-            android:id="@+id/radioButton4"
+            android:id="@+id/rbCIP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -63,7 +63,7 @@
             android:text="Change in plan" />
 
         <RadioButton
-            android:id="@+id/radioButton5"
+            android:id="@+id/rbFBD"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -74,7 +74,7 @@
             android:text="Found a better deal" />
 
         <RadioButton
-            android:id="@+id/radioButton7"
+            android:id="@+id/rbBM"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -85,7 +85,7 @@
             android:text="Booking by mistake" />
 
         <RadioButton
-            android:id="@+id/radioButton6"
+            android:id="@+id/rbOtherReason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -97,7 +97,7 @@
     </RadioGroup>
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/txtOtherReason"
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginStart="36dp"
@@ -118,12 +118,12 @@
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnCancelBooking"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginBottom="24dp"
@@ -134,6 +134,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/txtOtherReason" />
 
 </android.support.constraint.ConstraintLayout>

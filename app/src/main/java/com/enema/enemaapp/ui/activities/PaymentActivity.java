@@ -50,7 +50,6 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 child_count = (int) dataSnapshot.getChildrenCount();
-                Toast.makeText(PaymentActivity.this, ""+child_count, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -63,13 +62,12 @@ public class PaymentActivity extends AppCompatActivity {
         email = paymentBundle.getString("email");
         phone = paymentBundle.getString("phone");
         amount = paymentBundle.getString("amount");
+        Toast.makeText(this, ""+amount, Toast.LENGTH_SHORT).show();
         purpose = paymentBundle.getString("purpose");
         String name = paymentBundle.getString("name");
         int balance = paymentBundle.getInt("updated_bal");
         tag = paymentBundle.getString("tag");
         walletcurrent_balance = String.valueOf(paymentBundle.getInt("curr_bal"));
-
-        Toast.makeText(this, ""+balance, Toast.LENGTH_SHORT).show();
 
         callInstamojoPay(email, phone, amount, purpose, name);
 

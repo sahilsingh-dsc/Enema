@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enema.enemaapp.R;
+import com.enema.enemaapp.ui.activities.BookCourseActivity;
 import com.enema.enemaapp.ui.activities.PaymentActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,7 +35,7 @@ public class AddMoneyFragment extends Fragment {
 
     View view;
     private AlertDialog loadingDialog;
-    private String walletcurrent_balance;
+    private String walletcurrent_balance = "0";
     EditText etxtAddAmount;
     String name, email;
 
@@ -97,9 +98,13 @@ public class AddMoneyFragment extends Fragment {
                 String amount = etxtAddAmount.getText().toString().trim();
                 if (TextUtils.isEmpty(amount) || !TextUtils.isDigitsOnly(amount)){
                     Toast.makeText(getContext(), "Please enter a valid amount", Toast.LENGTH_SHORT).show();
+                    loadingDialog.dismiss();
                     return;
                 }
 
+                if (walletcurrent_balance == null){
+                    walletcurrent_balance = "0";
+                }
                 int curr_bal = Integer.parseInt(walletcurrent_balance);
                 int toadd = Integer.parseInt(amount);
                 int updated_bal = curr_bal+toadd;
@@ -127,8 +132,12 @@ public class AddMoneyFragment extends Fragment {
         paymentBundle.putString("name", name);
         paymentBundle.putInt("updated_bal",updated_bal);
         paymentBundle.putInt("curr_bal", curr_bal);
+        if (email == null){
+            Toast.makeText(getContext(), "Please Complete you profile before making payment.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         paymentIntent.putExtras(paymentBundle);
-        if (email != null && phone != null && amount != null && name != null){
+        if (phone != null && amount != null && name != null){
             startActivity(paymentIntent);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 Objects.requireNonNull(getActivity()).finish();

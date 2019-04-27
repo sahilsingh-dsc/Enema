@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="65dp"
     android:layout_height="80dp"
+    android:id="@+id/constrainLocation"
     android:layout_gravity="">
 
     <de.hdodenhof.circleimageview.CircleImageView

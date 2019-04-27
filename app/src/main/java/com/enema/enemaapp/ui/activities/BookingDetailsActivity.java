@@ -1,5 +1,6 @@
 package com.enema.enemaapp.ui.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -10,23 +11,46 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.enema.enemaapp.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class BookingDetailsActivity extends AppCompatActivity {
+
+
+    String cancel_reason;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_details);
 
-
+        Bundle bookingBundle = getIntent().getExtras();
+        assert bookingBundle != null;
+        String booking_status = bookingBundle.getString("booking_status");
         Button btnCancelBooking = findViewById(R.id.btnCancelBooking);
+
+        if (booking_status.equals("cancelled")){
+
+            btnCancelBooking.setVisibility(View.INVISIBLE);
+
+        }
+
         btnCancelBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +92,29 @@ public class BookingDetailsActivity extends AppCompatActivity {
         txtBookingReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bookingBundle = getIntent().getExtras();
+                assert bookingBundle != null;
+
+                String booking_image, booking_course_name, booking_course_location, booking_rating, booking_rating_count, course_id;
+
+                booking_image = bookingBundle.getString("booking_image");
+                booking_course_name = bookingBundle.getString("booking_course_name");
+                booking_course_location = bookingBundle.getString("booking_course_location");
+                booking_rating = bookingBundle.getString("booking_rating");
+                booking_rating_count = bookingBundle.getString("booking_rating_count");
+                course_id = bookingBundle.getString("course_id");
+
                 Intent reviewIntent = new Intent(BookingDetailsActivity.this, ReviewActivity.class);
+
+                Bundle reviewBundle = new Bundle();
+                reviewBundle.putString("booking_image", booking_image);
+                reviewBundle.putString("booking_course_name", booking_course_name);
+                reviewBundle.putString("booking_course_location", booking_course_location);
+                reviewBundle.putString("booking_rating", booking_rating);
+                reviewBundle.putString("booking_rating_count", booking_rating_count);
+                reviewBundle.putString("course_id", course_id);
+                reviewIntent.putExtras(reviewBundle);
+
                 startActivity(reviewIntent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
@@ -80,11 +126,105 @@ public class BookingDetailsActivity extends AppCompatActivity {
     }
 
     private void cancelBooking(){
+
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.bottom_sheet_cancel_bookingg, null);
         dialogBuilder.setView(dialogView);
-        AlertDialog alertDialog = dialogBuilder.create();
+        final AlertDialog alertDialog = dialogBuilder.create();
+        final EditText txtOtherReason = dialogView.findViewById(R.id.txtOtherReason);
+        ImageView imgCloseCancelBooking = dialogView.findViewById(R.id.imgCloseCancelBooking);
+        RadioButton rbCIP = dialogView.findViewById(R.id.rbCIP);
+        rbCIP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel_reason = "Change in plan";
+                txtOtherReason.setVisibility(View.GONE);
+            }
+        });
+
+        RadioButton rbFBD = dialogView.findViewById(R.id.rbFBD);
+        rbFBD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel_reason = "Found a better deal";
+                txtOtherReason.setVisibility(View.GONE);
+            }
+        });
+
+        RadioButton rbBM = dialogView.findViewById(R.id.rbBM);
+        rbBM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel_reason = "Booking by mistake";
+                txtOtherReason.setVisibility(View.GONE);
+            }
+        });
+
+        RadioButton rbOtherReason = dialogView.findViewById(R.id.rbOtherReason);
+        rbOtherReason.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancel_reason = "other";
+                txtOtherReason.setVisibility(View.VISIBLE);
+            }
+        });
+
+        Button btnCancelBooking = dialogView.findViewById(R.id.btnCancelBooking);
+        btnCancelBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cancel_reason.equals("other")){
+                    cancel_reason = txtOtherReason.getText().toString();
+                }
+
+                AlertDialog.Builder builder = null;
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    builder = new AlertDialog.Builder(BookingDetailsActivity.this);
+                }
+                assert builder != null;
+                builder.setMessage("Are you sure, want to cancel this booking ?");
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Bundle bookingBundle = getIntent().getExtras();
+                        assert bookingBundle != null;
+                        final String course_id = bookingBundle.getString("course_id");
+                        String booking_id = bookingBundle.getString("booking_id");
+                        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                        assert firebaseUser != null;
+                        final String username = firebaseUser.getUid();
+                        String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+                        assert user_mobile != null;
+                        DatabaseReference cancelbookingRef = FirebaseDatabase.getInstance().getReference("USER_DATA")
+                                .child(user_mobile).child(username).child("USERS_BOOKINGS_DATA");
+                        assert booking_id != null;
+                        cancelbookingRef.child(booking_id).child("booking_status").child("cancelled").setValue(cancel_reason);
+                        dialog.dismiss();
+                        Toast.makeText(BookingDetailsActivity.this, "Booking cancelled Successfully, Refund ", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                final AlertDialog alertdialog = builder.create();
+                alertdialog.show();
+
+
+
+            }
+        });
+
+        imgCloseCancelBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
         alertDialog.show();
     }
 

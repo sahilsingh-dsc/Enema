@@ -86,7 +86,7 @@
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="16dp"
                         android:fontFamily="@font/futura_light_bt"
-                        android:text="0 PHOTOS"
+                        android:text="PHOTOS"
                         android:textColor="@color/colorWhite"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />

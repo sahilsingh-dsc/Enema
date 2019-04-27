@@ -1,13 +1,16 @@
 package com.enema.enemaapp.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.enema.enemaapp.R;
@@ -39,9 +42,15 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
     @Override
     public void onBindViewHolder(@NonNull LocationAdapter.LocationViewHolder locationViewHolder, int i) {
 
-        LocationData ld = locationDataList.get(i);
+        final LocationData ld = locationDataList.get(i);
         locationViewHolder.txtLocationName.setText(ld.getLoaction_name());
         Glide.with(this.context).load(ld.getLocation_image()).into(locationViewHolder.imgLocationImage);
+//        locationViewHolder.constrainLocation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
     }
 
@@ -54,13 +63,14 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
 
         public TextView txtLocationName;
         public ImageView imgLocationImage;
+        ConstraintLayout constrainLocation;
 
         public LocationViewHolder(@NonNull View itemView) {
             super(itemView);
 
             txtLocationName = itemView.findViewById(R.id.txtLocationName);
             imgLocationImage = itemView.findViewById(R.id.imgLocationImage);
-
+            constrainLocation = itemView.findViewById(R.id.constrainLocation);
         }
     }
 }

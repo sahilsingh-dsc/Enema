@@ -116,6 +116,7 @@ public class BookCourseActivity extends AppCompatActivity {
                     total_payable = offer_amount - coupon_discount;
                     txtDiscountAmt.setText(""+final_discount);
                     txtTotalCourseFee.setText(""+total_payable);
+
                 }
 
                 if (coupon_type.equals("percent")){
@@ -166,12 +167,24 @@ public class BookCourseActivity extends AppCompatActivity {
                     paymentbundle.putString("email", user_email);
                     paymentbundle.putString("phone", mobile);
                     paymentbundle.putString("purpose", course_name);
-                    paymentbundle.putString("amount", String.valueOf(total_payable));
+                    if (total_payable <=0){
+                        String offer_amt = txtOfferFee.getText().toString();
+                        offer_amount = Integer.parseInt(offer_amt);
+                        paymentbundle.putString("amount", String.valueOf(offer_amount));
+                    }else {
+                        paymentbundle.putString("amount", String.valueOf(total_payable));
+                    }
                     paymentbundle.putString("name", name);
                     paymentbundle.putString("updated_bal", current_wallet_balance);
                     paymentbundle.putString("tag", "booking");
-                    paymentIntent.putExtras(paymentbundle);
-                    startActivity(paymentIntent);
+                    if (user_email == null){
+                        Toast.makeText(BookCourseActivity.this, "Please Complete you profile before making payment.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }else {
+
+                        paymentIntent.putExtras(paymentbundle);
+                        startActivity(paymentIntent);
+                    }
 
                 }else {
                     Intent registerIntent = new Intent(BookCourseActivity.this, LoginActivity.class);

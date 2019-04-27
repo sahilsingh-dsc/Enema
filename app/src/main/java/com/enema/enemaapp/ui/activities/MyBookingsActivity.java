@@ -73,7 +73,6 @@ public class MyBookingsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 myBookingDataList.clear();
-
                 for (DataSnapshot bookingSnap : dataSnapshot.getChildren()) {
 
                     String booking_image = (String) bookingSnap.child("booking_image").getValue();
@@ -90,8 +89,11 @@ public class MyBookingsActivity extends AppCompatActivity {
                     String course_fee = (String) bookingSnap.child("course_fee").getValue();
                     String course_provider_no = (String) bookingSnap.child("course_provider_no").getValue();
                     String course_id = (String) bookingSnap.child("course_id").getValue();
-
-
+                    String booking_id = bookingSnap.getKey();
+                    String booking_status = "none";
+                    if (bookingSnap.hasChild("booking_status")){
+                        booking_status = "cancelled";
+                    }
 
                     MyBookingData bookingData = new MyBookingData(booking_image, booking_course_name, booking_course_location, booking_rating, booking_rating_count, wallet_tnx_id, booking_session,
                             booking_daydate,
@@ -100,7 +102,9 @@ public class MyBookingsActivity extends AppCompatActivity {
                             coupon_code,
                             course_fee,
                             course_provider_no,
-                            course_id);
+                            course_id,
+                            booking_id,
+                            booking_status);
                     myBookingDataList.add(bookingData);
 
                 }
