@@ -49,7 +49,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/futura_medium_bt"
-                android:text="Wallet"
+                android:text="@string/wallet"
                 android:textColor="@color/colorWhite"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -59,38 +59,6 @@
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
-    <LinearLayout
-        android:id="@+id/linearLayout7"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
-
-        <TextView
-            android:id="@+id/txtAddMoney"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:background="@drawable/border_nothing"
-            android:fontFamily="@font/futura_medium_bt"
-            android:gravity="center"
-            android:text="Add Money"
-            android:textColor="@color/colorBlack" />
-
-        <TextView
-            android:id="@+id/txtTnx"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:background="@drawable/rect_border_teal"
-            android:fontFamily="@font/futura_medium_bt"
-            android:gravity="center"
-            android:text="Transaction"
-            android:textColor="@color/colorWhite" />
-    </LinearLayout>
-
     <FrameLayout
         android:id="@+id/frameWallet"
         android:layout_width="0dp"
@@ -99,8 +67,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout7"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
     </FrameLayout>
 

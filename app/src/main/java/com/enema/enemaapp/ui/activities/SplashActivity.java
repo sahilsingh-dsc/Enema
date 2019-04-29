@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.enema.enemaapp.R;
 import com.enema.enemaapp.adapters.CouponState;
+import com.enema.enemaapp.utils.SlotUtil;
+import com.enema.enemaapp.utils.TimeUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -50,6 +52,12 @@ public class SplashActivity extends AppCompatActivity {
                             final DatabaseReference couponRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child(user_mobile).child(username);
                             CouponState couponState = new CouponState("Coupon Code", "none", "0");
                             couponRef.child("COUPON_STATE").setValue(couponState);
+                            DatabaseReference bookingsRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+                            SlotUtil slotUtil = new SlotUtil("none", "none");
+                            bookingsRef.child(user_mobile).child(username).child("slots_util").setValue(slotUtil);
+                            DatabaseReference bookingsRef1 = FirebaseDatabase.getInstance().getReference("USER_DATA");
+                            TimeUtil timeUtil = new TimeUtil("none");
+                            bookingsRef1.child(user_mobile).child(username).child("time_util").setValue(timeUtil);
                             Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
                             startActivity(mainIntent);
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

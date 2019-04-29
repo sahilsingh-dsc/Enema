@@ -90,10 +90,8 @@ public class MyBookingsActivity extends AppCompatActivity {
                     String course_provider_no = (String) bookingSnap.child("course_provider_no").getValue();
                     String course_id = (String) bookingSnap.child("course_id").getValue();
                     String booking_id = bookingSnap.getKey();
-                    String booking_status = "none";
-                    if (bookingSnap.hasChild("booking_status")){
-                        booking_status = "cancelled";
-                    }
+                    String booking_status = (String) bookingSnap.child("booking_status").getValue();
+
 
                     MyBookingData bookingData = new MyBookingData(booking_image, booking_course_name, booking_course_location, booking_rating, booking_rating_count, wallet_tnx_id, booking_session,
                             booking_daydate,

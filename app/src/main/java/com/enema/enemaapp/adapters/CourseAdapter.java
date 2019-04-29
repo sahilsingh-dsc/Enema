@@ -2,6 +2,8 @@ package com.enema.enemaapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -16,20 +18,30 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.enema.enemaapp.R;
 import com.enema.enemaapp.models.CourseData;
+import com.enema.enemaapp.models.WishListData;
+import com.enema.enemaapp.ui.activities.BookCourseActivity;
 import com.enema.enemaapp.ui.activities.CourseDetailsActivity;
+import com.enema.enemaapp.ui.activities.LoginActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
 
     List<CourseData> courseDataList;
     Context context;
+    String wish = "0";
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
 
     public CourseAdapter(List<CourseData> courseDataList, Context context) {
         this.courseDataList = courseDataList;
@@ -44,7 +56,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CourseAdapter.CourseViewHolder courseViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final CourseViewHolder courseViewHolder, int i) {
 
         final CourseData cd = courseDataList.get(i);
 
@@ -62,6 +74,91 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         if (cd.getCourse_best_seller_status().equals("0")){
             courseViewHolder.imgBestSeller.setVisibility(View.INVISIBLE);
         }
+
+        if (firebaseUser != null) {
+            String user_id = firebaseUser.getUid();
+            String user_mobile = firebaseUser.getPhoneNumber();
+            assert user_mobile != null;
+            Query query = FirebaseDatabase.getInstance().getReference("USER_DATA")
+                    .child(user_mobile).child(user_id).child("WISHLIST_DATA")
+                    .orderByChild("course_id")
+                    .equalTo(cd.getCourse_id());
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot wishSnap : dataSnapshot.getChildren()){
+                        String course = (String) wishSnap.child("course_id").getValue();
+                        assert course != null;
+                        if (course.equals(cd.getCourse_id())){
+                            courseViewHolder.imgWishListOnCourse.setImageResource(R.drawable.ic_wish_teel);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+
+        courseViewHolder.imgWishListOnCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (firebaseUser != null) {
+                    String username = firebaseUser.getUid();
+                    String user_mobile = firebaseUser.getPhoneNumber();
+                    assert user_mobile != null;
+
+                    final Query applesQuery = wishlistRef.child(user_mobile).child(username)
+                            .child("WISHLIST_DATA")
+                            .orderByChild("course_id")
+                            .equalTo(cd.getCourse_id());
+
+                    if (wish.equals("0")){
+                        courseViewHolder.imgWishListOnCourse.setImageResource(R.drawable.ic_wish_teel);
+                        wish = "1";
+                        WishListData wishListData = new WishListData(cd.getCourse_name(),
+                                cd.getCourse_image(),
+                                cd.getCourse_rating(),
+                                cd.getCourse_area(),
+                                cd.getCourse_city(),
+                                cd.getCourse_rating_count(),
+                                cd.getCourse_id());
+                        wishlistRef.child(user_mobile).child(username).child("WISHLIST_DATA").push().setValue(wishListData);
+
+
+
+                    }else if (wish.equals("1")){
+                        courseViewHolder.imgWishListOnCourse.setImageResource(R.drawable.ic_wish_empty);
+                        wish = "0";
+                        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                                    appleSnapshot.getRef().removeValue();
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                }else {
+                    Intent registerIntent = new Intent(context, LoginActivity.class);
+                    context.startActivity(registerIntent);
+                }
+                }
+
+        });
 
         courseViewHolder.cardCourse.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -30,46 +30,46 @@ public class WalletActivity extends AppCompatActivity {
             }
         });
 
-        final TextView txtAddMoney, txtTnx;
+//        final TextView txtAddMoney, txtTnx;
+//
+//        txtAddMoney = findViewById(R.id.txtAddMoney);
+//        txtTnx = findViewById(R.id.txtTnx);
 
-        txtAddMoney = findViewById(R.id.txtAddMoney);
-        txtTnx = findViewById(R.id.txtTnx);
-
-        Fragment addMoneyFragment = new AddMoneyFragment();
+        Fragment transactionFragment = new TransactionFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.frameWallet, addMoneyFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.frameWallet, transactionFragment).commit();
 
-        txtAddMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        txtAddMoney.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Fragment addMoneyFragment = new AddMoneyFragment();
+//                FragmentManager fragmentManager = getSupportFragmentManager();
+//                fragmentManager.beginTransaction().replace(R.id.frameWallet, addMoneyFragment).commit();
+//
+//                txtAddMoney.setBackground(getResources().getDrawable(R.drawable.border_nothing));
+//                txtAddMoney.setTextColor(getResources().getColor(R.color.colorBlack));
+//                txtTnx.setBackground(getResources().getDrawable(R.drawable.rect_border_teal));
+//                txtTnx.setTextColor(getResources().getColor(R.color.colorWhite));
+//
+//            }
+//        });
 
-                Fragment addMoneyFragment = new AddMoneyFragment();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.frameWallet, addMoneyFragment).commit();
-
-                txtAddMoney.setBackground(getResources().getDrawable(R.drawable.border_nothing));
-                txtAddMoney.setTextColor(getResources().getColor(R.color.colorBlack));
-                txtTnx.setBackground(getResources().getDrawable(R.drawable.rect_border_teal));
-                txtTnx.setTextColor(getResources().getColor(R.color.colorWhite));
-
-            }
-        });
-
-        txtTnx.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Fragment tranxFragment = new TransactionFragment();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.frameWallet, tranxFragment).commit();
-
-                txtTnx.setBackground(getResources().getDrawable(R.drawable.border_nothing));
-                txtTnx.setTextColor(getResources().getColor(R.color.colorBlack));
-                txtAddMoney.setBackground(getResources().getDrawable(R.drawable.rect_border_teal));
-                txtAddMoney.setTextColor(getResources().getColor(R.color.colorWhite));
-
-            }
-        });
+//        txtTnx.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Fragment tranxFragment = new TransactionFragment();
+//                FragmentManager fragmentManager = getSupportFragmentManager();
+//                fragmentManager.beginTransaction().replace(R.id.frameWallet, tranxFragment).commit();
+//
+//                txtTnx.setBackground(getResources().getDrawable(R.drawable.border_nothing));
+//                txtTnx.setTextColor(getResources().getColor(R.color.colorBlack));
+//                txtAddMoney.setBackground(getResources().getDrawable(R.drawable.rect_border_teal));
+//                txtAddMoney.setTextColor(getResources().getColor(R.color.colorWhite));
+//
+//            }
+//        });
 
     }
 }

@@ -118,7 +118,6 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChildren()){
-                    Toast.makeText(RegisterActivity.this, "Account already exist", Toast.LENGTH_SHORT).show();
                     loadingDialog.dismiss();
                 }else {
                     Toast.makeText(RegisterActivity.this, "Account not exist", Toast.LENGTH_SHORT).show();
@@ -131,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
                     otpIntent.putExtras(otpBundle);
                     startActivity(otpIntent);
                     loadingDialog.dismiss();
-                    Toast.makeText(RegisterActivity.this, "data bundled", Toast.LENGTH_SHORT).show();
+                    finish();
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             }

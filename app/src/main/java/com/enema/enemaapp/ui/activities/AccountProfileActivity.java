@@ -1,13 +1,10 @@
 package com.enema.enemaapp.ui.activities;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.enema.enemaapp.R;
 import com.enema.enemaapp.models.ProfileData;
@@ -36,6 +32,8 @@ public class AccountProfileActivity extends AppCompatActivity {
     private int editState = 0;
     private String genderState = "male";
     private AlertDialog loadingDialog;
+    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,30 +59,20 @@ public class AccountProfileActivity extends AppCompatActivity {
 
         TextView txtProfileMobile = findViewById(R.id.txtProfileMobile);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            txtProfileMobile.setText(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber());
+            String user_mobile = firebaseUser.getPhoneNumber();
+            txtProfileMobile.setText(user_mobile);
         }
 
 
-//        etxtProfileEmail.setEnabled(false);
-//        etxtProfileName.setEnabled(false);
-//        etxtCityResidence.setEnabled(false);
-//        etxtCityOnID.setEnabled(false);
-//        etxtDOB.setEnabled(false);
+
+        etxtProfileEmail.setEnabled(false);
+        etxtProfileName.setEnabled(false);
+        etxtCityResidence.setEnabled(false);
+        etxtCityOnID.setEnabled(false);
+        etxtDOB.setEnabled(false);
 
         getUserData();
 
-        Button btnLogout = findViewById(R.id.btnLogout);
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                FirebaseAuth.getInstance().signOut();
-                Intent loginIntent = new Intent(AccountProfileActivity.this, LoginActivity.class);
-                startActivity(loginIntent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                finish();
-            }
-        });
 
         ImageView imgProfileToAccount = findViewById(R.id.imgProfileToAccount);
         imgProfileToAccount.setOnClickListener(new View.OnClickListener() {
@@ -98,23 +86,18 @@ public class AccountProfileActivity extends AppCompatActivity {
 
 
 
-        final TextView txtEditProfile = findViewById(R.id.txtEditProfile);
+        final Button txtEditProfile = findViewById(R.id.btnEditProfile);
         txtEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (editState == 0){
-                    txtEditProfile.setText("");
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        txtEditProfile.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_black_24dp, 0, 0, 0);
-
-                    }
+                    txtEditProfile.setText("SAVE PROFILE");
                     editProfile();
                     editState = 1;
 
                 } else {
-                    txtEditProfile.setText(getString(R.string.edit_profile));
-                    txtEditProfile.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    txtEditProfile.setText("EDIT PROFILE");
                     editState = 0;
                     updateProfile();
                 }
@@ -190,8 +173,6 @@ public class AccountProfileActivity extends AppCompatActivity {
 
         final EditText etxtProfileEmail, etxtProfileName, etxtCityResidence, etxtCityOnID, etxtDOB;
         LinearLayout lhGenderBox, lvMale, lvFemale;
-        ImageView imgMale, imgFemale;
-        TextView txtMale, txtFemale;
 
         etxtProfileEmail = findViewById(R.id.etxtProfileEmail);
         etxtProfileName = findViewById(R.id.etxtProfileName);
@@ -201,10 +182,6 @@ public class AccountProfileActivity extends AppCompatActivity {
         lhGenderBox = findViewById(R.id.lhGenderBox);
         lvMale = findViewById(R.id.lvMale);
         lvFemale = findViewById(R.id.lvFemale);
-        imgMale = findViewById(R.id.imgMale);
-        imgFemale = findViewById(R.id.imgFemale);
-        txtMale = findViewById(R.id.txtMale);
-        txtFemale = findViewById(R.id.txtFemale);
 
         etxtProfileEmail.setEnabled(false);
         etxtProfileName.setEnabled(false);
@@ -230,11 +207,9 @@ public class AccountProfileActivity extends AppCompatActivity {
 
         ProfileData profileData = new ProfileData(user_email, full_name, user_city_residence, user_city_on_id, user_dob, genderState);
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        final String username = firebaseUser.getUid();
-        String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-        DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+
+        String username = firebaseUser.getUid();
+        String user_mobile = firebaseUser.getPhoneNumber();
         assert user_mobile != null;
         profileRef.child(user_mobile).child(username).child("PROFILE_DATA").setValue(profileData);
 
@@ -245,10 +220,6 @@ public class AccountProfileActivity extends AppCompatActivity {
         loadingDialog.show();
 
         final EditText etxtProfileEmail, etxtProfileName, etxtCityResidence, etxtCityOnID, etxtDOB;
-        LinearLayout lhGenderBox, lvMale, lvFemale;
-        ImageView imgMale, imgFemale;
-        TextView txtMale, txtFemale;
-
         etxtProfileEmail = findViewById(R.id.etxtProfileEmail);
         etxtProfileName = findViewById(R.id.etxtProfileName);
         etxtCityResidence = findViewById(R.id.etxtCityResidence);
@@ -299,7 +270,7 @@ public class AccountProfileActivity extends AppCompatActivity {
                     etxtDOB.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_birthday_cake_teal, 0, 0, 0);
                 }
 
-                Toast.makeText(AccountProfileActivity.this, ""+user_city_on_id, Toast.LENGTH_SHORT).show();
+
 
                 etxtProfileEmail.setText(user_email);
                 etxtProfileName.setText(full_name);

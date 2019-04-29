@@ -1,6 +1,7 @@
 package com.enema.enemaapp.ui.activities;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     }
 
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to EnEma", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment = null;
@@ -43,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     fragment = new WishlistFragment();
                     break;
                 }else {
-                    Toast.makeText(MainActivity.this, "You must login to access wishlist", Toast.LENGTH_SHORT).show();
                     Intent registerIntent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(registerIntent);
                 }

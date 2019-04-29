@@ -1,7 +1,9 @@
 package com.enema.enemaapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,10 +34,18 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoriesAdapter.CategoriesViewHolder categoriesViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final CategoriesAdapter.CategoriesViewHolder categoriesViewHolder, int i) {
 
         CategoriesData cd = categoriesDataList.get(i);
         categoriesViewHolder.txtCategoryName.setText(cd.getCategories());
+        categoriesViewHolder.txtCategoryName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("categories");
+                intent.putExtra("queryCategory", categoriesViewHolder.txtCategoryName.getText().toString());
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+            }
+        });
 
     }
 

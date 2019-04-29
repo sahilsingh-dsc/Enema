@@ -144,7 +144,7 @@ public class NotificationActivity extends AppCompatActivity {
                         notificationDataList.add(notificationData);
                         TextView txtNotiCount = findViewById(R.id.txtNotiCount);
                         txtNotiCount.setText(notificationDataList.size() + " " + getString(R.string.new_noti));
-                        Toast.makeText(getApplicationContext(), "" + noti_message, Toast.LENGTH_SHORT).show();
+
                     }
 
                     notificationAdapter[0] = new NotificatiomAdapter(notificationDataList, NotificationActivity.this);

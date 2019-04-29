@@ -44,19 +44,10 @@ public class AdSliderAdapter extends PagerAdapter {
         View view = layoutInflater.inflate(R.layout.ad_slider, null);
 
         ImageView imgSliderAdImage = view.findViewById(R.id.imgSliderAdImage);
-//        TextView txtPunchLine, txtDay, txtAdBody, txtAdAmount, txtClickOnAd;
-//
-//        txtPunchLine = view.findViewById(R.id.txtPunchLine);
-//        txtDay = view.findViewById(R.id.txtDay);
-//        txtAdBody = view.findViewById(R.id.txtAdBody);
-//        txtAdAmount = view.findViewById(R.id.txtAdAmount);
-//        txtClickOnAd = view.findViewById(R.id.txtClickOnAd);
 
         AdSliderData asd = adSliderDataList.get(position);
         Glide.with(this.context).load(asd.getAd_image()).into(imgSliderAdImage);
-
         container.addView(view);
-
         return view;
 
     }

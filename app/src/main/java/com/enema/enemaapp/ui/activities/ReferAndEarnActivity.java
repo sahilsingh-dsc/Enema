@@ -59,6 +59,16 @@ public class ReferAndEarnActivity extends AppCompatActivity {
         imgTwitterShare = findViewById(R.id.imgTwitterShare);
         imgSkypeShare = findViewById(R.id.imgSkypeShare);
 
+
+        ImageView imgRefToAccount = findViewById(R.id.imgRefToAccount);
+        imgRefToAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                finish();
+            }
+        });
+
         imgWhatsappShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +76,10 @@ public class ReferAndEarnActivity extends AppCompatActivity {
                 try {
                     Intent waIntent = new Intent(Intent.ACTION_SEND);
                     waIntent.setType("text/plain");
-                    String text = "I have an EnEma coupon for you. Sign up with my Referral code XXXXXXX to avail the coupon. Download: (EnEma link)";
+                    String text = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        text = "I have an EnEma coupon for you. Sign up with my Referral code"+ Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber()+" to avail the coupon. Download: (EnEma link)";
+                    }
                     PackageInfo info=pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
                     waIntent.setPackage("com.whatsapp");
                     waIntent.putExtra(Intent.EXTRA_TEXT, text);

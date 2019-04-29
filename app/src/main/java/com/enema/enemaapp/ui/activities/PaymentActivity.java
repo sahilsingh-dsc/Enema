@@ -9,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.enema.enemaapp.R;
+import com.enema.enemaapp.models.MyBookingData;
 import com.enema.enemaapp.models.WalletTxnData;
+import com.enema.enemaapp.utils.SendMail;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +34,8 @@ public class PaymentActivity extends AppCompatActivity {
     private String walletcurrent_balance, email, phone, amount, purpose, tag;
     private int balance;
     int child_count;
+    String tnx_id;
+    Bundle paymentBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +61,12 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
 
-        Bundle paymentBundle = getIntent().getExtras();
+        paymentBundle = getIntent().getExtras();
         assert paymentBundle != null;
+
         email = paymentBundle.getString("email");
         phone = paymentBundle.getString("phone");
         amount = paymentBundle.getString("amount");
-        Toast.makeText(this, ""+amount, Toast.LENGTH_SHORT).show();
         purpose = paymentBundle.getString("purpose");
         String name = paymentBundle.getString("name");
         int balance = paymentBundle.getInt("updated_bal");
@@ -115,10 +119,11 @@ public class PaymentActivity extends AppCompatActivity {
                 updateTxn(reason);
 
                 if(tag.equals("booking")){
-                    onBackPressed();
+                    startActivity(new Intent(PaymentActivity.this, MyBookingsActivity.class));
+
                     finish();
                 }else {
-                    startActivity(new Intent(PaymentActivity.this, WalletActivity.class));
+                    startActivity(new Intent(PaymentActivity.this, MyBookingsActivity.class));
                     finish();
                 }
 
@@ -136,7 +141,7 @@ public class PaymentActivity extends AppCompatActivity {
         assert user_mobile != null;
         walletRef.child(user_mobile).child(username).child("WALLET_DATA").child("current_wallet_balance").setValue(""+commit_balance);
         Toast.makeText(this, "Money Added", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(PaymentActivity.this, WalletActivity.class));
+        startActivity(new Intent(PaymentActivity.this, MyBookingsActivity.class));
         finish();
     }
 
@@ -148,12 +153,78 @@ public class PaymentActivity extends AppCompatActivity {
         DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
         assert user_mobile != null;
         int update_count = child_count+1;
-        String tnx_id = "ETXN"+update_count;
+        tnx_id = "ETXN"+update_count;
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
         WalletTxnData walletTxnData = new WalletTxnData(walletcurrent_balance, amount, tnx_id, purpose, reason, timeStamp);
         walletRef.child(user_mobile).child(username)
                 .child("WALLET_DATA")
                 .child("PREVIOUS_TNX_DATA").push().setValue(walletTxnData);
+
+        updateBooking();
+
+    }
+
+    public void updateBooking(){
+
+        String booking_image, booking_course_name, booking_course_location, booking_rating, booking_rating_count, wallet_tnx_id, booking_session,
+                booking_daydate,
+                booking_time,
+                booking_for,
+                coupon_code,
+                course_fee,
+                course_provider_no,
+                course_id, booking_id, booking_status;
+
+
+        booking_image = paymentBundle.getString("booking_image");
+        booking_course_name = paymentBundle.getString("booking_course_name");
+        booking_course_location = paymentBundle.getString("booking_course_location");
+        booking_rating = paymentBundle.getString("booking_rating");
+        booking_rating_count = paymentBundle.getString("booking_rating_count");
+        course_id = paymentBundle.getString("course_id");
+        booking_session = paymentBundle.getString("booking_session");
+        booking_daydate = paymentBundle.getString("booking_daydate");
+        booking_time = paymentBundle.getString("booking_time");
+        booking_for = paymentBundle.getString("booking_for");
+        coupon_code = paymentBundle.getString("coupon_code");
+        course_fee = paymentBundle.getString("course_fee");
+        booking_id = paymentBundle.getString("booking_id");
+        booking_status = paymentBundle.getString("booking_status");
+
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        final String username = firebaseUser.getUid();
+        String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        DatabaseReference bookingsRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+        assert user_mobile != null;
+        MyBookingData myBookingData = new MyBookingData(
+
+                booking_image, booking_course_name, booking_course_location, booking_rating, booking_rating_count, tnx_id, booking_session,
+                booking_daydate,
+                booking_time,
+                booking_for,
+                coupon_code,
+                course_fee,
+                "0000000000",
+                course_id, booking_id, booking_status
+
+        );
+        bookingsRef.child(user_mobile).child(username).child("USERS_BOOKINGS_DATA").push().setValue(myBookingData);
+
+        String subject = "Regarding your latest course";
+        String name = "Sahil Singh";
+        String message = "Hello, " +name+
+                "\n" +
+                "Thanks for purchasing our course "+booking_course_name+"\n"+
+                "Course Fee :"+" ₹"+course_fee+"\n"+
+                "Transaction Id : "+tnx_id+"\n"+
+                "Booking For : "+booking_for+"\n"+
+                "Booking Status : "+booking_status;
+
+        SendMail sm = new SendMail(PaymentActivity.this, email, subject, message);
+        sm.execute();
+
     }
 
 }

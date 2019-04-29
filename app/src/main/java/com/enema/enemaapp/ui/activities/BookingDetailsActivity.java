@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.enema.enemaapp.R;
+import com.enema.enemaapp.utils.CancelDtl;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,10 +31,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class BookingDetailsActivity extends AppCompatActivity {
 
 
-    String cancel_reason;
+    String cancel_reason, booking_for;
+    private String booking_course_name, user_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +51,31 @@ public class BookingDetailsActivity extends AppCompatActivity {
         assert bookingBundle != null;
         String booking_status = bookingBundle.getString("booking_status");
         Button btnCancelBooking = findViewById(R.id.btnCancelBooking);
+        booking_course_name = bookingBundle.getString("booking_course_name");
 
         if (booking_status.equals("cancelled")){
 
             btnCancelBooking.setVisibility(View.INVISIBLE);
 
         }
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        final String username = firebaseUser.getUid();
+        final String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        DatabaseReference emailRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+        assert user_mobile != null;
+        emailRef.child(user_mobile).child(username).child("PROFILE_DATA").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                user_email = (String) dataSnapshot.child("user_email").getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(BookingDetailsActivity.this, "Database Error", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btnCancelBooking.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,15 +84,7 @@ public class BookingDetailsActivity extends AppCompatActivity {
             }
         });
 
-        ImageView imgBkgDtlToMyBkg = findViewById(R.id.imgBkgDtlToMyBkg);
-        imgBkgDtlToMyBkg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                finish();
-            }
-        });
+
 
         TextView txtBookingHelpSection = findViewById(R.id.txtBookingHelpSection);
         txtBookingHelpSection.setOnClickListener(new View.OnClickListener() {
@@ -206,7 +224,13 @@ public class BookingDetailsActivity extends AppCompatActivity {
                         DatabaseReference cancelbookingRef = FirebaseDatabase.getInstance().getReference("USER_DATA")
                                 .child(user_mobile).child(username).child("USERS_BOOKINGS_DATA");
                         assert booking_id != null;
-                        cancelbookingRef.child(booking_id).child("booking_status").child("cancelled").setValue(cancel_reason);
+                        cancelbookingRef.child(booking_id).child("booking_status").setValue("cancelled");
+                        DatabaseReference cancelRef = FirebaseDatabase.getInstance().getReference("APP_DATA");
+                        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+                        Calendar calendar = Calendar.getInstance();
+                        String current = df.format(calendar.getTime());
+                        CancelDtl cancelDtl = new CancelDtl(current, cancel_reason, course_id, booking_course_name, user_email, user_mobile,booking_for);
+                        cancelRef.child("BOOKINGS_CANCEL").push().setValue(cancelDtl);
                         dialog.dismiss();
                         Toast.makeText(BookingDetailsActivity.this, "Booking cancelled Successfully, Refund ", Toast.LENGTH_SHORT).show();
                     }
@@ -232,10 +256,9 @@ public class BookingDetailsActivity extends AppCompatActivity {
         Bundle bookingBundle = getIntent().getExtras();
         assert bookingBundle != null;
 
-        String booking_image, booking_course_name, booking_course_location, booking_rating, booking_rating_count, wallet_tnx_id, booking_session,
+        String booking_image, booking_course_location, booking_rating, booking_rating_count, wallet_tnx_id, booking_session,
                 booking_daydate,
                 booking_time,
-                booking_for,
                 coupon_code,
                 course_fee,
                 course_provider_no,

@@ -129,10 +129,10 @@
 
                 <ImageView
                     android:id="@+id/imgWishListOnCourse"
-                    android:layout_width="29dp"
-                    android:layout_height="27dp"
-                    android:padding="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:contentDescription="@string/todo"
+                    android:padding="15dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_wish_empty" />
@@ -142,8 +142,9 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/todo"
+                    app:layout_constraintBottom_toBottomOf="@+id/imgWishListOnCourse"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/imgWishListOnCourse"
                     app:srcCompat="@drawable/best_seller" />
             </android.support.constraint.ConstraintLayout>
 

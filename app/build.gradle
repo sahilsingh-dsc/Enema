@@ -12,6 +12,7 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -25,7 +26,9 @@ repositories {
     mavenCentral()
     maven {
         url "https://s3-ap-southeast-1.amazonaws.com/godel-release/godel/"
+
     }
+
 }
 
 dependencies {
@@ -76,6 +79,13 @@ dependencies {
     //heart and like
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
     ///
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.karumi:dexter:4.2.0'
+
+    // ButterKnife view binding
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
 
 
 }

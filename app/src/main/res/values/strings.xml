@@ -53,7 +53,6 @@
     <string name="profile">Profile</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="refer_amp_earn"><![CDATA[Refer & Earn]]></string>
-    <string name="wallet">Wallet</string>
     <string name="my_bookings">My Bookings</string>
     <string name="edit">EDIT</string>
     <string name="ankit_gmail_com">ankit@gmail.com</string>
@@ -91,6 +90,8 @@
     <string name="get_best_offer_of_all_time">Get best offer of all time</string>
     <string name="by_using_our_site_you_acknowledge_that_you_have_read_and_understand_our_cookie_policy_privacy_policy_and_our_terms_of_service">By using our site, you acknowledge that you have read and understand our Cookie Policy, Privacy Policy, and our Terms of Service.</string>
     <string name="apply">Apply</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="wallet">Wallet</string>
 
 
 </resources>

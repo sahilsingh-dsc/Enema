@@ -85,7 +85,6 @@ public class OtpActivity extends AppCompatActivity {
                         code_four.getText().toString() +
                         code_five.getText().toString() +
                         code_six.getText().toString();
-                Toast.makeText(OtpActivity.this, "" + otpcode, Toast.LENGTH_SHORT).show();
                 verifyPhoneNumberWithCode(mVerificationId, otpcode);
             }
         });
@@ -277,9 +276,7 @@ public class OtpActivity extends AppCompatActivity {
                                 DatabaseReference userRegRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
                                 UserData userData = new UserData(full_name, mobile_with_code, user_password);
                                 userRegRef.child(mobile_with_code).child(username).child("PROFILE_DATA").setValue(userData);
-                                Toast.makeText(OtpActivity.this, "Register done", Toast.LENGTH_SHORT).show();
                             }
-                            Toast.makeText(OtpActivity.this, "Success", Toast.LENGTH_SHORT).show();
                             Intent mainIntent = new Intent(OtpActivity.this, MainActivity.class);
                             startActivity(mainIntent);
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

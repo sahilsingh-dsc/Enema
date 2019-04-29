@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                     otpIntent.putExtras(otpBundle);
                     startActivity(otpIntent);
                     loadingDialog.dismiss();
-                    Toast.makeText(LoginActivity.this, "data bundled", Toast.LENGTH_SHORT).show();
+                    finish();
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }else {
                     Toast.makeText(LoginActivity.this, "Account not exist", Toast.LENGTH_SHORT).show();

@@ -23,6 +23,8 @@ import com.enema.enemaapp.adapters.SlotAdapter;
 import com.enema.enemaapp.adapters.TimeSlotAdapter;
 import com.enema.enemaapp.models.SlotModel;
 import com.enema.enemaapp.models.TimeSlotData;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,7 +43,8 @@ public class CourseDetailsActivity extends AppCompatActivity {
     List<SlotModel> slotModelList;
     List<TimeSlotData> timeSlotDataList;
     Bundle courseBundle;
-    DatabaseReference galleryRef = FirebaseDatabase.getInstance().getReference("APP_DATA").child("COURSES_DATA");
+    DatabaseReference courseRef = FirebaseDatabase.getInstance().getReference("APP_DATA").child("COURSES_DATA");
+    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +89,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 assert course_id != null;
-                galleryRef.child(course_id).child("COURSE_GALLERY").addValueEventListener(new ValueEventListener() {
+                courseRef.child(course_id).child("COURSE_GALLERY").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -130,35 +133,39 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
        getCourseDetails(course_id);
 
-       Button button3 = findViewById(R.id.button3);
-       button3.setOnClickListener(new View.OnClickListener() {
+       Button btnBookCourse = findViewById(R.id.btnBookCourse);
+        btnBookCourse.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
 
-               String course_name = courseBundle.getString("course_name");
-             //  Toast.makeText(CourseDetailsActivity.this, ""+course_name, Toast.LENGTH_SHORT).show();
-               String course_area = courseBundle.getString("course_area");
-               String course_city = courseBundle.getString("course_city");
-               String course_rating = courseBundle.getString("course_rating");
-               String course_rating_count = courseBundle.getString("course_rating_count");
-               String course_actual_price = courseBundle.getString("course_actual_price");
-               String course_discount_price = courseBundle.getString("course_discount_price");
-               String course_image = courseBundle.getString("course_image");
+               if (firebaseUser != null){
 
+                   String course_name = courseBundle.getString("course_name");
+                   String course_area = courseBundle.getString("course_area");
+                   String course_city = courseBundle.getString("course_city");
+                   String course_rating = courseBundle.getString("course_rating");
+                   String course_rating_count = courseBundle.getString("course_rating_count");
+                   String course_actual_price = courseBundle.getString("course_actual_price");
+                   String course_discount_price = courseBundle.getString("course_discount_price");
+                   String course_image = courseBundle.getString("course_image");
 
-               Intent courseDetailsIntent = new Intent(CourseDetailsActivity.this, BookCourseActivity.class);
-               Bundle sendcourseBundle = new Bundle();
-               sendcourseBundle.putString("course_name", course_name);
-               sendcourseBundle.putString("course_area", course_area);
-               sendcourseBundle.putString("course_city", course_city);
-               sendcourseBundle.putString("course_rating", course_rating);
-               sendcourseBundle.putString("course_rating_count", course_rating_count);
-               sendcourseBundle.putString("course_actual_price", course_actual_price);
-               sendcourseBundle.putString("course_discount_price", course_discount_price);
-               sendcourseBundle.putString("course_image", course_image);
-               courseDetailsIntent.putExtras(sendcourseBundle);
-               startActivity(courseDetailsIntent);
+                   Intent courseDetailsIntent = new Intent(CourseDetailsActivity.this, BookCourseActivity.class);
+                   Bundle sendcourseBundle = new Bundle();
+                   sendcourseBundle.putString("course_name", course_name);
+                   sendcourseBundle.putString("course_area", course_area);
+                   sendcourseBundle.putString("course_city", course_city);
+                   sendcourseBundle.putString("course_rating", course_rating);
+                   sendcourseBundle.putString("course_rating_count", course_rating_count);
+                   sendcourseBundle.putString("course_actual_price", course_actual_price);
+                   sendcourseBundle.putString("course_discount_price", course_discount_price);
+                   sendcourseBundle.putString("course_image", course_image);
+                   sendcourseBundle.putString("course_id", course_id);
+                   courseDetailsIntent.putExtras(sendcourseBundle);
+                   startActivity(courseDetailsIntent);
 
+               }else {
+                   gotoLogin();
+               }
            }
        });
 
@@ -167,7 +174,6 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
 
     private void getCourseDetails(String course_id){
-
 
         String course_name = courseBundle.getString("course_name");
         String course_area = courseBundle.getString("course_area");
@@ -182,9 +188,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         boolean cameraReq = courseBundle.getBoolean("cameraReq");
         boolean notebookReq = courseBundle.getBoolean("notebookReq");
 
-        DatabaseReference courseDetailsRef = FirebaseDatabase.getInstance().getReference("APP_DATA").child("COURSES_DATA");
-        //    Toast.makeText(this, ""+course_id, Toast.LENGTH_SHORT).show();
-        courseDetailsRef.child(course_id).child("NOTES").addValueEventListener(new ValueEventListener() {
+        courseRef.child(course_id).child("NOTES").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String slot_note = (String) dataSnapshot.child("SLOT_NOTE").getValue();
@@ -279,7 +283,6 @@ public class CourseDetailsActivity extends AppCompatActivity {
                     TimeSlotData timeSlotData = new TimeSlotData(time_from, time_to);
                     slotModelList.add(slotModel);
                     timeSlotDataList.add(timeSlotData);
-
                 }
 
                 slotAdapter[0] = new SlotAdapter(slotModelList,CourseDetailsActivity.this);
@@ -288,7 +291,6 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 timeAdapter[0] = new TimeSlotAdapter(timeSlotDataList,CourseDetailsActivity.this);
                 recyclerTime.setAdapter(timeAdapter[0]);
                 timeAdapter[0].notifyDataSetChanged();
-
             }
 
             @Override
@@ -296,8 +298,10 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
             }
         });
-
-
-
     }
+
+    private void gotoLogin(){
+        startActivity(new Intent(CourseDetailsActivity.this, LoginActivity.class));
+    }
+
 }

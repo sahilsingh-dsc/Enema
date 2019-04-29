@@ -1,16 +1,32 @@
 package com.enema.enemaapp.ui.fragments;
 
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,24 +40,43 @@ import com.enema.enemaapp.adapters.AdSliderAdapter;
 import com.enema.enemaapp.adapters.CategoriesAdapter;
 import com.enema.enemaapp.adapters.CourseAdapter;
 import com.enema.enemaapp.adapters.LocationAdapter;
+import com.enema.enemaapp.adapters.RecCourseAdapter;
 import com.enema.enemaapp.models.AdSliderData;
 import com.enema.enemaapp.models.CategoriesData;
 import com.enema.enemaapp.models.CourseData;
 import com.enema.enemaapp.models.LocationData;
+import com.enema.enemaapp.models.RecCourseData;
 import com.enema.enemaapp.ui.activities.NotificationActivity;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 public class HomeFragment extends Fragment implements SearchView.OnQueryTextListener, android.widget.SearchView.OnQueryTextListener {
 
@@ -49,11 +84,18 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     List<LocationData> locationDataList;
     List<CategoriesData> categoriesDataList;
     List<CourseData> courseDataList;
+    List<RecCourseData> recCourseDataList;
     List<AdSliderData> adSliderDataList;
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private AlertDialog loadingDialog;
     android.widget.SearchView searchView;
+    String city = "All Cities";
+    String categories = "All Categories";
+
     private CourseAdapter courseAdapter;
+
+
+
     public HomeFragment() {
 
     }
@@ -61,7 +103,14 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view =  inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_home, container, false);
+
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(locationReceiver,
+                new IntentFilter("locations"));
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(categoryReceiver,
+                new IntentFilter("categories"));
 
         loadingDialog = new SpotsDialog.Builder().setContext(getContext())
                 .setTheme(R.style.loading)
@@ -70,6 +119,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                 .build();
 
         loadingDialog.show();
+
 
         searchView = view.findViewById(R.id.search);
         searchView.setOnQueryTextListener(this);
@@ -80,6 +130,8 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         categoriesDataList.clear();
         courseDataList = new ArrayList<>();
         courseDataList.clear();
+        recCourseDataList = new ArrayList<>();
+        recCourseDataList.clear();
         adSliderDataList = new ArrayList<>();
         adSliderDataList.clear();
 
@@ -89,7 +141,9 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         getCourse();
         getRecommendedCourse();
         //getAllSliderAd();
+
         getAllDeals();
+
 
         if (firebaseUser != null) {
             getNotiCount();
@@ -99,7 +153,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         imgNotiBell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (FirebaseAuth.getInstance().getCurrentUser() != null){
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     Intent notiIntent = new Intent(getContext(), NotificationActivity.class);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         Objects.requireNonNull(getActivity()).startActivity(notiIntent);
@@ -107,7 +161,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         Objects.requireNonNull(getActivity()).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
-                }else {
+                } else {
                     Toast.makeText(getContext(), "You must login to see notifications", Toast.LENGTH_SHORT).show();
                 }
 
@@ -117,7 +171,16 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         return view;
     }
 
-    private void getAllAds(){
+
+
+
+
+
+
+
+
+
+    private void getAllAds() {
 
         DatabaseReference homeScreenAdsRef = FirebaseDatabase.getInstance().getReference("APP_DATA")
                 .child("ADS_DATA")
@@ -145,7 +208,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
     }
 
-    private void showTopScreenAd(String ad_title, String ad_price, String ad_image, String ad_click){
+    private void showTopScreenAd(String ad_title, String ad_price, String ad_image, String ad_click) {
 
         TextView txttopScreenAdTitle, txttopScreenAdPrice, txttopScreenAdClick;
         ImageView imgAdOnTop;
@@ -164,7 +227,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
     }
 
-    private void getAllLocations(){
+    private void getAllLocations() {
 
         loadingDialog.show();
 
@@ -187,7 +250,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
                 locationDataList.clear();
 
-                for (DataSnapshot locationSnap : dataSnapshot.getChildren()){
+                for (DataSnapshot locationSnap : dataSnapshot.getChildren()) {
 
                     String location_name = (String) locationSnap.child("location_name").getValue();
                     String location_image = (String) locationSnap.child("location_image").getValue();
@@ -197,7 +260,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
                 }
 
-                locationAdapter[0] = new LocationAdapter(locationDataList,view.getContext());
+                locationAdapter[0] = new LocationAdapter(locationDataList, view.getContext());
                 recyclerLocation.setAdapter(locationAdapter[0]);
                 locationAdapter[0].notifyDataSetChanged();
 
@@ -211,9 +274,11 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
             }
         });
 
+        getCourse();
+
     }
 
-    private void getAllCategories(){
+    private void getAllCategories() {
 
         loadingDialog.show();
 
@@ -235,7 +300,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 categoriesDataList.clear();
-                for (DataSnapshot categorySnap : dataSnapshot.getChildren()){
+                for (DataSnapshot categorySnap : dataSnapshot.getChildren()) {
 
                     String categories_name = (String) categorySnap.child("category_name").getValue();
 
@@ -244,7 +309,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
                 }
 
-                categoriesAdapter[0] = new CategoriesAdapter(categoriesDataList,view.getContext());
+                categoriesAdapter[0] = new CategoriesAdapter(categoriesDataList, view.getContext());
                 recyclerCategory.setAdapter(categoriesAdapter[0]);
                 categoriesAdapter[0].notifyDataSetChanged();
 
@@ -258,13 +323,30 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
             }
         });
 
+        getCourse();
+
     }
 
-    private void getCourse(){
+    public BroadcastReceiver locationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            city = intent.getStringExtra("queryCity");
+            getCourse();
+        }
+    };
 
+    public BroadcastReceiver categoryReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            categories = intent.getStringExtra("queryCategory");
+            Toast.makeText(context, ""+categories, Toast.LENGTH_SHORT).show();
+            getCourse();
+        }
+    };
+
+    private void getCourse() {
+        Query courseQuery;
         loadingDialog.show();
-        LocationData locationData = new LocationData();
-        Toast.makeText(getContext(), ""+locationData.getLoaction_name(), Toast.LENGTH_SHORT).show();
         final RecyclerView recyclerCourse;
         recyclerCourse = view.findViewById(R.id.recyclerCourse);
         recyclerCourse.hasFixedSize();
@@ -273,14 +355,32 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                 LinearLayoutManager.HORIZONTAL,
                 false)));
 
-        DatabaseReference courseRef = FirebaseDatabase.getInstance().getReference("APP_DATA")
-                .child("COURSES_DATA");
+        if (city.equals("All Cities")) {
+            courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
+                    .child("COURSES_DATA");
+        }else if (city.equals("Near Me")) {
+            courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
+                    .child("COURSES_DATA").orderByChild("course_city").equalTo("Bangalore");
+        } else {
+            courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
+                    .child("COURSES_DATA").orderByChild("course_city").equalTo(city);
+        }
 
-        courseRef.addValueEventListener(new ValueEventListener() {
+        if (categories.equals("All Categories")){
+            courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
+                    .child("COURSES_DATA");
+        }else{
+            courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
+                    .child("COURSES_DATA").orderByChild("course_category").equalTo(categories);
+        }
+
+        courseQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
                 courseDataList.clear();
-                for (DataSnapshot courseSnap : dataSnapshot.getChildren()){
+                for (DataSnapshot courseSnap : dataSnapshot.getChildren()) {
 
                     String course_name = (String) courseSnap.child("course_name").getValue();
                     String course_image = (String) courseSnap.child("course_image").getValue();
@@ -307,14 +407,10 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                             course_id);
 
                     courseDataList.add(cd);
-
                 }
-
-                courseAdapter = new CourseAdapter(courseDataList,view.getContext());
+                courseAdapter = new CourseAdapter(courseDataList, view.getContext());
                 recyclerCourse.setAdapter(courseAdapter);
-
                 loadingDialog.dismiss();
-
             }
 
             @Override
@@ -324,12 +420,13 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         });
 
     }
-    private void getRecommendedCourse(){
+
+    private void getRecommendedCourse() {
 
         loadingDialog.show();
 
         final RecyclerView recyclerRecommended;
-        final RecyclerView.Adapter[] courseAdapter = new RecyclerView.Adapter[1];
+        final RecyclerView.Adapter[] reccourseAdapter = new RecyclerView.Adapter[1];
         recyclerRecommended = view.findViewById(R.id.recyclerRecommended);
         recyclerRecommended.hasFixedSize();
         recyclerRecommended.setLayoutManager((new LinearLayoutManager(
@@ -337,15 +434,16 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                 LinearLayoutManager.HORIZONTAL,
                 false)));
 
-        DatabaseReference recommendedRef = FirebaseDatabase.getInstance().getReference("APP_DATA")
-                .child("COURSES_DATA");
 
-        recommendedRef.addValueEventListener(new ValueEventListener() {
+        Query recommendedRef = FirebaseDatabase.getInstance().getReference("APP_DATA")
+                .child("COURSES_DATA").orderByChild("course_rating").startAt("3.5");
+
+        recommendedRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 courseDataList.clear();
-                for (DataSnapshot courseSnap : dataSnapshot.getChildren()){
+                for (DataSnapshot courseSnap : dataSnapshot.getChildren()) {
 
                     String course_name = (String) courseSnap.child("course_name").getValue();
                     String course_image = (String) courseSnap.child("course_image").getValue();
@@ -358,7 +456,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                     String course_area = (String) courseSnap.child("course_area").getValue();
                     String course_city = (String) courseSnap.child("course_city").getValue();
 
-                    CourseData cd = new CourseData(
+                    RecCourseData recCourseData = new RecCourseData(
                             course_name,
                             course_image,
                             course_rating,
@@ -370,13 +468,13 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                             course_best_seller_status,
                             course_id);
 
-                    courseDataList.add(cd);
+                    recCourseDataList.add(recCourseData);
 
                 }
 
-                courseAdapter[0] = new CourseAdapter(courseDataList,view.getContext());
-                recyclerRecommended.setAdapter(courseAdapter[0]);
-                courseAdapter[0].notifyDataSetChanged();
+                reccourseAdapter[0] = new RecCourseAdapter(recCourseDataList, view.getContext());
+                recyclerRecommended.setAdapter(reccourseAdapter[0]);
+                reccourseAdapter[0].notifyDataSetChanged();
 
                 loadingDialog.dismiss();
 
@@ -389,6 +487,8 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         });
 
     }
+
+
 
     public void getAllSliderAd(){
 

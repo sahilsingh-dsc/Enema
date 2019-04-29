@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import com.enema.enemaapp.R;
 import com.enema.enemaapp.adapters.CouponAdapter;
@@ -30,6 +33,16 @@ public class CouponActivity extends AppCompatActivity {
         couponDataList = new ArrayList<>();
         couponDataList.clear();
         getAllCoupons();
+
+        ImageView imgCouponToBkgCrs = findViewById(R.id.imgCouponToBkgCrs);
+        imgCouponToBkgCrs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                finish();
+            }
+        });
+
     }
 
     public void getAllCoupons(){

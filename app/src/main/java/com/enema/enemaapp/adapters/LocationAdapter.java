@@ -1,9 +1,14 @@
 package com.enema.enemaapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.ActionBarContainer;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +20,14 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.enema.enemaapp.R;
 import com.enema.enemaapp.models.LocationData;
+import com.enema.enemaapp.ui.activities.MainActivity;
 import com.enema.enemaapp.ui.fragments.HomeFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -40,17 +52,20 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LocationAdapter.LocationViewHolder locationViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final LocationAdapter.LocationViewHolder locationViewHolder, final int i) {
 
         final LocationData ld = locationDataList.get(i);
         locationViewHolder.txtLocationName.setText(ld.getLoaction_name());
         Glide.with(this.context).load(ld.getLocation_image()).into(locationViewHolder.imgLocationImage);
-//        locationViewHolder.constrainLocation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        locationViewHolder.constrainLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent("locations");
+                intent.putExtra("queryCity", locationViewHolder.txtLocationName.getText().toString());
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+            }
+        });
 
     }
 

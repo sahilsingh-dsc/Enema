@@ -29,7 +29,7 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_privacy_policy);
 
         WebView webViewPP = findViewById(R.id.webViewPP);
-        webViewPP.loadUrl("https://enema-8bbf2.firebaseapp.com/privacypolicy.htm");
+        webViewPP.loadUrl("https://enema-8bbf2.firebaseapp.com/privacypolicy.html");
 
         ImageView imgPrivacyPToAcSection = findViewById(R.id.imgPrivacyPToAcSection);
         imgPrivacyPToAcSection.setOnClickListener(new View.OnClickListener() {
