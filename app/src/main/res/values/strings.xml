@@ -92,6 +92,7 @@
     <string name="apply">Apply</string>
     <string name="cancelled">Cancelled</string>
     <string name="wallet">Wallet</string>
+    <string name="edit_profile_new">Edit Profile</string>
 
 
 </resources>

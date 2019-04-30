@@ -34,11 +34,18 @@ public class AccountProfileActivity extends AppCompatActivity {
     private AlertDialog loadingDialog;
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference profileRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+    boolean login_state ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_profile);
+
+        if (firebaseUser != null){
+            login_state = true;
+        }else {
+            login_state = false;
+        }
 
         loadingDialog = new SpotsDialog.Builder().setContext(AccountProfileActivity.this)
                 .setTheme(R.style.loading)
