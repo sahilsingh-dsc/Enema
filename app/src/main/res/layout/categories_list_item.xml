@@ -24,8 +24,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
             android:fontFamily="@font/futura_light_bt"
             android:textColor="@color/colorBlack"
-            android:text="@string/loading" />
+            android:text="@string/loading"
+            android:focusable="true" />
     </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

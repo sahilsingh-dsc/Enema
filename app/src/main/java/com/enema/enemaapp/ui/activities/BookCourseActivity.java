@@ -75,6 +75,7 @@ public class BookCourseActivity extends AppCompatActivity {
             }
         });
 
+
         // firebase data fetech...
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         assert firebaseUser != null;
@@ -96,6 +97,7 @@ public class BookCourseActivity extends AppCompatActivity {
 
                 }
             });
+
 
 
             DatabaseReference emailRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
@@ -148,6 +150,15 @@ public class BookCourseActivity extends AppCompatActivity {
                 }
             });
             // firebase fetch ends here...
+
+            ImageView imgBkgDltFullToCourse = findViewById(R.id.imgBkgDltFullToCourse);
+            imgBkgDltFullToCourse.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                    finish();
+                }
+            });
 
             DatabaseReference bookingsRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
             bookingsRef.child(user_mobile).child(username).child("slots_util").addValueEventListener(new ValueEventListener() {

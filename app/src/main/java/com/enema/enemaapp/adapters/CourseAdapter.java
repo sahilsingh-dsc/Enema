@@ -42,6 +42,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     String wish = "0";
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+    boolean login_state;
 
     public CourseAdapter(List<CourseData> courseDataList, Context context) {
         this.courseDataList = courseDataList;
@@ -52,6 +53,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     @Override
     public CourseAdapter.CourseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.courses_arount_you_list_item, viewGroup, false);
+        if (firebaseUser != null){
+            login_state = true;
+        }else {
+            login_state = false;
+        }
         return new CourseViewHolder(v);
     }
 
@@ -75,10 +81,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             courseViewHolder.imgBestSeller.setVisibility(View.INVISIBLE);
         }
 
-        if (firebaseUser != null) {
+        if (login_state) {
             String user_id = firebaseUser.getUid();
             String user_mobile = firebaseUser.getPhoneNumber();
-            assert user_mobile != null;
             Query query = FirebaseDatabase.getInstance().getReference("USER_DATA")
                     .child(user_mobile).child(user_id).child("WISHLIST_DATA")
                     .orderByChild("course_id")
@@ -108,11 +113,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             @Override
             public void onClick(View v) {
 
-                if (firebaseUser != null) {
+                if (login_state) {
                     String username = firebaseUser.getUid();
                     String user_mobile = firebaseUser.getPhoneNumber();
-                    assert user_mobile != null;
-
                     final Query applesQuery = wishlistRef.child(user_mobile).child(username)
                             .child("WISHLIST_DATA")
                             .orderByChild("course_id")

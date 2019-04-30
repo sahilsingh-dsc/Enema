@@ -90,6 +90,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     private AlertDialog loadingDialog;
     android.widget.SearchView searchView;
     String city = "All Cities";
+    String click_state = "none";
     String categories = "All Categories";
 
     private CourseAdapter courseAdapter;
@@ -331,6 +332,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         @Override
         public void onReceive(Context context, Intent intent) {
             city = intent.getStringExtra("queryCity");
+            click_state = "city";
             getCourse();
         }
     };
@@ -339,14 +341,13 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         @Override
         public void onReceive(Context context, Intent intent) {
             categories = intent.getStringExtra("queryCategory");
-            Toast.makeText(context, ""+categories, Toast.LENGTH_SHORT).show();
+            click_state = "category";
             getCourse();
         }
     };
 
     private void getCourse() {
         Query courseQuery;
-        loadingDialog.show();
         final RecyclerView recyclerCourse;
         recyclerCourse = view.findViewById(R.id.recyclerCourse);
         recyclerCourse.hasFixedSize();
@@ -355,23 +356,33 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                 LinearLayoutManager.HORIZONTAL,
                 false)));
 
-        if (city.equals("All Cities")) {
-            courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
-                    .child("COURSES_DATA");
-        }else if (city.equals("Near Me")) {
-            courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
-                    .child("COURSES_DATA").orderByChild("course_city").equalTo("Bangalore");
-        } else {
-            courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
-                    .child("COURSES_DATA").orderByChild("course_city").equalTo(city);
+        courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
+                .child("COURSES_DATA");
+
+        if(click_state.equals("city")){
+
+            if (city.equals("All Cities")) {
+                courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
+                        .child("COURSES_DATA");
+            }else if (city.equals("Near Me")) {
+                courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
+                        .child("COURSES_DATA").orderByChild("course_city").equalTo("Bangalore");
+            } else {
+                courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
+                        .child("COURSES_DATA").orderByChild("course_city").equalTo(city);
+            }
+
         }
 
-        if (categories.equals("All Categories")){
-            courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
-                    .child("COURSES_DATA");
-        }else{
-            courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
-                    .child("COURSES_DATA").orderByChild("course_category").equalTo(categories);
+        if (click_state.equals("category")){
+
+            if (categories.equals("All Categories")){
+                courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
+                        .child("COURSES_DATA");
+            }else{
+                courseQuery = FirebaseDatabase.getInstance().getReference("APP_DATA")
+                        .child("COURSES_DATA").orderByChild("course_category").equalTo(categories);
+            }
         }
 
         courseQuery.addListenerForSingleValueEvent(new ValueEventListener() {

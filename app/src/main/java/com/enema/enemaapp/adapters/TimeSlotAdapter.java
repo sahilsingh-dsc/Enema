@@ -26,6 +26,7 @@ public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.TimeSl
     private Context context;
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference bookingsRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+    boolean login_state;
 
     public TimeSlotAdapter(List<TimeSlotData> timeSlotDataList, Context context) {
         this.timeSlotDataList = timeSlotDataList;
@@ -36,6 +37,11 @@ public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.TimeSl
     @Override
     public TimeSlotAdapter.TimeSlotViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.time_slot_item_list, viewGroup, false);
+        if (firebaseUser != null){
+            login_state = true;
+        }else {
+            login_state = false;
+        }
         return new TimeSlotViewHolder(v);
     }
 
@@ -49,7 +55,7 @@ public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.TimeSl
             @Override
             public void onClick(View v) {
 
-                if (firebaseUser != null) {
+                if (login_state) {
                     if (state[0].equals("0")){
                         timeSlotViewHolder.txtBookingTimeSlot.setBackground(context.getResources().getDrawable(R.drawable.border_and_gravity_grey));
                         state[0] = "1";

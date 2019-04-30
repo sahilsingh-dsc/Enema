@@ -34,7 +34,7 @@ public class SlotAdapter  extends RecyclerView.Adapter<SlotAdapter.SlotViewHolde
     View view;
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference slotRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-
+    boolean login_state;
 
     public SlotAdapter(List<SlotModel> slotModelList, Context context) {
         this.slotModelList = slotModelList;
@@ -45,6 +45,11 @@ public class SlotAdapter  extends RecyclerView.Adapter<SlotAdapter.SlotViewHolde
     @Override
     public SlotAdapter.SlotViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.course_slot_item_list, viewGroup, false);
+        if (firebaseUser != null){
+            login_state = true;
+        }else {
+            login_state = false;
+        }
         return new SlotViewHolder(view);
     }
 
@@ -61,7 +66,7 @@ public class SlotAdapter  extends RecyclerView.Adapter<SlotAdapter.SlotViewHolde
             public void onClick(View v) {
 
 
-                if (firebaseUser != null) {
+                if (login_state) {
                     if (state[0].equals("0")){
                         slotViewHolder.constrainSlot.setBackgroundColor(Color.LTGRAY);
                         state[0] = "1";
