@@ -195,7 +195,7 @@
                     android:layout_marginBottom="32dp"
                     android:background="@drawable/border_left_right_round"
                     android:fontFamily="@font/futura_light_bt"
-                    android:text="@string/edit_profile_new"
+                    android:text="@string/edit_profile"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
