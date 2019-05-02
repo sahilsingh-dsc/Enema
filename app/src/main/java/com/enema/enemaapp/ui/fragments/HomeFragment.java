@@ -1,32 +1,20 @@
 package com.enema.enemaapp.ui.fragments;
 
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,16 +35,6 @@ import com.enema.enemaapp.models.CourseData;
 import com.enema.enemaapp.models.LocationData;
 import com.enema.enemaapp.models.RecCourseData;
 import com.enema.enemaapp.ui.activities.NotificationActivity;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -66,17 +44,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
-
-import static android.content.Context.LOCATION_SERVICE;
 
 public class HomeFragment extends Fragment implements SearchView.OnQueryTextListener, android.widget.SearchView.OnQueryTextListener {
 
@@ -86,12 +58,13 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     List<CourseData> courseDataList;
     List<RecCourseData> recCourseDataList;
     List<AdSliderData> adSliderDataList;
-    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    String user_id;
     private AlertDialog loadingDialog;
     android.widget.SearchView searchView;
     String city = "All Cities";
     String click_state = "none";
     String categories = "All Categories";
+
 
     private CourseAdapter courseAdapter;
 
@@ -105,6 +78,31 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        TextView textView14 = view.findViewById(R.id.textView14);
+        textView14.setText(getString(R.string.helloww));
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (firebaseUser !=null){
+
+            user_id = firebaseUser.getUid();
+
+            DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+            nameRef.child("USER_PROFILE").child(user_id).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String name = (String) dataSnapshot.child("full_name").getValue();
+                    TextView textView14 = view.findViewById(R.id.textView14);
+                    textView14.setText(String.format("Hello, %s", name));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
 
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(locationReceiver,
@@ -327,6 +325,8 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         getCourse();
 
     }
+
+
 
     public BroadcastReceiver locationReceiver = new BroadcastReceiver() {
         @Override
@@ -590,15 +590,9 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
     private void getNotiCount(){
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        final String username = firebaseUser.getUid();
-        String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-        assert user_mobile != null;
-
         DatabaseReference userNotificationRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
 
-        userNotificationRef.child(user_mobile).child(username).child("USER_NOTIFICATIONS").addValueEventListener(new ValueEventListener() {
+        userNotificationRef.child("USER_NOTIFICATIONS").child(user_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 

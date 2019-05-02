@@ -3,9 +3,9 @@ package com.enema.enemaapp.ui.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.enema.enemaapp.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,9 +28,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText etxtFullNameR, etxtMobileR, etxtPasswordR, etxtRePasswordR;
     private CheckBox checkAcceptAggrement;
-    private LinearLayout lhLogin;
-    private Button btnSignUp;
-    private FirebaseAuth firebaseAuth;
     private AlertDialog loadingDialog;
 
     @Override
@@ -51,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .build();
 
-        btnSignUp = findViewById(R.id.btnSignUp);
+        Button btnSignUp = findViewById(R.id.btnSignUp);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        lhLogin = findViewById(R.id.lhLogin);
+        LinearLayout lhLogin = findViewById(R.id.lhLogin);
         lhLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,17 +106,20 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-
     private void sendOtpToNumberBundle(final String full_name, final String mobile_number, final String user_password) {
         loadingDialog.show();
-        DatabaseReference userRegRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-        userRegRef.child(mobile_number).addValueEventListener(new ValueEventListener() {
+        DatabaseReference userRegRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child("USER_CREDENTIALS");
+        userRegRef.child("+91"+mobile_number).addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChildren()){
+
+                    Toast.makeText(RegisterActivity.this, "User already exist", Toast.LENGTH_SHORT).show();
                     loadingDialog.dismiss();
+
                 }else {
-                    Toast.makeText(RegisterActivity.this, "Account not exist", Toast.LENGTH_SHORT).show();
+
                     Intent otpIntent = new Intent(RegisterActivity.this, OtpActivity.class);
                     Bundle otpBundle = new Bundle();
                     otpBundle.putString("auth_type", "register");
@@ -131,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
                     startActivity(otpIntent);
                     loadingDialog.dismiss();
                     finish();
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
                 }
             }
 
@@ -144,12 +143,14 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public static void hideKeyboard(Activity activity) {
+
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();
         if (view == null) {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
     }
 
 }

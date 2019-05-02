@@ -36,21 +36,28 @@ public class PaymentActivity extends AppCompatActivity {
     int child_count;
     String tnx_id;
     Bundle paymentBundle;
+    FirebaseUser firebaseUser;
+    String user_id;
+//    String
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        final String username = firebaseUser.getUid();
-        final String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null){
+            user_id = firebaseUser.getUid();
+        }
+
+
+
         DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-        assert user_mobile != null;
-        walletRef.child(user_mobile).child(username)
+        walletRef
                 .child("WALLET_DATA")
-                .child("PREVIOUS_TNX_DATA").addValueEventListener(new ValueEventListener() {
+                .child("PREVIOUS_TNX_DATA")
+                .child(user_id)
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 child_count = (int) dataSnapshot.getChildrenCount();
@@ -146,19 +153,16 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     private void updateTxn(String reason){
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        final String username = firebaseUser.getUid();
-        final String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
         DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-        assert user_mobile != null;
         int update_count = child_count+1;
         tnx_id = "ETXN"+update_count;
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
         WalletTxnData walletTxnData = new WalletTxnData(walletcurrent_balance, amount, tnx_id, purpose, reason, timeStamp);
-        walletRef.child(user_mobile).child(username)
+        walletRef
                 .child("WALLET_DATA")
-                .child("PREVIOUS_TNX_DATA").push().setValue(walletTxnData);
+                .child("PREVIOUS_TNX_DATA")
+                .child(user_id)
+                .push().setValue(walletTxnData);
 
         updateBooking();
 
@@ -191,13 +195,7 @@ public class PaymentActivity extends AppCompatActivity {
         booking_id = paymentBundle.getString("booking_id");
         booking_status = paymentBundle.getString("booking_status");
 
-
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        final String username = firebaseUser.getUid();
-        String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
         DatabaseReference bookingsRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-        assert user_mobile != null;
         MyBookingData myBookingData = new MyBookingData(
 
                 booking_image, booking_course_name, booking_course_location, booking_rating, booking_rating_count, tnx_id, booking_session,
@@ -210,10 +208,10 @@ public class PaymentActivity extends AppCompatActivity {
                 course_id, booking_id, booking_status
 
         );
-        bookingsRef.child(user_mobile).child(username).child("USERS_BOOKINGS_DATA").push().setValue(myBookingData);
+        bookingsRef.child("USERS_BOOKINGS").child(user_id).push().setValue(myBookingData);
 
         String subject = "Regarding your latest course";
-        String name = "Sahil Singh";
+        String name = booking_for;
         String message = "Hello, " +name+
                 "\n" +
                 "Thanks for purchasing our course "+booking_course_name+"\n"+

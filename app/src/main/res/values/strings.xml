@@ -93,6 +93,13 @@
     <string name="cancelled">Cancelled</string>
     <string name="wallet">Wallet</string>
     <string name="edit_profile_new">Edit Profile</string>
+    <string name="edtpro">EDIT PROFILE</string>
+    <string name="spro">SAVE PROFILE</string>
+    <string name="helloww">Hello</string>
+    <string name="new_password">New Password</string>
+    <string name="re_new_password">Re-New Password</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="cid">655033789229-amoi3bvjca1a5clcia75e09es74mmeqe.apps.googleusercontent.com</string>
 
 
 </resources>

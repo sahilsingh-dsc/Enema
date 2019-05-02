@@ -96,7 +96,6 @@
                     android:importantForAutofill="no"
                     android:inputType=""
                     android:padding="15dp"
-                    android:text="@string/city_of_residence"
                     android:textColor="@color/colorBlack"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -125,7 +124,6 @@
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
                     android:padding="15dp"
-                    android:text="@string/ankit_gmail_com"
                     android:textColor="@color/colorBlack"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -154,7 +152,6 @@
                     android:importantForAutofill="no"
                     android:inputType=""
                     android:padding="15dp"
-                    android:text="@string/ankit"
                     android:textColor="@color/colorBlack"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -162,7 +159,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/etxtProfileEmail"
                     tools:targetApi="o" />
 
-                <TextView
+                <EditText
                     android:id="@+id/txtProfileMobile"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
@@ -176,6 +173,7 @@
                     android:drawablePadding="15dp"
                     android:fontFamily="@font/futura_book_font"
                     android:gravity="center_vertical"
+                    android:background="@drawable/border_nothing"
                     android:padding="15dp"
                     android:textColor="@color/colorBlack"
                     android:textSize="15sp"
@@ -288,7 +286,6 @@
                     android:importantForAutofill="no"
                     android:inputType=""
                     android:padding="15dp"
-                    android:text="@string/date_of_birth"
                     android:textColor="@color/colorBlack"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -316,7 +313,6 @@
                     android:importantForAutofill="no"
                     android:inputType=""
                     android:padding="15dp"
-                    android:text="@string/city_on_id_card"
                     android:textColor="@color/colorBlack"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"

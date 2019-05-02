@@ -31,12 +31,18 @@ import java.util.List;
 public class NotificationActivity extends AppCompatActivity {
 
     private List<NotificationData> notificationDataList;
-    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseUser firebaseUser;
+    String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null){
+            user_id = firebaseUser.getUid();
+        }
 
         ImageView imgNotificationToMain = findViewById(R.id.imgNotificationToMain);
         imgNotificationToMain.setOnClickListener(new View.OnClickListener() {
@@ -76,15 +82,12 @@ public class NotificationActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                        assert firebaseUser != null;
-                        final String username = firebaseUser.getUid();
-                        String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-                        assert user_mobile != null;
+
                         DatabaseReference userNotificationRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
 
-                        Query applesQuery = userNotificationRef.child(user_mobile).child(username)
+                        Query applesQuery = userNotificationRef
                                 .child("USER_NOTIFICATIONS")
+                                .child(user_id)
                                 .orderByChild("noti_message");
                         applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -125,14 +128,9 @@ public class NotificationActivity extends AppCompatActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerNotification.setLayoutManager(mLayoutManager);
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-            final String username = firebaseUser.getUid();
-            String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-            assert user_mobile != null;
-
             DatabaseReference userNotificationRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
 
-            userNotificationRef.child(user_mobile).child(username).child("USER_NOTIFICATIONS").addValueEventListener(new ValueEventListener() {
+            userNotificationRef.child("USER_NOTIFICATIONS").child(user_id).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 

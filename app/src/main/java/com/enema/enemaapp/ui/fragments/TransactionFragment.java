@@ -69,14 +69,12 @@ public class TransactionFragment extends Fragment {
         recyclerTxn.setLayoutManager(mLayoutManager);
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        final String username = firebaseUser.getUid();
-        final String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        final String user_id = firebaseUser.getUid();
         DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-        assert user_mobile != null;
-        walletRef.child(user_mobile).child(username)
+        walletRef
                 .child("WALLET_DATA")
                 .child("PREVIOUS_TNX_DATA")
+                .child(user_id)
                 .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

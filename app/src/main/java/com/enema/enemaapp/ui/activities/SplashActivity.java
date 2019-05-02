@@ -45,19 +45,16 @@ public class SplashActivity extends AppCompatActivity {
                         if (user != null) {
 
                             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                            assert firebaseUser != null;
-                            final String username = firebaseUser.getUid();
-                            final String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-                            assert user_mobile != null;
-                            final DatabaseReference couponRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child(user_mobile).child(username);
+                            final String user_id = firebaseUser.getUid();
+                            DatabaseReference couponRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
                             CouponState couponState = new CouponState("Coupon Code", "none", "0");
-                            couponRef.child("COUPON_STATE").setValue(couponState);
+                            couponRef.child("COUPON_STATE").child(user_id).setValue(couponState);
                             DatabaseReference bookingsRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
                             SlotUtil slotUtil = new SlotUtil("none", "none");
-                            bookingsRef.child(user_mobile).child(username).child("slots_util").setValue(slotUtil);
+                            bookingsRef.child("SLOT_UTIL").child(user_id).setValue(slotUtil);
                             DatabaseReference bookingsRef1 = FirebaseDatabase.getInstance().getReference("USER_DATA");
                             TimeUtil timeUtil = new TimeUtil("none");
-                            bookingsRef1.child(user_mobile).child(username).child("time_util").setValue(timeUtil);
+                            bookingsRef1.child("TIME_UTIL").child(user_id).setValue(timeUtil);
                             Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
                             startActivity(mainIntent);
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

@@ -2,17 +2,18 @@ package com.enema.enemaapp.models;
 
 public class ProfileData {
 
-    String user_email, full_name, user_city_residence, user_city_on_id, user_dob, user_gender;
+    String user_email, full_name, user_city_residence, user_city_on_id, user_dob, user_gender, user_mobile;
 
     ProfileData(){}
 
-    public ProfileData(String user_email, String full_name, String user_city_residence, String user_city_on_id, String user_dob, String user_gender) {
+    public ProfileData(String user_email, String full_name, String user_city_residence, String user_city_on_id, String user_dob, String user_gender, String user_mobile) {
         this.user_email = user_email;
         this.full_name = full_name;
         this.user_city_residence = user_city_residence;
         this.user_city_on_id = user_city_on_id;
         this.user_dob = user_dob;
         this.user_gender = user_gender;
+        this.user_mobile = user_mobile;
     }
 
     public String getUser_email() {
@@ -61,5 +62,13 @@ public class ProfileData {
 
     public void setUser_gender(String user_gender) {
         this.user_gender = user_gender;
+    }
+
+    public String getUser_mobile() {
+        return user_mobile;
+    }
+
+    public void setUser_mobile(String user_mobile) {
+        this.user_mobile = user_mobile;
     }
 }

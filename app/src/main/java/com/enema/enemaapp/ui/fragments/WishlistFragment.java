@@ -10,12 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.enema.enemaapp.R;
-import com.enema.enemaapp.adapters.CourseAdapter;
 import com.enema.enemaapp.adapters.WishListAdapter;
-import com.enema.enemaapp.models.CourseData;
 import com.enema.enemaapp.models.WishListData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,26 +32,29 @@ public class WishlistFragment extends Fragment {
     View view;
     private List<WishListData> wishListDataList;
     private AlertDialog loadingDialog;
-
+    private String user_id;
 
     public WishlistFragment() {
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_wishlist, container, false);
 
-        loadingDialog = new SpotsDialog.Builder().setContext(getContext())
-                .setTheme(R.style.loading)
-                .setMessage("Please Wait")
-                .setCancelable(false)
-                .build();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null){
+            user_id = firebaseUser.getUid();
+            loadingDialog = new SpotsDialog.Builder().setContext(getContext())
+                    .setTheme(R.style.loading)
+                    .setMessage("Please Wait")
+                    .setCancelable(false)
+                    .build();
 
-        wishListDataList = new ArrayList<>();
-        wishListDataList.clear();
-        getUserWishList();
+            wishListDataList = new ArrayList<>();
+            wishListDataList.clear();
+            getUserWishList();
+        }
         return view;
     }
 
@@ -67,15 +67,9 @@ public class WishlistFragment extends Fragment {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerWishList.setLayoutManager(mLayoutManager);
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        final String username = firebaseUser.getUid();
-        final String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-        final DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-        assert user_mobile != null;
-
+        DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child("WISHLIST_DATA");
         loadingDialog.dismiss();
-        wishlistRef.child(user_mobile).child(username).child("WISHLIST_DATA").addValueEventListener(new ValueEventListener() {
+        wishlistRef.child(user_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 

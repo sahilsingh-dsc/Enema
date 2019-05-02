@@ -39,15 +39,22 @@ public class BookCourseActivity extends AppCompatActivity {
     TextView txtCouponCodeBook;
     int offer_amount, coupon_discount, coupon_net_discount, final_discount, total_payable;
     String coupon_code, coupon_value, coupon_type;
-    String slot_session ;
-    String user_mobile;
-    String slot_daydate ;
-    String time_slot ;
+    String slot_session;
+    String user_id;
+    String _user_mobile;
+    String slot_daydate;
+    String time_slot;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_course);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            user_id = firebaseUser.getUid();
+        }
 
         txtCDNameBook = findViewById(R.id.txtCDNameBook);
         txtCDAreaCity = findViewById(R.id.txtCDAreaCityBook);
@@ -75,125 +82,123 @@ public class BookCourseActivity extends AppCompatActivity {
             }
         });
 
-
-        // firebase data fetech...
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        if (firebaseUser !=null){
-            final String username = firebaseUser.getUid();
-            user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-            DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-            assert user_mobile != null;
-            walletRef.child(user_mobile).child(username).child("WALLET_DATA").addValueEventListener(new ValueEventListener() {
-
-
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    current_wallet_balance = (String) dataSnapshot.child("current_wallet_balance").getValue();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
+//            DatabaseReference walletRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+//            assert user_mobile != null;
+//            walletRef.child("WALLET_DATA").child(user_mobile).addValueEventListener(new ValueEventListener() {
+//
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    current_wallet_balance = (String) dataSnapshot.child("current_wallet_balance").getValue();
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                }
+//            });
 
 
+        DatabaseReference emailRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+        emailRef.child("USER_PROFILE").child(user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                user_email = (String) dataSnapshot.child("user_email").getValue();
+            }
 
-            DatabaseReference emailRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-            emailRef.child(user_mobile).child(username).child("PROFILE_DATA").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    user_email = (String) dataSnapshot.child("user_email").getValue();
-                }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(BookCourseActivity.this, "Database Error", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toast.makeText(BookCourseActivity.this, "Database Error", Toast.LENGTH_SHORT).show();
-                }
-            });
-            DatabaseReference couponRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child(user_mobile).child(username);
-            couponRef.child("COUPON_STATE").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    coupon_code = (String) dataSnapshot.child("coupon_code").getValue();
-                    coupon_value = (String) dataSnapshot.child("coupon_value").getValue();
-                    coupon_type = (String) dataSnapshot.child("coupon_type").getValue();
-                    txtCouponCodeBook.setText(coupon_code);
-                    if (coupon_type.equals("flat")){
-                        String offer_amt = txtOfferFee.getText().toString();
-                        offer_amount = Integer.parseInt(offer_amt);
-                        coupon_discount = Integer.parseInt(coupon_value);
-                        final_discount = coupon_discount;
-                        total_payable = offer_amount - coupon_discount;
-                        txtDiscountAmt.setText(""+final_discount);
-                        txtTotalCourseFee.setText(""+total_payable);
+        DatabaseReference mobileRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+        mobileRef.child("USER_PROFILE").child(user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                _user_mobile = (String) dataSnapshot.child("user_mobile").getValue();
+            }
 
-                    }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    if (coupon_type.equals("percent")){
-                        String offer_amt = txtOfferFee.getText().toString();
-                        offer_amount = Integer.parseInt(offer_amt);
-                        coupon_discount = Integer.parseInt(coupon_value);
-                        int cal = offer_amount*coupon_discount;
-                        final_discount = cal/100;
-                        total_payable = offer_amount - final_discount;
-                        txtDiscountAmt.setText(""+final_discount);
-                        txtTotalCourseFee.setText(""+total_payable);
-                    }
+            }
+        });
+
+
+        DatabaseReference couponRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+        couponRef.child("COUPON_STATE").child(user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                coupon_code = (String) dataSnapshot.child("coupon_code").getValue();
+                coupon_value = (String) dataSnapshot.child("coupon_value").getValue();
+                coupon_type = (String) dataSnapshot.child("coupon_type").getValue();
+                txtCouponCodeBook.setText(coupon_code);
+                if (coupon_type.equals("flat")) {
+                    String offer_amt = txtOfferFee.getText().toString();
+                    offer_amount = Integer.parseInt(offer_amt);
+                    coupon_discount = Integer.parseInt(coupon_value);
+                    final_discount = coupon_discount;
+                    total_payable = offer_amount - coupon_discount;
+                    txtDiscountAmt.setText("" + final_discount);
+                    txtTotalCourseFee.setText("" + total_payable);
 
                 }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-            // firebase fetch ends here...
-
-            ImageView imgBkgDltFullToCourse = findViewById(R.id.imgBkgDltFullToCourse);
-            imgBkgDltFullToCourse.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onBackPressed();
-                    finish();
-                }
-            });
-
-            DatabaseReference bookingsRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-            bookingsRef.child(user_mobile).child(username).child("slots_util").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    slot_session = (String) dataSnapshot.child("booking_session").getValue();
-                    slot_daydate = (String) dataSnapshot.child("booking_daydate").getValue();
+                if (coupon_type.equals("percent")) {
+                    String offer_amt = txtOfferFee.getText().toString();
+                    offer_amount = Integer.parseInt(offer_amt);
+                    coupon_discount = Integer.parseInt(coupon_value);
+                    int cal = offer_amount * coupon_discount;
+                    final_discount = cal / 100;
+                    total_payable = offer_amount - final_discount;
+                    txtDiscountAmt.setText("" + final_discount);
+                    txtTotalCourseFee.setText("" + total_payable);
                 }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
 
-                }
-            });
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            DatabaseReference bookingsRef3 = FirebaseDatabase.getInstance().getReference("USER_DATA");
-            bookingsRef3.child(user_mobile).child(username).child("time_util").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    time_slot = (String) dataSnapshot.child("booking_time").getValue();
-                }
+            }
+        });
+        // firebase fetch ends here...
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+        ImageView imgBkgDltFullToCourse = findViewById(R.id.imgBkgDltFullToCourse);
+        imgBkgDltFullToCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                finish();
+            }
+        });
 
-                }
-            });
+        DatabaseReference bookingsRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+        bookingsRef.child("SLOT_UTIL").child(user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                slot_session = (String) dataSnapshot.child("booking_session").getValue();
+                slot_daydate = (String) dataSnapshot.child("booking_daydate").getValue();
+            }
 
-        } else{
-            Intent registerIntent = new Intent(BookCourseActivity.this, LoginActivity.class);
-            startActivity(registerIntent);
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
 
+        DatabaseReference bookingsRef3 = FirebaseDatabase.getInstance().getReference("USER_DATA");
+        bookingsRef3.child("TIME_UTIL").child(user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                time_slot = (String) dataSnapshot.child("booking_time").getValue();
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         getBookData();
 
@@ -204,7 +209,7 @@ public class BookCourseActivity extends AppCompatActivity {
 
                 if (FirebaseAuth.getInstance().getCurrentUser() != null){
 
-                    String mobile  = user_mobile.replace("+91", "");
+                    String mobile  = _user_mobile.replace("+91", "");
                     String name = txtBookingForFullName.getText().toString();
                     if (TextUtils.isEmpty(name)){
                         Toast.makeText(BookCourseActivity.this, "Please enter name", Toast.LENGTH_SHORT).show();
@@ -215,7 +220,6 @@ public class BookCourseActivity extends AppCompatActivity {
                     Bundle paymentbundle =  new Bundle();
 
 
-                    //Course Details
                     String course_name = courseBundle.getString("course_name");
                     String course_area = courseBundle.getString("course_area");
                     String course_city = courseBundle.getString("course_city");
@@ -232,7 +236,6 @@ public class BookCourseActivity extends AppCompatActivity {
                     paymentbundle.putString("booking_rating", course_rating);
                     paymentbundle.putString("booking_rating_count", course_rating_count);
                     paymentbundle.putString("course_id", course_id);
-                    //paymentbundle.putString("wallet_tnx_id", bookingData.getWallet_tnx_id());
                     paymentbundle.putString("booking_session", slot_session);
                     paymentbundle.putString("booking_daydate", slot_daydate);
                     paymentbundle.putString("booking_time", time_slot);
@@ -246,12 +249,8 @@ public class BookCourseActivity extends AppCompatActivity {
                     }else {
                         paymentbundle.putString("course_fee", String.valueOf(total_payable));
                     }
-                 //   paymentbundle.putString("course_provider_no", );
                     paymentbundle.putString("booking_id", course_id);
                     paymentbundle.putString("booking_status","pending");
-
-                    ///
-
                     paymentbundle.putString("email", user_email);
                     paymentbundle.putString("phone", mobile);
                     paymentbundle.putString("purpose", course_name);
@@ -286,7 +285,6 @@ public class BookCourseActivity extends AppCompatActivity {
 
 
     private void getBookData(){
-
 
         String course_area = courseBundle.getString("course_area");
         String course_city = courseBundle.getString("course_city");

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pattern_bg"
+    tools:context=".ui.activities.AccountProfileActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:backgroundTint="@color/colorCyanTeal"
+                    android:elevation="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:targetApi="lollipop">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/txtProfileTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:fontFamily="@font/futura_medium_bt"
+                            android:text="@string/profile"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <EditText
+                    android:id="@+id/etxtProfileEmailGoogle"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginRight="24dp"
+                    android:background="@drawable/border_nothing"
+                    android:drawableStart="@drawable/ic_mail"
+                    android:drawableLeft="@drawable/ic_mail"
+                    android:drawablePadding="15dp"
+                    android:enabled="false"
+                    android:fontFamily="@font/futura_book_font"
+                    android:gravity="center_vertical"
+                    android:hint="@string/email"
+                    android:importantForAutofill="no"
+                    android:inputType="textEmailAddress"
+                    android:padding="15dp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtProfileMobileGoogle"
+                    tools:targetApi="o" />
+
+                <EditText
+                    android:id="@+id/etxtProfileNameGoogle"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginRight="24dp"
+                    android:background="@drawable/border_nothing"
+                    android:drawableStart="@drawable/ic_users_teal"
+                    android:drawableLeft="@drawable/ic_users_teal"
+                    android:drawablePadding="15dp"
+                    android:enabled="false"
+                    android:fontFamily="@font/futura_book_font"
+                    android:gravity="center_vertical"
+                    android:hint="@string/name"
+                    android:importantForAutofill="no"
+                    android:inputType=""
+                    android:padding="15dp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etxtProfileEmailGoogle"
+                    tools:targetApi="o" />
+
+                <EditText
+                    android:id="@+id/txtProfileMobileGoogle"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginRight="24dp"
+                    android:drawableStart="@drawable/ic_smartphone"
+                    android:drawableLeft="@drawable/ic_smartphone"
+                    android:drawablePadding="15dp"
+                    android:fontFamily="@font/futura_book_font"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/border_nothing"
+                    android:padding="15dp"
+                    android:hint="@string/mobile_number"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+                <Button
+                    android:id="@+id/btnEditProfileGoogle"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/border_left_right_round"
+                    android:fontFamily="@font/futura_light_bt"
+                    android:text="SAVE"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etxtProfileNameGoogle" />
+
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>

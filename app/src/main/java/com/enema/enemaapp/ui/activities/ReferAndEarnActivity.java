@@ -27,7 +27,6 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Objects;
 
-import static io.fabric.sdk.android.services.network.UrlUtils.urlEncode;
 
 public class ReferAndEarnActivity extends AppCompatActivity {
 

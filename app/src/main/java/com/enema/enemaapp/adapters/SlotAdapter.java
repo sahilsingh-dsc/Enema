@@ -32,9 +32,9 @@ public class SlotAdapter  extends RecyclerView.Adapter<SlotAdapter.SlotViewHolde
     List<SlotModel> slotModelList;
     Context context;
     View view;
-    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-    private DatabaseReference slotRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-    boolean login_state;
+    private FirebaseUser firebaseUser;
+    private DatabaseReference slotRef;
+    String user_id;
 
     public SlotAdapter(List<SlotModel> slotModelList, Context context) {
         this.slotModelList = slotModelList;
@@ -45,11 +45,13 @@ public class SlotAdapter  extends RecyclerView.Adapter<SlotAdapter.SlotViewHolde
     @Override
     public SlotAdapter.SlotViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.course_slot_item_list, viewGroup, false);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        slotRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
         if (firebaseUser != null){
-            login_state = true;
-        }else {
-            login_state = false;
+            user_id = firebaseUser.getUid();
         }
+
         return new SlotViewHolder(view);
     }
 
@@ -66,7 +68,7 @@ public class SlotAdapter  extends RecyclerView.Adapter<SlotAdapter.SlotViewHolde
             public void onClick(View v) {
 
 
-                if (login_state) {
+                if (firebaseUser != null) {
                     if (state[0].equals("0")){
                         slotViewHolder.constrainSlot.setBackgroundColor(Color.LTGRAY);
                         state[0] = "1";
@@ -76,10 +78,7 @@ public class SlotAdapter  extends RecyclerView.Adapter<SlotAdapter.SlotViewHolde
                     }
 
                     SlotUtil slotUtil = new SlotUtil(slotModel.getSlot_month()+" "+slotModel.getSlot_year(), slotModel.getSlot_day()+" "+slotModel.getSlot_date());
-                    String user_id = firebaseUser.getUid();
-                    String user_mobile = firebaseUser.getPhoneNumber();
-                    assert user_mobile != null;
-                    slotRef.child(user_mobile).child(user_id).child("slots_util").setValue(slotUtil);
+                    slotRef.child("SLOT_UTIL").child(user_id).setValue(slotUtil);
                 } else {
                     gotoLogin();
                 }

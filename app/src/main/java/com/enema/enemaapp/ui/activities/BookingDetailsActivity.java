@@ -2,23 +2,19 @@ package com.enema.enemaapp.ui.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.enema.enemaapp.R;
 import com.enema.enemaapp.utils.CancelDtl;
@@ -28,11 +24,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -41,11 +35,20 @@ public class BookingDetailsActivity extends AppCompatActivity {
 
     String cancel_reason, booking_for;
     private String booking_course_name, user_email;
+    FirebaseUser firebaseUser;
+    String user_id;
+    String _user_mobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_details);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null){
+            user_id = firebaseUser.getUid();
+        }
 
         Bundle bookingBundle = getIntent().getExtras();
         assert bookingBundle != null;
@@ -59,13 +62,21 @@ public class BookingDetailsActivity extends AppCompatActivity {
 
         }
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        final String username = firebaseUser.getUid();
-        final String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        DatabaseReference mobileRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+        mobileRef.child("USER_PROFILE").child(user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                _user_mobile = (String) dataSnapshot.child("user_mobile").getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         DatabaseReference emailRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-        assert user_mobile != null;
-        emailRef.child(user_mobile).child(username).child("PROFILE_DATA").addValueEventListener(new ValueEventListener() {
+        emailRef.child("USER_PROFILE").child(user_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 user_email = (String) dataSnapshot.child("user_email").getValue();
@@ -216,23 +227,19 @@ public class BookingDetailsActivity extends AppCompatActivity {
                         assert bookingBundle != null;
                         final String course_id = bookingBundle.getString("course_id");
                         String booking_id = bookingBundle.getString("booking_id");
-                        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                        assert firebaseUser != null;
-                        final String username = firebaseUser.getUid();
-                        String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-                        assert user_mobile != null;
+
                         DatabaseReference cancelbookingRef = FirebaseDatabase.getInstance().getReference("USER_DATA")
-                                .child(user_mobile).child(username).child("USERS_BOOKINGS_DATA");
+                                .child("USERS_BOOKINGS").child(user_id);
                         assert booking_id != null;
                         cancelbookingRef.child(booking_id).child("booking_status").setValue("cancelled");
                         DatabaseReference cancelRef = FirebaseDatabase.getInstance().getReference("APP_DATA");
                         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
                         Calendar calendar = Calendar.getInstance();
                         String current = df.format(calendar.getTime());
-                        CancelDtl cancelDtl = new CancelDtl(current, cancel_reason, course_id, booking_course_name, user_email, user_mobile,booking_for);
+                        CancelDtl cancelDtl = new CancelDtl(current, cancel_reason, course_id, booking_course_name, user_email, _user_mobile, booking_for);
                         cancelRef.child("BOOKINGS_CANCEL").push().setValue(cancelDtl);
                         dialog.dismiss();
-                        Toast.makeText(BookingDetailsActivity.this, "Booking cancelled Successfully, Refund ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BookingDetailsActivity.this, "Booking cancelled Successfully, Our team will contact you soon for refund process.", Toast.LENGTH_LONG).show();
                     }
                 });
                 final AlertDialog alertdialog = builder.create();

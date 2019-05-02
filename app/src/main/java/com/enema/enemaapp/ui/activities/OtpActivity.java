@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enema.enemaapp.R;
-import com.enema.enemaapp.models.UserData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -41,6 +40,7 @@ public class OtpActivity extends AppCompatActivity {
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private String mVerificationId, auth_type, user_password, full_name, mobile_number;
+    private String reset_mobile, reset_password;
     private AlertDialog loadingDialog;
 
     @Override
@@ -48,12 +48,15 @@ public class OtpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp);
 
+
         Bundle loginBundle = getIntent().getExtras();
         assert loginBundle != null;
         mobile_number = loginBundle.getString("mobile_number");
         user_password = loginBundle.getString("user_password");
         full_name = loginBundle.getString("full_name");
         auth_type = loginBundle.getString("auth_type");
+
+
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -268,27 +271,43 @@ public class OtpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            if (auth_type.equals("register")) {
-                                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                                assert firebaseUser != null;
-                                final String username = firebaseUser.getUid();
-                                String mobile_with_code = "+91"+mobile_number;
-                                DatabaseReference userRegRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-                                UserData userData = new UserData(full_name, mobile_with_code, user_password);
-                                userRegRef.child(mobile_with_code).child(username).child("PROFILE_DATA").setValue(userData);
-                            }
-                            Intent mainIntent = new Intent(OtpActivity.this, MainActivity.class);
-                            startActivity(mainIntent);
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                            finish();
 
-                            loadingDialog.dismiss();
+                            if (auth_type.equals("login")){
+                                startActivity(new Intent(OtpActivity.this, MainActivity.class));
+                                finish();
+
+                            }else if (auth_type.equals("register")){
+                                DatabaseReference userRegRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child("USER_CREDENTIALS");
+                                String mobile_with_code = "+91"+mobile_number;
+                                String user_id = firebaseAuth.getUid();
+                                userRegRef.child(user_id).child("user_password").setValue(user_password);
+                                DatabaseReference profileRegRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child("USER_PROFILE");
+                                profileRegRef.child(user_id).child("full_name").setValue(full_name);
+                                DatabaseReference mobileRegRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child("USER_PROFILE");
+                                mobileRegRef.child(user_id).child("user_mobile").setValue(mobile_with_code);
+                                startActivity(new Intent(OtpActivity.this, MainActivity.class));
+                                finish();
+
+                            } else if (auth_type.equals("reset")){
+                                DatabaseReference userRegRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child("USER_CREDENTIALS");
+                                String mobile_with_code = "+91"+mobile_number;
+                                String user_id = firebaseAuth.getUid();
+                                userRegRef.child(user_id).child("user_password").setValue(user_password);
+                                startActivity(new Intent(OtpActivity.this, LoginActivity.class));
+                                FirebaseAuth.getInstance().signOut();
+                                Toast.makeText(OtpActivity.this, "Password Reset Successfull", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+
                         } else {
+
                             Toast.makeText(OtpActivity.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 Toast.makeText(OtpActivity.this, "Invalid code", Toast.LENGTH_SHORT).show();
                                 loadingDialog.dismiss();
+
                             }
+
                         }
                     }
                 });
@@ -308,8 +327,7 @@ public class OtpActivity extends AppCompatActivity {
         signInWithPhoneAuthCredential(credential);
     }
 
-    private void resendVerificationCode(String phoneNumber,
-                                        PhoneAuthProvider.ForceResendingToken token) {
+    private void resendVerificationCode(String phoneNumber,PhoneAuthProvider.ForceResendingToken token) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 "+91" + phoneNumber,        // Phone number to verify
                 60,                 // Timeout duration
@@ -321,6 +339,7 @@ public class OtpActivity extends AppCompatActivity {
     }
 
     public static void hideKeyboard(Activity activity) {
+
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();
         if (view == null) {

@@ -1,9 +1,9 @@
 package com.enema.enemaapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -14,12 +14,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.enema.enemaapp.R;
 import com.enema.enemaapp.models.CourseData;
 import com.enema.enemaapp.models.WishListData;
-import com.enema.enemaapp.ui.activities.BookCourseActivity;
 import com.enema.enemaapp.ui.activities.CourseDetailsActivity;
 import com.enema.enemaapp.ui.activities.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,16 +33,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
 
     List<CourseData> courseDataList;
     Context context;
-    String wish = "0";
-    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-    private DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-    boolean login_state;
+    private FirebaseUser firebaseUser;
+    private String user_id;
 
     public CourseAdapter(List<CourseData> courseDataList, Context context) {
         this.courseDataList = courseDataList;
@@ -52,12 +49,14 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     @NonNull
     @Override
     public CourseAdapter.CourseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.courses_arount_you_list_item, viewGroup, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.courses_arount_you_list_item, viewGroup, false);
+
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null){
-            login_state = true;
-        }else {
-            login_state = false;
+            user_id = firebaseUser.getUid();
         }
+
         return new CourseViewHolder(v);
     }
 
@@ -81,11 +80,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             courseViewHolder.imgBestSeller.setVisibility(View.INVISIBLE);
         }
 
-        if (login_state) {
-            String user_id = firebaseUser.getUid();
-            String user_mobile = firebaseUser.getPhoneNumber();
+
+
+        if (firebaseUser != null) {
+
             Query query = FirebaseDatabase.getInstance().getReference("USER_DATA")
-                    .child(user_mobile).child(user_id).child("WISHLIST_DATA")
+                    .child("WISHLIST_DATA")
+                    .child(user_id)
                     .orderByChild("course_id")
                     .equalTo(cd.getCourse_id());
 
@@ -103,27 +104,22 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    Toast.makeText(context, "Database Error", Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
 
+
         courseViewHolder.imgWishListOnCourse.setOnClickListener(new View.OnClickListener() {
+            String wish = "0";
             @Override
             public void onClick(View v) {
 
-                if (login_state) {
-                    String username = firebaseUser.getUid();
-                    String user_mobile = firebaseUser.getPhoneNumber();
-                    final Query applesQuery = wishlistRef.child(user_mobile).child(username)
-                            .child("WISHLIST_DATA")
-                            .orderByChild("course_id")
-                            .equalTo(cd.getCourse_id());
-
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     if (wish.equals("0")){
-                        courseViewHolder.imgWishListOnCourse.setImageResource(R.drawable.ic_wish_teel);
                         wish = "1";
+                        courseViewHolder.imgWishListOnCourse.setImageResource(R.drawable.ic_wish_teel);
                         WishListData wishListData = new WishListData(cd.getCourse_name(),
                                 cd.getCourse_image(),
                                 cd.getCourse_rating(),
@@ -131,13 +127,18 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                                 cd.getCourse_city(),
                                 cd.getCourse_rating_count(),
                                 cd.getCourse_id());
-                        wishlistRef.child(user_mobile).child(username).child("WISHLIST_DATA").push().setValue(wishListData);
-
-
+                   DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child("WISHLIST_DATA");
+                   wishlistRef.child(user_id).push().setValue(wishListData);
 
                     }else if (wish.equals("1")){
                         courseViewHolder.imgWishListOnCourse.setImageResource(R.drawable.ic_wish_empty);
+
                         wish = "0";
+                        Query applesQuery = FirebaseDatabase.getInstance().getReference("USER_DATA").child("WISHLIST_DATA")
+                                .child(user_id)
+                                .orderByChild("course_id")
+                                .equalTo(cd.getCourse_id());
+
                         applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -145,7 +146,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                                 for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
                                     appleSnapshot.getRef().removeValue();
                                 }
-
                             }
 
                             @Override
@@ -156,8 +156,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                     }
 
                 }else {
-                    Intent registerIntent = new Intent(context, LoginActivity.class);
-                    context.startActivity(registerIntent);
+                    context.startActivity(new Intent(context, LoginActivity.class));
+                    ((Activity)context).finish();
                 }
                 }
 
@@ -191,7 +191,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
-                });
+              });
 
                 DatabaseReference courseDetailsRef = FirebaseDatabase.getInstance().getReference("APP_DATA").child("COURSES_DATA");
                 courseDetailsRef.child(cd.getCourse_id()).addValueEventListener(new ValueEventListener() {

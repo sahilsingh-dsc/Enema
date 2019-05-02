@@ -30,11 +30,18 @@ public class MyBookingsActivity extends AppCompatActivity {
 
     private ImageView imgMyBkgToAccount;
     private List<MyBookingData> myBookingDataList;
+    FirebaseUser firebaseUser;
+    String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_bookings);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null){
+            user_id = firebaseUser.getUid();
+        }
 
         myBookingDataList = new ArrayList<>();
         myBookingDataList.clear();
@@ -62,13 +69,8 @@ public class MyBookingsActivity extends AppCompatActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerMyBookings.setLayoutManager(mLayoutManager);
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        final String username = firebaseUser.getUid();
-        String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
         DatabaseReference bookingsRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-        assert user_mobile != null;
-        bookingsRef.child(user_mobile).child(username).child("USERS_BOOKINGS_DATA").addValueEventListener(new ValueEventListener() {
+        bookingsRef.child("USERS_BOOKINGS").child(user_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 

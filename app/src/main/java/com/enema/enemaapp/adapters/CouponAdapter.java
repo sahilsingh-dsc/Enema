@@ -25,6 +25,8 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
 
     List<CouponData> couponDataList;
     Context context;
+    FirebaseUser firebaseUser;
+    String user_id;
 
     public CouponAdapter(List<CouponData> couponDataList, Context context) {
         this.couponDataList = couponDataList;
@@ -35,6 +37,12 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
     @Override
     public CouponAdapter.CouponViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.coupon_list_item, viewGroup, false);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null){
+            user_id = firebaseUser.getUid();
+        }
+
         return new CouponViewHolder(view);
     }
 
@@ -49,14 +57,10 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
         couponViewHolder.txtApplyCoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                assert firebaseUser != null;
-                final String username = firebaseUser.getUid();
-                final String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-                assert user_mobile != null;
-                final DatabaseReference couponRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child(user_mobile).child(username);
+
+                final DatabaseReference couponRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
                 CouponState couponState = new CouponState(couponData.getCoupon_code(), couponData.getCoupon_type(), couponData.getCoupon_value());
-                couponRef.child("COUPON_STATE").setValue(couponState);
+                couponRef.child("COUPON_STATE").child(user_id).setValue(couponState);
                 couponViewHolder.txtApplyCoupon.setText("Applied");
                 Toast.makeText(context, "Now go back and complete remaining info", Toast.LENGTH_SHORT).show();
             }

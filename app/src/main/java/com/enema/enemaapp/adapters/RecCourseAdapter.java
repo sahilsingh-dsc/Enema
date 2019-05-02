@@ -1,5 +1,6 @@
 package com.enema.enemaapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,8 +37,8 @@ public class RecCourseAdapter extends RecyclerView.Adapter<RecCourseAdapter.RecC
     List<RecCourseData> recCourseDataList;
     Context context;
     String wish = "0";
-    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-    private DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
+    private FirebaseUser firebaseUser;
+    private String user_id;
 
     public RecCourseAdapter(List<RecCourseData> recCourseDataList, Context context) {
         this.recCourseDataList = recCourseDataList;
@@ -48,6 +49,12 @@ public class RecCourseAdapter extends RecyclerView.Adapter<RecCourseAdapter.RecC
     @Override
     public RecCourseAdapter.RecCourseViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.courses_arount_you_list_item, viewGroup, false);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null){
+            user_id = firebaseUser.getUid();
+        }
+
         return new RecCourseViewHolder(view);
     }
 
@@ -139,11 +146,10 @@ public class RecCourseAdapter extends RecyclerView.Adapter<RecCourseAdapter.RecC
         });
 
         if (firebaseUser != null) {
-            String user_id = firebaseUser.getUid();
-            String user_mobile = firebaseUser.getPhoneNumber();
-            assert user_mobile != null;
+
             Query query = FirebaseDatabase.getInstance().getReference("USER_DATA")
-                    .child(user_mobile).child(user_id).child("WISHLIST_DATA")
+                    .child("WISHLIST_DATA")
+                    .child(user_id)
                     .orderByChild("course_id")
                     .equalTo(recCourseData.getCourse_id());
 
@@ -161,28 +167,23 @@ public class RecCourseAdapter extends RecyclerView.Adapter<RecCourseAdapter.RecC
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    Toast.makeText(context, "Database Error", Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
+
+
         recCourseViewHolder.imgWishListOnCourse.setOnClickListener(new View.OnClickListener() {
+            String wish = "0";
             @Override
             public void onClick(View v) {
 
-                if (firebaseUser != null) {
-                    String username = firebaseUser.getUid();
-                    String user_mobile = firebaseUser.getPhoneNumber();
-                    assert user_mobile != null;
-
-                    final Query applesQuery = wishlistRef.child(user_mobile).child(username)
-                            .child("WISHLIST_DATA")
-                            .orderByChild("course_id")
-                            .equalTo(recCourseData.getCourse_id());
-
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                     if (wish.equals("0")){
-                        recCourseViewHolder.imgWishListOnCourse.setImageResource(R.drawable.ic_wish_teel);
                         wish = "1";
+
+                        recCourseViewHolder.imgWishListOnCourse.setImageResource(R.drawable.ic_wish_teel);
                         WishListData wishListData = new WishListData(recCourseData.getCourse_name(),
                                 recCourseData.getCourse_image(),
                                 recCourseData.getCourse_rating(),
@@ -190,13 +191,18 @@ public class RecCourseAdapter extends RecyclerView.Adapter<RecCourseAdapter.RecC
                                 recCourseData.getCourse_city(),
                                 recCourseData.getCourse_rating_count(),
                                 recCourseData.getCourse_id());
-                        wishlistRef.child(user_mobile).child(username).child("WISHLIST_DATA").push().setValue(wishListData);
-
-
+                        DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child("WISHLIST_DATA");
+                        wishlistRef.child(user_id).push().setValue(wishListData);
 
                     }else if (wish.equals("1")){
                         recCourseViewHolder.imgWishListOnCourse.setImageResource(R.drawable.ic_wish_empty);
+
                         wish = "0";
+                        Query applesQuery = FirebaseDatabase.getInstance().getReference("USER_DATA").child("WISHLIST_DATA")
+                                .child(user_id)
+                                .orderByChild("course_id")
+                                .equalTo(recCourseData.getCourse_id());
+
                         applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -204,7 +210,6 @@ public class RecCourseAdapter extends RecyclerView.Adapter<RecCourseAdapter.RecC
                                 for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
                                     appleSnapshot.getRef().removeValue();
                                 }
-
                             }
 
                             @Override
@@ -215,11 +220,11 @@ public class RecCourseAdapter extends RecyclerView.Adapter<RecCourseAdapter.RecC
                     }
 
                 }else {
-                    Intent registerIntent = new Intent(context, LoginActivity.class);
-                    context.startActivity(registerIntent);
+                    context.startActivity(new Intent(context, LoginActivity.class));
+                    ((Activity)context).finish();
                 }
-
             }
+
         });
 
     }

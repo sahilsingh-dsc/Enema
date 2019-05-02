@@ -39,9 +39,8 @@ import java.util.Objects;
 public class AccountFragment extends Fragment {
 
     View view;
-    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-    SharedPreferences wishPref;
-    SharedPreferences.Editor wishEditor;
+    private FirebaseUser firebaseUser;
+    String user_id;
     public AccountFragment() {
 
     }
@@ -49,8 +48,12 @@ public class AccountFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_account, container, false);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null){
+            user_id = firebaseUser.getUid();
+        }
 
         TextView txtAccountProfile, txtAccountMyBookings, txtAccountWallet, txtAccountRefAndEarn, txtAccountPrivacyPolicy, txtAccountSupport, txtAccountAbout;
 
@@ -187,14 +190,9 @@ public class AccountFragment extends Fragment {
         TextView txtAccountTitle = view.findViewById(R.id.txtAccountTitle);
         txtAccountTitle.setText("Hello");
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
        if (firebaseUser !=null){
-           assert firebaseUser != null;
-           final String username = firebaseUser.getUid();
-           final String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
            DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference("USER_DATA");
-
-           nameRef.child(user_mobile).child(username).child("PROFILE_DATA").addValueEventListener(new ValueEventListener() {
+           nameRef.child("USER_PROFILE").child(user_id).addValueEventListener(new ValueEventListener() {
                @Override
                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                    String name = (String) dataSnapshot.child("full_name").getValue();
@@ -214,6 +212,7 @@ public class AccountFragment extends Fragment {
        if (firebaseUser == null){
            btnLogout.setVisibility(View.GONE);
        }
+
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,13 +233,13 @@ public class AccountFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                         firebaseAuth.signOut();
-                        wishPref = getActivity().getSharedPreferences("wishPref", 0);
-                        wishEditor = wishPref.edit();
-                        wishEditor.clear();
-                        wishEditor.apply();
                         startActivity(new Intent(getActivity(), LoginActivity.class));
                         getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         getActivity().finish();
+                        SharedPreferences pref = getContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putBoolean("auth_state", false);
+                        editor.apply();
 
                     }
                 });

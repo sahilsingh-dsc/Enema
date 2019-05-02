@@ -41,6 +41,8 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
     View v;
     private List<MyBookingData> myBookingDataList;
     private Context context;
+    FirebaseUser firebaseUser;
+    String user_mobile;
 
     public MyBookingsAdapter(List<MyBookingData> myBookingDataList, Context context) {
         this.myBookingDataList = myBookingDataList;
@@ -51,6 +53,11 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
     @Override
     public MyBookingsAdapter.MyBookingsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.my_booking_item, viewGroup, false);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null){
+            user_mobile = firebaseUser.getUid();
+        }
 
         return new MyBookingsViewHolder(v);
     }
@@ -103,17 +110,13 @@ public class MyBookingsAdapter extends RecyclerView.Adapter<MyBookingsAdapter.My
                                 Toast.makeText(context, "Please enter a valid paymentId", Toast.LENGTH_SHORT).show();
                                 return;
                             }
-                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                            assert firebaseUser != null;
-                            final String username = firebaseUser.getUid();
-                            String user_mobile = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-                            assert user_mobile != null;
+
                             DatabaseReference cancelbookingRef = FirebaseDatabase.getInstance().getReference("USER_DATA")
-                                    .child(user_mobile).child(username).child("USERS_BOOKINGS_DATA");
+                                    .child("USERS_BOOKINGS").child(user_mobile);
                             cancelbookingRef.child(bookingData.getBooking_id()).child("booking_payment_id").setValue(paymentId);
                             Toast.makeText(context, "Booking Verified", Toast.LENGTH_SHORT).show();
                             cancelbookingRef = FirebaseDatabase.getInstance().getReference("USER_DATA")
-                                    .child(user_mobile).child(username).child("USERS_BOOKINGS_DATA");
+                                    .child("USERS_BOOKINGS").child(user_mobile);
                             cancelbookingRef.child(bookingData.getBooking_id()).child("booking_status").setValue("booked");
                             galleryDialog.dismiss();
                         }
