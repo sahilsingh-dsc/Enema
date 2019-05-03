@@ -243,6 +243,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
     }
 
     private void getAllSlot(String course_id){
+
         final RecyclerView recyclerSlot = findViewById(R.id.recyclerSlot);
         final RecyclerView.Adapter[] slotAdapter = new RecyclerView.Adapter[1];
         recyclerSlot.hasFixedSize();
@@ -266,8 +267,11 @@ public class CourseDetailsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 slotModelList.clear();
                 for (DataSnapshot slotSnap : dataSnapshot.getChildren()){
+
                     String time_from = null;
                     String time_to =null;
+                    String time_slot_limit = null;
+
                     String slot_date = (String) slotSnap.child("slot_date").getValue();
                     String slot_day = (String) slotSnap.child("slot_day").getValue();
                     String slot_month = (String) slotSnap.child("slot_month").getValue();
@@ -277,10 +281,11 @@ public class CourseDetailsActivity extends AppCompatActivity {
                     for (DataSnapshot snapshot : slotSnap.child("TIME_SLOT").getChildren()){
                        time_from = (String) snapshot.child("time_from").getValue();
                        time_to = (String) snapshot.child("time_to").getValue();
+                       time_slot_limit = (String) snapshot.child("time_slot_limit").getValue();
                     }
 
                     SlotModel slotModel = new SlotModel(slot_date, slot_day, slot_month, slot_year, slot_id, time_from, time_to);
-                    TimeSlotData timeSlotData = new TimeSlotData(time_from, time_to);
+                    TimeSlotData timeSlotData = new TimeSlotData(time_from, time_to, time_slot_limit);
                     slotModelList.add(slotModel);
                     timeSlotDataList.add(timeSlotData);
                 }
@@ -301,7 +306,9 @@ public class CourseDetailsActivity extends AppCompatActivity {
     }
 
     private void gotoLogin(){
+
         startActivity(new Intent(CourseDetailsActivity.this, LoginActivity.class));
+
     }
 
 }

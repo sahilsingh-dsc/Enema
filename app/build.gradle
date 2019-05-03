@@ -10,6 +10,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -50,7 +51,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:16.1.0'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
     //implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
-    ///
+    //
 
     //android core test units
     testImplementation 'junit:junit:4.12'
@@ -82,6 +83,8 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
+    //facebook sdk
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 
 }
 

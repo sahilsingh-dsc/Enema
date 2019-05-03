@@ -179,6 +179,7 @@
             app:srcCompat="@drawable/ic_google_plus"
             tools:layout_editor_absoluteX="266dp"
             tools:layout_editor_absoluteY="406dp" />
+
     </LinearLayout>
 
     <LinearLayout

@@ -25,6 +25,12 @@ import android.widget.Toast;
 
 import com.enema.enemaapp.R;
 import com.enema.enemaapp.models.GSign;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -34,6 +40,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -44,6 +51,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
@@ -58,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     EditText txtProfileMobileGoogle, etxtProfileEmailGoogle, etxtProfileNameGoogle;
     Button btnEditProfileGoogle;
+    CallbackManager callbackManager;
 
 
     @Override
@@ -70,6 +79,28 @@ public class LoginActivity extends AppCompatActivity {
                 .setMessage("Please Wait")
                 .setCancelable(false)
                 .build();
+
+        callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(
+                callbackManager,
+                new FacebookCallback < LoginResult > () {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        // Handle success
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Toast.makeText(LoginActivity.this, "user canceled", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        Toast.makeText(LoginActivity.this, ""+exception.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.cid))
@@ -92,13 +123,22 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+
         ImageView imgFacebookLogin = findViewById(R.id.imgFacebookLogin);
         imgFacebookLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "coming soon", Toast.LENGTH_SHORT).show();
+
+                LoginManager.getInstance().logInWithReadPermissions(
+                        LoginActivity.this,
+                        Arrays.asList("email", "public_profile")
+                );
+
             }
         });
+
+
 
         ImageView imgGoogleLogin = findViewById(R.id.imgGoogleLogin);
         imgGoogleLogin.setOnClickListener(new View.OnClickListener() {
@@ -139,10 +179,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+
+
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -158,6 +203,85 @@ public class LoginActivity extends AppCompatActivity {
                 // [END_EXCLUDE]
             }
         }
+
+
+
+    }
+
+
+    private void handleFacebookAccessToken(AccessToken token) {
+
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+                            LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
+                            View dialogView = inflater.inflate(R.layout.alert_profile, null);
+                            dialogBuilder.setView(dialogView);
+                            final AlertDialog alertDialog = dialogBuilder.create();
+                            alertDialog.setCancelable(false);
+                            txtProfileMobileGoogle = dialogView.findViewById(R.id. txtProfileMobileGoogle);
+                            txtProfileMobileGoogle.setEnabled(true);
+                            etxtProfileEmailGoogle = dialogView.findViewById(R.id.etxtProfileEmailGoogle);
+                            etxtProfileEmailGoogle.setEnabled(true);
+                            etxtProfileNameGoogle = dialogView.findViewById(R.id.etxtProfileNameGoogle);
+                            etxtProfileNameGoogle.setEnabled(true);
+                            btnEditProfileGoogle = dialogView.findViewById(R.id.btnEditProfileGoogle);
+
+                            etxtProfileEmailGoogle.setText(firebaseAuth.getCurrentUser().getEmail());
+                            etxtProfileNameGoogle.setText(firebaseAuth.getCurrentUser().getDisplayName());
+
+                            btnEditProfileGoogle.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    String mobile = txtProfileMobileGoogle.getText().toString();
+                                    String email = etxtProfileEmailGoogle.getText().toString();
+                                    String name = etxtProfileNameGoogle.getText().toString();
+
+                                    if (TextUtils.isEmpty(mobile)){
+                                        Toast.makeText(LoginActivity.this, "Mobile must not be empty", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+
+                                    if (!TextUtils.isDigitsOnly(mobile) || mobile.length() != 10 ){
+                                        Toast.makeText(LoginActivity.this, "Please enter a valid 10 digit without (+91) mobile number", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+
+                                    if (TextUtils.isEmpty(email)){
+                                        Toast.makeText(LoginActivity.this, "Email must not be empty", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+
+                                    if (TextUtils.isEmpty(name)){
+                                        Toast.makeText(LoginActivity.this, "Name must not be empty", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+
+                                    DatabaseReference profileRegRef = FirebaseDatabase.getInstance().getReference("USER_DATA").child("USER_PROFILE");
+                                    GSign gSign = new GSign("+91"+mobile, name, email);
+                                    profileRegRef.child(firebaseAuth.getCurrentUser().getUid()).setValue(gSign);
+                                    alertDialog.dismiss();
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    finish();
+
+                                }
+                            });
+
+                            alertDialog.show();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Authentication failed."+task.getException(),
+                                    Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    }
+                });
     }
 
 
